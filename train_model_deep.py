@@ -50,6 +50,7 @@ def get_args():
     parser.add_argument('--retune', action='store_true', default=False)  
     parser.add_argument('--evaluate_option', type=str, default='best-val')   
     parser.add_argument('--dataset_path', type=str, default='data_cls_resplit')  
+    parser.add_argument('--model_path', type=str, default='results_model')
     args = parser.parse_args()
     
     set_gpu(args.gpu)
@@ -65,7 +66,7 @@ def get_args():
         save_path1 += '-Tune'
 
     save_path = osp.join(save_path1, save_path2)
-    args.save_path = osp.join('./results_model', save_path)
+    args.save_path = osp.join(args.model_path, save_path)
     mkdir(args.save_path)    
     
     # load config parameters
@@ -189,6 +190,10 @@ if __name__ == '__main__':
             # get data property
             if info['task_type'] == 'regression':
                 direction = 'minimize'
+                for key in opt_space[args.model_type]['model'].keys():
+                    if 'dropout' in key and '?' not in opt_space[args.model_type]['model'][key][0]:
+                        opt_space[args.model_type]['model'][key][0] = '?'+ opt_space[args.model_type]['model'][key][0]
+                        opt_space[args.model_type]['model'][key].insert(1, 0.0)
             else:
                 direction = 'maximize'  
             
@@ -217,12 +222,10 @@ if __name__ == '__main__':
     loss_list, results_list = [], []
     for seed in tqdm(range(args.seed_num)):
         args.seed = seed    # update seed  
-
         method = modeltype_to_method(args.model_type)(args, info['task_type'] == 'regression')
-
         method.fit(N_trainval, C_trainval, y_trainval, info)    
         vl, vres, metric_name, predic_logits = method.predict(N_test, C_test, y_test, info, model_name=args.evaluate_option)
-  
+
         loss_list.append(vl)
         results_list.append(vres)
         
