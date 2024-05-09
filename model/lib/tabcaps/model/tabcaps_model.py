@@ -177,7 +177,7 @@ class TabCapsModel(BaseEstimator):
             self.epoch = epoch_idx
             # Call method on_epoch_begin for all callbacks
             self._callback_container.on_epoch_begin(epoch_idx)
-            print("train_loader length:", len(train_dataloader))
+            
             self._train_epoch(train_dataloader)
 
             # Apply predict epoch to all eval sets
@@ -195,11 +195,7 @@ class TabCapsModel(BaseEstimator):
 
         # Call method on_train_end for all callbacks
         self._callback_container.on_train_end()
-        
-        # test_acc = self.history.epoch_metrics['test_accuracy']
         loss = self.history.epoch_metrics['loss']
-        # auc = self.history.epoch_metrics['test_auc']
-        # print("history:", self.history)
         return None, loss, None
 
     def predict(self, X, y, decode=False):
@@ -254,7 +250,7 @@ class TabCapsModel(BaseEstimator):
             'best_value': self._callback_container.callbacks[1].best_loss,
             "best_epoch": self._callback_container.callbacks[1].best_epoch
         }
-        torch.save(save_dict, path + f'/checkpoint{seed}.pth')
+        torch.save(save_dict, path + f'/epoch-last-{seed}.pth')
 
     def load_model(self, filepath, input_dim, output_dim):
         """Load model.
@@ -267,8 +263,7 @@ class TabCapsModel(BaseEstimator):
         self.input_dim = input_dim
         self.output_dim = output_dim
         load_model = torch.load(filepath)
-        state_dict = load_model.state_dict()
-        self.network = load_model
+        self.network = load_model['model']
 
         self.network.eval()
         return
@@ -297,7 +292,6 @@ class TabCapsModel(BaseEstimator):
         epoch_logs = {"lr": self._optimizer.param_groups[-1]["lr"], "loss": np.mean(loss)}
 
         self.history.epoch_metrics.update(epoch_logs)
-        print(loss)
         return
 
     def _train_batch(self, X, y):

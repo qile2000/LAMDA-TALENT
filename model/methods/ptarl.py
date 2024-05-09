@@ -2,7 +2,7 @@ from model.methods.base import Method
 import torch
 import numpy as np
 import torch
-
+import os.path as osp
 from model.lib.ptarl.utils import (
     fit_Ptarl,
     test,
@@ -51,21 +51,31 @@ class PTARLMethod(Method):
         # if not train, skip the training process. such as load the checkpoint and directly predict the results
         if not train:
             return  
-        best_model,_ = fit_Ptarl(self.args,self.model, self.train_loader, self.val_loader, self.criterion, self.args.model_type, self.args.config, self.args.config['model']['regularize'], self.is_regression, self.args.config['general']['ot_weight'], self.args.config['general']['diversity_weight'], self.args.config['general']['r_weight'], self.args.config['general']['diversity'])
+        best_model,_ = fit_Ptarl(self.args,self.model, self.train_loader, self.val_loader, self.criterion, 
+                                 self.args.model_type, self.args.config, self.args.config['model']['regularize'], 
+                                 self.is_regression, self.args.config['general']['ot_weight'], self.args.config['general']['diversity_weight'], 
+                                 self.args.config['general']['r_weight'], self.args.config['general']['diversity'],self.args.seed, self.args.save_path)
         cluster_centers_ = generate_topic(best_model, self.train_loader,self.args.config['model']['n_clusters'])
         self.cluster_centers_ = cluster_centers_
+        np.save(osp.join(self.args.save_path, 'cluster-centers-{}.npy'.format(str(self.args.seed))), cluster_centers_)
         self.model_type1 = self.args.model_type + '_ot'
         self.construct_model(self.model_config)
-        best_model,best_loss = fit_Ptarl(self.args,self.model, self.train_loader, self.val_loader, self.criterion, self.args.model_type+'_ot', self.args.config, self.args.config['model']['regularize'], self.is_regression, self.args.config['general']['ot_weight'], self.args.config['general']['diversity_weight'], self.args.config['general']['r_weight'], self.args.config['general']['diversity'])
+        best_model,best_loss = fit_Ptarl(self.args,self.model, self.train_loader, self.val_loader, self.criterion, 
+                                         self.args.model_type+'_ot', self.args.config, self.args.config['model']['regularize'], 
+                                         self.is_regression, self.args.config['general']['ot_weight'], self.args.config['general']['diversity_weight'], 
+                                         self.args.config['general']['r_weight'], self.args.config['general']['diversity'],self.args.seed, self.args.save_path)
         self.model = best_model
         self.trlog['best_res'] = best_loss
         
     def predict(self, N, C, y, info, model_name):
+        self.model_type1 = self.args.model_type + '_ot'
+        self.cluster_centers_ = np.load(osp.join(self.args.save_path, 'cluster-centers-{}.npy'.format(str(self.args.seed))), allow_pickle=True)
+        self.construct_model(self.model_config)
+        self.model.load_state_dict(torch.load(osp.join(self.args.save_path, model_name + '-{}.pth'.format(str(self.args.seed))))['params'])
         self.model.eval()
         self.data_format(False, N, C, y)
 
         test_logit,test_label = test(self.model, self.test_loader,self.args)
-        
         
         vl = self.criterion(torch.tensor(test_logit), torch.tensor(test_label)).item()     
 

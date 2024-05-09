@@ -92,13 +92,14 @@ class TabNetMethod(Method):
             device=f'cuda:0',
             task=task
         )
-        save_result = self.model.save_model(self.args.save_path + f'save_model{self.args.seed}')
+        self.model.save_model(self.args.save_path)
         self.trlog['best_res'] = self.model.best_cost
-        # if self.is_regression:
-        #     self.trlog['best_res'] = self.model.best_cost * self.trainset.y_info['std']
+        if self.is_regression:
+            self.trlog['best_res'] = self.model.best_cost * self.y_info['std']
         return
     
     def predict(self, N, C, y, info, model_name):
+        self.model.load_model(self.args.save_path,self.args.seed)
         self.data_format(False, N, C, y)
         if self.is_regression:
             task_type = "regression"

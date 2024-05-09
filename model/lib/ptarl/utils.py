@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+import os.path as osp
 from tqdm import tqdm
 
 def run_one_epoch(model, data_loader, loss_func, model_type, config, regularize, ot_weight, diversity_weight, r_weight, diversity, optimizer=None):
@@ -123,7 +124,7 @@ def run_one_epoch_val(model, data_loader, loss_func, model_type, config, is_regr
 
 
 
-def fit_Ptarl(args,model, train_loader, val_loader, loss_func, model_type, config, regularize, is_regression,  ot_weight, diversity_weight, r_weight, diversity):
+def fit_Ptarl(args,model, train_loader, val_loader, loss_func, model_type, config, regularize, is_regression,  ot_weight, diversity_weight, r_weight, diversity,seed,save_path):
     if is_regression:
         best_val_loss = 1e30
     else:
@@ -154,6 +155,11 @@ def fit_Ptarl(args,model, train_loader, val_loader, loss_func, model_type, confi
                 best_val_loss = val_loss
                 import copy
                 best_model = copy.deepcopy(model)
+                if "_ot" in model_type:
+                    torch.save(
+                        dict(params=best_model.state_dict()),
+                        osp.join(save_path, 'best-val-{}.pth'.format(str(seed)))
+                    )
                 patience = early_stop
             else:
                 patience = patience - 1
@@ -162,11 +168,21 @@ def fit_Ptarl(args,model, train_loader, val_loader, loss_func, model_type, confi
                 best_val_loss = val_loss
                 import copy
                 best_model = copy.deepcopy(model)
+                if "_ot" in model_type:
+                    torch.save(
+                        dict(params=best_model.state_dict()),
+                        osp.join(save_path, 'best-val-{}.pth'.format(str(seed)))
+                    )
                 patience = early_stop
             else:
                 patience = patience - 1
         if patience == 0:
             break
+    if "_ot" in model_type:
+        torch.save(
+            dict(params=best_model.state_dict()),
+            osp.join(save_path, 'epoch-last-{}.pth'.format(str(seed)))
+        )
     return best_model,best_val_loss
 
 def test(model, test_loader,no_ot=False):

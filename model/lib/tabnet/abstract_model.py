@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Any, Dict
 import torch
+import os.path as osp
 from torch.nn.utils import clip_grad_norm_
 import numpy as np
 from scipy.sparse import csc_matrix
@@ -270,13 +271,6 @@ class TabModel(BaseEstimator):
                 epoch_idx, logs=self.history.epoch_metrics
             )
             loss = self.history.epoch_metrics['loss']
-            # if self.task in ['multiclass', 'binclass']:
-            #     # result = self.history.epoch_metrics['test_accuracy']
-            #     result = self.history['train_accuracy'][-1]
-            #     auc = self.history.epoch_metrics['train_auc']
-            # else:
-            #     result = self.history.epoch_metrics['train_rmse']
-            #     auc = 0
 
             if self._stop_training:
                 break
@@ -442,17 +436,17 @@ class TabModel(BaseEstimator):
         Path(path).mkdir(parents=True, exist_ok=True)
 
         # Save models params
-        with open(Path(path).joinpath("model_params.json"), "w", encoding="utf8") as f:
-            json.dump(saved_params, f, cls=ComplexEncoder)
+        with open(Path(path).joinpath(f"model_params-{self.seed}.json"), "w", encoding="utf8") as f:
+            json.dump(saved_params, f, cls=ComplexEncoder,indent=4)
 
         # Save state_dict
-        torch.save(self.network.state_dict(), Path(path).joinpath("network.pt"))
-        shutil.make_archive(path, "zip", path)
-        shutil.rmtree(path)
-        print(f"Successfully saved model at {path}.zip")
-        return f"{path}.zip"
+        torch.save(self.network.state_dict(), Path(path).joinpath(f"epoch-last-{self.seed}.pth"))
+        # shutil.make_archive(path, "zip", path)
+        # shutil.rmtree(path)
+        # print(f"Successfully saved model at {path}.zip")
+        # return f"{path}.zip"
 
-    def load_model(self, filepath):
+    def load_model(self, filepath,seed):
         """Load TabNet model.
 
         Parameters
@@ -461,21 +455,12 @@ class TabModel(BaseEstimator):
             Path of the model.
         """
         try:
-            with zipfile.ZipFile(filepath) as z:
-                with z.open("model_params.json") as f:
-                    loaded_params = json.load(f)
-                    loaded_params["init_params"]["device_name"] = self.device_name
-                with z.open("network.pt") as f:
-                    try:
-                        saved_state_dict = torch.load(f, map_location=self.device)
-                    except io.UnsupportedOperation:
-                        # In Python <3.7, the returned file object is not seekable (which at least
-                        # some versions of PyTorch require) - so we'll try buffering it in to a
-                        # BytesIO instead:
-                        saved_state_dict = torch.load(
-                            io.BytesIO(f.read()),
-                            map_location=self.device,
-                        )
+            with open(osp.join(filepath,f"model_params-{seed}.json"), "r") as f:
+                loaded_params = json.load(f)
+            loaded_params["init_params"]["device_name"] = self.device_name
+            
+            saved_state_dict = torch.load(osp.join(filepath,f"epoch-last-{seed}.pth"), map_location=self.device)
+            
         except KeyError:
             raise KeyError("Your zip file is missing at least one component")
 

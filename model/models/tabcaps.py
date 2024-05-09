@@ -103,6 +103,5 @@ class TabCapsClassifier(TabCapsModel):
             predictions = torch.nn.Softmax(dim=1)(output).cpu().detach().numpy()
             results.append(predictions)
         res = np.vstack(results)
-        print(res)
         return res
     

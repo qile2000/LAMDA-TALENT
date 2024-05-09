@@ -1,6 +1,7 @@
 from model.methods.base import Method
 import torch
 import torch
+import os.path as osp
 import torch.nn.functional as F
 import numpy as np
 
@@ -88,6 +89,7 @@ class TabCapsMethod(Method):
         return
 
     def predict(self, N, C, y, info, model_name):
+        self.model.load_model(osp.join(self.args.save_path, 'epoch-last-{}.pth'.format(self.args.seed)),input_dim=self.d_in, output_dim=self.d_out)
         self.data_format(False, N, C, y)
         test_label, test_logit, _ = self.model.predict(self.N_test, self.y_test)
         vl = self.criterion(torch.tensor(test_logit), torch.tensor(test_label)).item()     
