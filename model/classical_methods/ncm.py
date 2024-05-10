@@ -5,9 +5,9 @@ import pickle
 class NCMMethod(classical_methods):
     def __init__(self, args, is_regression):
         super().__init__(args, is_regression)
-        assert not is_regression
+        assert(not is_regression)
         assert(args.cat_policy != 'indices')
-        assert not args.tune
+        assert(not args.tune)
 
     def construct_model(self, model_config = None):
         from sklearn.neighbors import NearestCentroid

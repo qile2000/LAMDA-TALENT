@@ -43,7 +43,7 @@ def get_args():
 
     # other choices
     parser.add_argument('--n_trials', type=int, default=50)    
-    parser.add_argument('--seed_num', type=int, default=15)
+    parser.add_argument('--seed_num', type=int, default=10)
     parser.add_argument('--workers', type=int, default=0)
     parser.add_argument('--gpu', default='0')
     parser.add_argument('--tune', action='store_true', default=False)  
@@ -169,15 +169,12 @@ if __name__ == '__main__':
     N, C, y, info = dataname_to_numpy(args.dataset, args.dataset_path)
 
     N_trainval = None if N is None else {key: N[key] for key in ["train", "val"]} if "train" in N and "val" in N else None
-    N_train = None if N is None else {key: N[key] for key in ["train"]} if "train" in N else None
     N_test = None if N is None else {key: N[key] for key in ["test"]} if "test" in N else None
 
     C_trainval = None if C is None else {key: C[key] for key in ["train", "val"]} if "train" in C and "val" in C else None
-    C_train = None if C is None else {key: C[key] for key in ["train"]} if "train" in C else None
     C_test = None if C is None else {key: C[key] for key in ["test"]} if "test" in C else None
 
     y_trainval = {key: y[key] for key in ["train", "val"]}
-    y_train = {key: y[key] for key in ["train"]} 
     y_test = {key: y[key] for key in ["test"]} 
 
 

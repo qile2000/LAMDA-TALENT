@@ -37,7 +37,7 @@ def make_random_batches(
 class TabRMethod(Method):
     def __init__(self, args, is_regression):
         super().__init__(args, is_regression)
-        assert(args.cat_policy == 'tabr_ohe')
+        assert(args.cat_policy == 'indices')
 
 
     def construct_model(self, model_config = None):

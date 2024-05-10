@@ -40,7 +40,7 @@ def get_args():
 
     # other choices
     parser.add_argument('--n_trials', type=int, default=50)    
-    parser.add_argument('--seed_num', type=int, default=15)
+    parser.add_argument('--seed_num', type=int, default=10)
     parser.add_argument('--gpu', default='0')
     parser.add_argument('--tune', action='store_true', default=False)  
     parser.add_argument('--retune', action='store_true', default=False)  
@@ -82,17 +82,10 @@ def objective(trial):
         config['model']['gpu_id'] = args.gpu
         config['fit']["verbose"] = False
     elif args.model_type == 'catboost' and torch.cuda.is_available():
-        # config['model']['task_type'] = 'GPU'
-        # config['model']['devices'] = '0'
         config['fit']["logging_level"] = "Silent"
     
     elif args.model_type == 'RandomForest':
         config['model']['max_depth'] = 12
-    '''
-    elif args.model_type == 'lightgbm' and torch.cuda.is_available():
-        config['model']['device'] = 'gpu'
-        config['model']['gpu_device_id'] = args.gpu
-    '''
     trial_configs.append(config)
 
     # run with this config
@@ -119,15 +112,12 @@ if __name__ == '__main__':
     N, C, y, info = dataname_to_numpy(args.dataset, args.dataset_path)
 
     N_trainval = None if N is None else {key: N[key] for key in ["train", "val"]} if "train" in N and "val" in N else None
-    N_train = None if N is None else {key: N[key] for key in ["train"]} if "train" in N else None
     N_test = None if N is None else {key: N[key] for key in ["test"]} if "test" in N else None
 
     C_trainval = None if C is None else {key: C[key] for key in ["train", "val"]} if "train" in C and "val" in C else None
-    C_train = None if C is None else {key: C[key] for key in ["train"]} if "train" in C else None
     C_test = None if C is None else {key: C[key] for key in ["test"]} if "test" in C else None
 
     y_trainval = {key: y[key] for key in ["train", "val"]}
-    y_train = {key: y[key] for key in ["train"]} 
     y_test = {key: y[key] for key in ["test"]} 
 
 
@@ -167,15 +157,7 @@ if __name__ == '__main__':
     if args.model_type == 'xgboost' and torch.cuda.is_available():
         args.config['model']['tree_method'] = 'gpu_hist' 
         args.config['model']['gpu_id'] = args.gpu
-        
-    '''   
-    elif args.model_type == 'catboost' and torch.cuda.is_available():
-        args.config['model']['task_type'] = 'GPU'
-        args.config['model']['devices'] = args.gpu
-    elif args.model_type == 'lightgbm' and torch.cuda.is_available():
-        args.config['model']['device'] = 'gpu'
-        args.config['model']['gpu_device_id'] = args.gpu
-    '''
+
     ## Training Stage over different random seeds
     results_list = []
     for seed in tqdm(range(args.seed_num)):
