@@ -1,0 +1,16 @@
+annoy==1.17.3
+tqdm==4.66.4
+category_encoders==2.6.3
+delu==0.0.23
+einops==0.8.0
+numpy==1.26.4
+optuna==3.6.1
+pandas==2.2.2
+qhoptim==1.1.0
+Requests==2.31.0
+scikit_learn==1.4.2
+scipy==1.13.0
+torch==2.0.1
+xgboost==2.0.3
+lightgbm==4.3.0
+catboost==1.2.3
