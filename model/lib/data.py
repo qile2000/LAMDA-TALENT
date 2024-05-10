@@ -246,8 +246,8 @@ def data_norm_process(N_data, normalization, seed, normalizer = None):
 def data_label_process(y_data, is_regression, info = None, encoder = None):
     y = deepcopy(y_data)        
     if is_regression:
+        y = {k: v.astype(float) for k,v in y.items()}
         if info is None:
-            y = {k: v.astype(float) for k,v in y.items()}
             mean, std = y_data['train'].mean(), y_data['train'].std()
         else:
             mean, std = info['mean'], info['std']
