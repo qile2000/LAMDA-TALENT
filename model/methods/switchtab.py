@@ -45,6 +45,10 @@ class SwitchTabMethod(Method):
             self.N, self.C, self.ord_encoder, self.mode_values, self.cat_encoder = data_enc_process(self.N, self.C, self.args.cat_policy, self.y['train'])
             self.N, self.normalizer = data_norm_process(self.N, self.args.normalization, self.args.seed)
 
+            assert self.C is None
+            if self.N['train'].shape[1] % 2 != 0:
+                self.N['train'] = np.hstack((self.N['train'], np.zeros((self.N['train'].shape[0], 1))))
+                self.N['val'] = np.hstack((self.N['val'], np.zeros((self.N['val'].shape[0], 1))))
             
             if self.is_regression:
                 self.d_out = 1
@@ -61,13 +65,19 @@ class SwitchTabMethod(Method):
             y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
             N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
             N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
+            
+            assert C_test is None
+            if N_test['test'].shape[1] % 2 != 0:
+                N_test['test'] = np.hstack((N_test['test'], np.zeros((N_test['test'].shape[0], 1))))
+            
             _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False)
+
             if N_test is not None and C_test is not None:
-                self.N_test,self.C_test = N_test['test'],C_test['test']
+                self.N_test, self.C_test = N_test['test'], C_test['test']
             elif N_test is None and C_test is not None:
-                self.N_test,self.C_test = None,C_test['test']
+                self.N_test, self.C_test = None, C_test['test']
             else:
-                self.N_test,self.C_test = N_test['test'],None
+                self.N_test, self.C_test = N_test['test'], None
             self.y_test = y_test['test']
 
     def fit(self, N, C, y, info, train = True, config = None):
