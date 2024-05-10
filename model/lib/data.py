@@ -203,6 +203,32 @@ def data_enc_process(N_data, C_data, cat_policy, y_train = None, ord_encoder = N
                 cat_encoder = category_encoders.CatBoostEncoder()
                 cat_encoder.fit(C_data['train'].astype(str), y_train)
             C_data = {k: cat_encoder.transform(v.astype(str)).values for k, v in C_data.items()}
+        elif cat_policy == 'tabr_ohe':
+            binary_feature_cols = []
+            multivalue_feature_cols = []
+
+            for col in range(C_data['train'].shape[1]):
+                unique_values = np.unique(C_data['train'][:, col])
+                if len(unique_values) == 2:
+                    binary_feature_cols.append(col)
+                elif len(unique_values) > 2:
+                    multivalue_feature_cols.append(col)
+
+            # Extract binary features and multi-valued features
+            ohe = sklearn.preprocessing.OneHotEncoder(
+                handle_unknown='ignore', sparse_output=False, dtype='float64' 
+            )
+            binary_features = C_data['train'][:, binary_feature_cols]
+            multivalue_features = C_data['train'][:, multivalue_feature_cols]
+            ohe.fit(multivalue_features)
+            C_new = {}
+            for k,v in C_data.items():
+                binary_features = v[:, binary_feature_cols]
+                multivalue_features = v[:, multivalue_feature_cols]
+                multivalue_features_encoded = ohe.transform(multivalue_features)
+                processed_data = np.concatenate((binary_features,multivalue_features_encoded),axis=1)
+                C_new[k]=processed_data
+            C_data = C_new
         else:
             raise_unknown('categorical encoding policy', cat_policy)
         if N_data is None:
