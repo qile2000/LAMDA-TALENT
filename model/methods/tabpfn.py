@@ -23,28 +23,20 @@ class TabPFNMethod(Method):
     def data_format(self, is_train = True, N = None, C = None, y = None):
         if is_train:
             self.N, self.C, self.num_new_value, self.imputer, self.cat_new_value = data_nan_process(self.N, self.C, self.args.num_nan_policy, self.args.cat_nan_policy)
-            self.N, self.C, self.ord_encoder, self.mode_values, self.cat_encoder = data_enc_process(self.N, self.C, self.args.cat_policy)
             self.y, self.y_info, self.label_encoder = data_label_process(self.y, self.is_regression)
-            self.y = self.y['train']
-            if self.N is not None and self.C is not None:
-                self.N,self.C = self.N['train'],self.C['train']
-            elif self.N is None and self.C is not None:
-                self.N,self.C = None,self.C['train']
-            else:
-                self.N,self.C = self.N['train'],None
+            self.N, self.C, self.ord_encoder, self.mode_values, self.cat_encoder = data_enc_process(self.N, self.C, self.args.cat_policy)
             self.criterion = F.cross_entropy
         else:
             N_test, C_test, _, _, _ = data_nan_process(N, C, self.args.num_nan_policy, self.args.cat_nan_policy, self.num_new_value, self.imputer, self.cat_new_value)
             N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
             y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
-            self.N,self.C,self.y = N_test,C_test,y_test
-            self.y = self.y['test']
-            if self.N is not None and self.C is not None:
-                self.N,self.C = self.N['test'],self.C['test']
-            elif self.N is None and self.C is not None:
-                self.N,self.C = None,self.C['test']
+            if N_test is not None and C_test is not None:
+                self.N_test,self.C_test = N_test['test'],C_test['test']
+            elif N_test is None and C_test is not None:
+                self.N_test,self.C_test = None,C_test['test']
             else:
-                self.N,self.C = self.N['test'],None
+                self.N_test,self.C_test = N_test['test'],None
+            self.y_test = y_test['test']
 
     def construct_model(self, model_config = None):
         from model.models.tabpfn import TabPFNClassifier
@@ -58,15 +50,15 @@ class TabPFNMethod(Method):
             self.data_format(is_train = True)
             self.construct_model()
 
-        sampled_Y = self.y
+        sampled_Y = self.y['train']
         if self.N is not None and self.C is not None:
-            sampled_X = np.concatenate((self.N,self.C),axis=1)
+            sampled_X = np.concatenate((self.N['train'],self.C['train']),axis=1)
         elif self.N is None and self.C is not None:
-            sampled_X = self.C
+            sampled_X = self.C['train']
         else:
-            sampled_X = self.N
+            sampled_X = self.N['train']
         sample_size = self.args.config['general']['sample_size']
-        if self.y.shape[0] > sample_size:
+        if self.y['train'].shape[0] > sample_size:
         # sampled_X and sampled_Y contain sample_size samples maintaining class proportions for the training set
             from sklearn.model_selection import train_test_split
             sampled_X, _, sampled_Y, _ = train_test_split(sampled_X, sampled_Y, train_size=sample_size, stratify=sampled_Y)
@@ -75,14 +67,14 @@ class TabPFNMethod(Method):
     
     def predict(self, N, C, y, info, model_name):
         self.data_format(False, N, C, y)
-        if self.N is not None and self.C is not None:
-            Test_X = np.concatenate((self.N,self.C),axis=1)
-        elif self.N is None and self.C is not None:
-            Test_X = self.C
+        if self.N_test is not None and self.C_test is not None:
+            Test_X = np.concatenate((self.N_test,self.C_test),axis=1)
+        elif self.N_test is None and self.C_test is not None:
+            Test_X = self.C_test
         else:
-            Test_X = self.N
+            Test_X = self.N_test
         test_logit = self.model.predict_proba(Test_X)
-        test_label = self.y
+        test_label = self.y_test
         vl = self.criterion(torch.tensor(test_logit),torch.tensor(test_label)).item()
         vres, metric_name = self.metric(test_logit, test_label, self.y_info)
         print('Test: loss={:.4f}'.format(vl))

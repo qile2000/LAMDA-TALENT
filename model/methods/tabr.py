@@ -75,7 +75,13 @@ class TabRMethod(Method):
             N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
             y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
             _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False)
-
+            if N_test is not None and C_test is not None:
+                self.N_test,self.C_test = N_test['test'],C_test['test']
+            elif N_test is None and C_test is not None:
+                self.N_test,self.C_test = None,C_test['test']
+            else:
+                self.N_test,self.C_test = N_test['test'],None
+            self.y_test = y_test['test']
 
     def fit(self, N, C, y, info, train = True, config = None):
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)

@@ -39,11 +39,17 @@ class DNNRMethod(Method):
             self.d_in = 0 if self.N is None else self.N['train'].shape[1]
             self.criterion = F.mse_loss
         else:
-            self.N_test, self.C_test, _, _, _ = data_nan_process(N, C, self.args.num_nan_policy, self.args.cat_nan_policy, self.num_new_value, self.imputer, self.cat_new_value)
-            self.y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
-            self.N_test, self.C_test, _, _, _ = data_enc_process(self.N_test, self.C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
-            self.N_test, _ = data_norm_process(self.N_test, self.args.normalization, self.args.seed, self.normalizer)
-
+            N_test, C_test, _, _, _ = data_nan_process(N, C, self.args.num_nan_policy, self.args.cat_nan_policy, self.num_new_value, self.imputer, self.cat_new_value)
+            y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
+            N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
+            N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
+            if N_test is not None and C_test is not None:
+                self.N_test,self.C_test = N_test['test'],C_test['test']
+            elif N_test is None and C_test is not None:
+                self.N_test,self.C_test = None,C_test['test']
+            else:
+                self.N_test,self.C_test = N_test['test'],None
+            self.y_test = y_test['test']
 
 
     def fit(self, N, C, y, info, train = True, config = None):
@@ -80,8 +86,8 @@ class DNNRMethod(Method):
         
         assert(self.C_test is None and self.N_test is not None)
 
-        test_logit = self.model.predict(np.array(self.N_test['test']))
-        test_label = self.y_test['test']
+        test_logit = self.model.predict(np.array(self.N_test))
+        test_label = self.y_test
     
         test_logit = torch.from_numpy(test_logit)
         test_label = torch.from_numpy(test_label)

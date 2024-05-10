@@ -93,7 +93,13 @@ class Method(object, metaclass=abc.ABCMeta):
             N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
             N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
             _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False)                      
- 
+            if N_test is not None and C_test is not None:
+                self.N_test,self.C_test = N_test['test'],C_test['test']
+            elif N_test is None and C_test is not None:
+                self.N_test,self.C_test = None,C_test['test']
+            else:
+                self.N_test,self.C_test = N_test['test'],None
+            self.y_test = y_test['test']
 
     def fit(self, N, C, y, info, train = True, config = None):
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)

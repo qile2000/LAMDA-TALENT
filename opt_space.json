@@ -1,0 +1,729 @@
+{
+    "linear": {
+        "model": {},
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.01
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "mlp": {
+        "model": {
+            "d_layers": [
+                "$mlp_d_layers",
+                1,
+                8,
+                64,
+                512
+            ],
+            "dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.5
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.01
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "resnet": {
+        "model": {
+            "d": [
+                "int",
+                64,
+                512
+            ],
+            "d_hidden_factor": [
+                "uniform",
+                1.0,
+                4.0
+            ],
+            "hidden_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "n_layers": [
+                "int",
+                1,
+                8
+            ],
+            "residual_dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.5
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.01
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "ftt": {
+        "model": {
+            "n_layers": [
+                "int",
+                1,
+                4
+            ],
+            "ffn_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "d_ffn_factor": [
+                "uniform",
+                0.6666666666666666,
+                2.6666666666666665
+            ],
+            "residual_dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.2
+            ],
+            "attention_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.001
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "node": {
+        "model": {
+            "num_layers": [
+                "int",
+                2,
+                6
+            ],
+            "depth": [
+                "int",
+                4,
+                6
+            ],
+            "tree_dim": [
+                "int",
+                2,
+                3
+            ],
+            "layer_dim": [
+                "categorical",
+                [
+                    512,
+                    1024
+                ]
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "tabr": {
+        "model": {
+            "d_main": [
+                "int",
+                96,
+                384
+            ],
+            "context_dropout": [
+                "uniform",
+                0.0,
+                0.6
+            ],
+            "encoder_n_blocks": [
+                "int",
+                0,
+                1
+            ],
+            "predictor_n_blocks": [
+                "int",
+                1,
+                2
+            ],
+            "dropout0": [
+                "uniform",
+                0.0,
+                0.6
+            ],
+            "num_embeddings": {
+                "n_frequencies": [
+                    "int",
+                    16,
+                    96
+                ],
+                "frequency_scale": [
+                    "loguniform",
+                    0.01,
+                    100.0
+                ],
+                "d_embedding": [
+                    "int",
+                    16,
+                    64
+                ]
+            }
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.001
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "tangos": {
+        "model": {
+            "d_layers": [
+                "$mlp_d_layers",
+                1,
+                8,
+                64,
+                512
+            ],
+            "dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.5
+            ],
+            "lambda1": [
+                "loguniform",
+                1,
+                100
+            ],
+            "lambda2": [
+                "loguniform",
+                0.1,
+                1
+            ],
+            "subsample": [
+                "int",
+                30,
+                100
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "saint": {
+        "model": {
+            "depth": [
+                "categorical",
+                [
+                    4,
+                    6
+                ]
+            ],
+            "heads": [
+                "categorical",
+                [
+                    4,
+                    8
+                ]
+            ],
+            "dim": [
+                "categorical",
+                [
+                    16,
+                    32,
+                    64
+                ]
+            ],
+            "attn_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "ff_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "attentiontype": [
+                "?categorical",
+                "colrow",
+                [
+                    "colrow",
+                    "row",
+                    "col"
+                ]
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.01
+            ]
+        },
+        "general": {}
+    },
+    "tabcaps": {
+        "model": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ],
+            "sub_class": [
+                "int",
+                1,
+                5
+            ],
+            "init_dim": [
+                "int",
+                32,
+                128
+            ],
+            "primary_capsule_size": [
+                "int",
+                4,
+                32
+            ],
+            "digit_capsule_size": [
+                "int",
+                4,
+                32
+            ],
+            "leaves": [
+                "int",
+                16,
+                64
+            ]
+        },
+        "training": {},
+        "general": {}
+    },
+    "tabnet": {
+        "model": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "gamma": [
+                "uniform",
+                1,
+                2
+            ],
+            "n_steps": [
+                "int",
+                3,
+                10
+            ],
+            "n_independent": [
+                "int",
+                1,
+                5
+            ],
+            "n_shared": [
+                "int",
+                1,
+                5
+            ],
+            "momentum": [
+                "uniform",
+                0.01,
+                0.4
+            ]
+        },
+        "training": {},
+        "general": {}
+    },
+    "snn":{
+        "model":{
+            "d_layers": [
+                "$mlp_d_layers",
+                2,
+                16,
+                1,
+                512
+            ],
+            "dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.1
+            ],
+            "d_embedding":[
+                "int",
+                64,
+                512
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.01
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "ptarl":{
+        "model":{
+            "d_layers": [
+                "$mlp_d_layers",
+                1, 
+                3, 
+                64, 
+                512
+            ],
+            "dropout": [
+                "?uniform", 
+                0.0, 
+                0.0, 
+                0.5 ],
+            "d_embedding":[
+                "int",
+                64,
+                128
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "danets":{
+        "model":{
+            "n_layers": [
+                "int",
+                6,
+                32
+            ],
+            "dropout": [
+                "?uniform", 
+                0.0, 
+                0.0, 
+                0.5 ],
+            "base_outdim":[
+                "int",
+                64,
+                512
+            ]
+        },
+        "training":{
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general":{}
+    },
+    "dcn2":{
+        "model":{
+            "d": [
+                "int",
+                64,
+                512
+            ],
+            "d_embedding": [
+                "int", 
+                64, 
+                512
+            ],
+            "hidden_dropout": [
+                "uniform",
+                0.0, 
+                0.5
+            ],
+            "cross_dropout": [
+                "uniform",
+                0.0, 
+                0.5
+            ],
+            "n_cross_layers": [
+                "int", 
+                1, 
+                8
+            ],
+            "n_hidden_layers": [
+                "int", 
+                1, 
+                8
+            ]
+        },
+        "training":{
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general":{}
+    },
+    "tabtransformer":{
+        "model":{
+            "dim":[
+                "int",
+                16,
+                256
+            ],
+            "depth":[
+                "int",
+                1,
+                6
+            ],
+            "heads": [
+                "categorical",
+                [
+                    4,
+                    8
+                ]
+            ],
+            "attn_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "ff_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ]
+        },
+        "training":{
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general":{}
+    },
+    "grownet":{
+        "ensemble_model":{
+            "d_embedding":[
+                "int",
+                32,
+                512
+            ]
+        },
+        "model":{
+            "hidden_d":[
+                "int", 
+                32, 
+                512 
+            ]  
+        },
+        "training":{
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ],
+            "epochs_per_stage":[
+                "int",
+                1, 
+                2
+            ],
+            "correct_epoch":[
+                "int",
+                1, 
+                2
+            ]
+        },
+        "general":{
+
+        }
+    },
+    "autoint": {
+        "model": {
+            "n_layers": [
+                "int",
+                1,
+                4
+            ],
+            "residual_dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.2
+            ],
+            "attention_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.001
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    },
+    "dnnr": {
+        "model": {
+            "n_neighbors": [
+                "int",
+                3,
+                3
+            ],
+            "n_derivative_neighbors": [
+                "int",
+                32,
+                1024
+            ],
+            "order": [
+                "categorical",
+                [
+                    "1",
+                    "2diag"
+                ]
+            ],
+            "solver": [
+                "categorical",
+                [
+                    "linear_regression",
+                    "scipy_lsqr",
+                    "numpy",
+                    "ridge",
+                    "lasso"
+                ]
+            ],
+            "index": [
+                "categorical",
+                [
+                    "annoy"
+                ]
+            ]
+        },
+        "training": {},
+        "general": {}
+    }
+}
