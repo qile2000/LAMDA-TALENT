@@ -238,5 +238,32 @@ def modeltype_to_method(model):
     elif model == 'switchtab':
         from model.methods.switchtab import SwitchTabMethod
         return SwitchTabMethod
+    elif model == 'xgboost':
+        from model.classical_methods.xgboost import XGBoostMethod
+        return XGBoostMethod
+    elif model == 'LogReg':
+        from model.classical_methods.logreg import LogRegMethod
+        return LogRegMethod
+    elif model == 'NCM':
+        from model.classical_methods.ncm import NCMMethod
+        return NCMMethod
+    elif model == 'lightgbm':
+        from model.classical_methods.lightgbm import LightGBMMethod
+        return LightGBMMethod
+    elif model == 'NaiveBayes':
+        from model.classical_methods.naivebayes import NaiveBayesMethod
+        return NaiveBayesMethod
+    elif model == 'knn':
+        from model.classical_methods.knn import KnnMethod
+        return KnnMethod
+    elif model == 'RandomForest':
+        from model.classical_methods.randomforest import RandomForestMethod
+        return RandomForestMethod
+    elif model == 'catboost':
+        from model.classical_methods.catboost import CatBoostMethod
+        return CatBoostMethod
+    elif model == 'svm':
+        from model.classical_methods.svm import SvmMethod
+        return SvmMethod
     else:
         raise NotImplementedError("Model \"" + model + "\" not yet implemented")
