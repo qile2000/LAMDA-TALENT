@@ -49,6 +49,11 @@
     },
     "resnet": {
         "model": {
+            "n_layers": [
+                "int",
+                1,
+                8
+            ],
             "d": [
                 "int",
                 64,
@@ -63,11 +68,6 @@
                 "uniform",
                 0.0,
                 0.5
-            ],
-            "n_layers": [
-                "int",
-                1,
-                8
             ],
             "residual_dropout": [
                 "?uniform",
@@ -98,15 +98,10 @@
                 1,
                 4
             ],
-            "ffn_dropout": [
-                "uniform",
-                0.0,
-                0.5
-            ],
-            "d_ffn_factor": [
-                "uniform",
-                0.6666666666666666,
-                2.6666666666666665
+            "d_token": [
+                "int",
+                64,
+                512
             ],
             "residual_dropout": [
                 "?uniform",
@@ -118,6 +113,16 @@
                 "uniform",
                 0.0,
                 0.5
+            ],
+            "ffn_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "d_ffn_factor": [
+                "uniform",
+                0.6666666666666667,
+                2.6666666666666667
             ]
         },
         "training": {
@@ -382,9 +387,9 @@
     "tabnet": {
         "model": {
             "lr": [
-                "loguniform",
-                1e-05,
-                0.1
+                "uniform",
+                0.001,
+                0.01
             ],
             "gamma": [
                 "uniform",
@@ -659,7 +664,12 @@
             "n_layers": [
                 "int",
                 1,
-                4
+                6
+            ],
+            "d_token": [
+                "$d_token",
+                8,
+                64
             ],
             "residual_dropout": [
                 "?uniform",
