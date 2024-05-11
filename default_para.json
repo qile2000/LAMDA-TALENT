@@ -10,31 +10,30 @@
     "mlp": {
         "model": {
             "d_layers": [
-                510,
-                263,
-                363
+                384,
+                384
             ],
-            "dropout": 0.2
+            "dropout": 0.1
         },
         "training": {
-            "lr": 0.001,
-            "weight_decay": 0.0002
+            "lr": 3e-4,
+            "weight_decay": 1e-5
         },
         "general": {}
     },
     "resnet": {
         "model": {
-            "d": 168,
-            "d_hidden_factor": 2.9,
-            "hidden_dropout": 0.5,
-            "n_layers": 3,
+            "d": 192,
+            "d_hidden_factor": 2.0,
+            "hidden_dropout": 0.3,
+            "n_layers": 2,
             "residual_dropout": 0.0,
             "activation": "relu",
             "normalization": "batchnorm"
         },
         "training": {
-            "lr": 0.002,
-            "weight_decay": 0.0001
+            "lr": 3e-4,
+            "weight_decay": 1e-5
         },
         "general": {}
     },
@@ -42,36 +41,36 @@
         "model": {
             "token_bias": true,
             "n_layers": 3,
-            "d_token": 64,
+            "d_token": 192,
             "n_heads": 8,
-            "d_ffn_factor": 1.33,
-            "attention_dropout": 0.08,
-            "ffn_dropout": 0.3,
-            "residual_dropout": 0.1,
+            "d_ffn_factor": 1.3333333333333333,
+            "attention_dropout": 0.2,
+            "ffn_dropout": 0.1,
+            "residual_dropout": 0.0,
             "activation": "reglu",
             "prenormalization": false,
-            "initialization": "xavier",
+            "initialization": "kaiming",
             "kv_compression": null,
             "kv_compression_sharing": null
         },
         "training": {
-            "lr": 0.001,
-            "weight_decay": 0.0002
+            "lr": 1e-4,
+            "weight_decay": 1e-5
         },
         "general": {}
     },
     "node": {
         "model": {
-            "num_layers": 2,
+            "num_layers": 1,
             "depth": 6,
-            "layer_dim": 512,
+            "layer_dim": 1024,
             "tree_dim": 2,
             "choice_function": "sparsemax",
             "bin_function": "sparsemoid"
         },
         "training": {
             "lr": 0.001,
-            "weight_decay": 0.0002
+            "weight_decay": 0.0
         },
         "general": {}
     },
@@ -275,17 +274,17 @@
             "n_layers": 3,
             "d_token": 64,
             "n_heads": 8,
-            "attention_dropout": 0.08,
-            "residual_dropout": 0.1,
+            "attention_dropout": 0.2,
+            "residual_dropout": 0.0,
             "activation": "relu",
             "prenormalization": false,
-            "initialization": "xavier",
+            "initialization": "kaiming",
             "kv_compression": null,
             "kv_compression_sharing": null
         },
         "training": {
-            "lr": 0.001,
-            "weight_decay": 0.0002
+            "lr": 1e-4,
+            "weight_decay": 1e-5
         },
         "general": {}
     },
