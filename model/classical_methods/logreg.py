@@ -6,7 +6,7 @@ import pickle
 class LogRegMethod(classical_methods):
     def __init__(self, args, is_regression):
         super().__init__(args, is_regression)
-        assert not is_regression
+        assert(not is_regression)
         assert(args.cat_policy != 'indices')
 
     def construct_model(self, model_config = None):
