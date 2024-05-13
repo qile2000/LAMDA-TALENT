@@ -105,21 +105,21 @@
             "activation": "ReLU"
         },
         "training": {
-            "lr": 0.001,
-            "weight_decay": 0.0002
+            "lr": 0.0003121273641315169,
+            "weight_decay": 1.2260352006404615e-06
         },
         "general": {}
     },
     "tangos": {
         "model": {
             "d_layers": [
-                510,
-                263,
-                263
+                256,
+                256,
+                256
             ],
             "dropout": 0.1,
-            "lambda1": 100,
-            "lambda2": 0.1,
+            "lambda1": 1,
+            "lambda2": 0.01,
             "subsample": 50
         },
         "training": {
@@ -172,9 +172,8 @@
     "snn": {
         "model": {
             "d_layers": [
-                510,
-                263,
-                363
+                384,
+                384
             ],
             "dropout": 0.2,
             "d_embedding": 64
@@ -238,8 +237,8 @@
     },
     "tabtransformer":{
         "model":{
-            "dim":128,
-            "depth":1,
+            "dim":32,
+            "depth":6,
             "heads":8,
             "attn_dropout":0.08,
             "ff_dropout":0.3
@@ -317,7 +316,8 @@
                          "n_jobs": -1, "tree_method": "hist"}},
     "catboost":{"fit": {"logging_level": "Silent"},
                 "model": {"early_stopping_rounds": 50,
-                          "n_estimators": 2000}},
+                          "n_estimators": 2000,
+                          "od_pval": 0.001 }},
     "lightgbm":{"model": {"n_estimators": 2000},
                 "fit": {}},
     "LogReg":{"model": {"penalty":"l2", "max_iter": 5000},
