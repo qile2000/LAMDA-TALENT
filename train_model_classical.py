@@ -187,4 +187,17 @@ if __name__ == '__main__':
         print(f'{name} Results: {formatted_results}')
         print(f'{name} MEAN = {mean_metrics[name]:.4f} ± {std_metrics[name]:.4f}')
 
-    
+    print('-' * 20, 'GPU info', '-' * 20)
+    if torch.cuda.is_available():
+        print("CUDA is available.")
+        num_gpus = torch.cuda.device_count()
+        print("Number of GPUs Available:", num_gpus)
+        for i in range(num_gpus):
+            gpu_info = torch.cuda.get_device_properties(i)
+            print(f"GPU {i}: {gpu_info.name}")
+            print(f"  Compute Capability: {gpu_info.major}.{gpu_info.minor}")
+            print(f"  Total Memory: {gpu_info.total_memory / 1024**2}MB")
+            print(f"  Multi Processor Count: {gpu_info.multi_processor_count}")
+    else:
+        print("CUDA is unavailable.")
+    print('-' * 50)
