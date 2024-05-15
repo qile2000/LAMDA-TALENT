@@ -8,7 +8,7 @@ import torch
 from model.lib.data import (
     Dataset
 )
-
+import time
 
 
 class GrowNetMethod(Method):
@@ -64,6 +64,7 @@ class GrowNetMethod(Method):
         training_config = self.args.config['training']
         learning_rate = training_config['lr']
         weight_decay = training_config['weight_decay']
+        tic = time.time()
         for s in range(self.args.max_epoch):
             m = MLP_2HL.get_model(s,argparse.Namespace(**self.sub_model_config)).to(self.args.device)
             m.double()
@@ -132,6 +133,9 @@ class GrowNetMethod(Method):
             self.validate(s)
             if not self.continue_training:
                 break
+        
+        time_cost = time.time() - tic
+        return time_cost
 
     
     def validate(self, epoch):

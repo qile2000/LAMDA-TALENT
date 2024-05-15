@@ -122,11 +122,13 @@ class Method(object, metaclass=abc.ABCMeta):
         if not train:
             return
 
+        time_cost = 0
         for epoch in range(self.args.max_epoch):
             tic = time.time()
             self.train_epoch(epoch)
             self.validate(epoch)
             elapsed = time.time() - tic
+            time_cost += elapsed
             print(f'Epoch: {epoch}, Time cost: {elapsed}')
             if not self.continue_training:
                 break
@@ -134,6 +136,7 @@ class Method(object, metaclass=abc.ABCMeta):
             dict(params=self.model.state_dict()),
             osp.join(self.args.save_path, 'epoch-last-{}.pth'.format(str(self.args.seed)))
         )
+        return time_cost
 
     def predict(self, N, C, y, info, model_name):
         self.model.load_state_dict(torch.load(osp.join(self.args.save_path, model_name + '-{}.pth'.format(str(self.args.seed))))['params'])

@@ -12,6 +12,7 @@ from model.lib.data import (
     data_norm_process,
     data_label_process
 )
+import time
 
 class TabCapsMethod(Method):
     def __init__(self, args, is_regression):
@@ -80,6 +81,7 @@ class TabCapsMethod(Method):
         X_valid = self.N['val']
         y_valid = self.y['val']
         eval_metric = ['accuracy']
+        tic = time.time() 
         result, loss, auc = self.model.fit(
             X_train=X_train, y_train=y_train,
             eval_set=[(X_valid, y_valid)],
@@ -89,9 +91,10 @@ class TabCapsMethod(Method):
             batch_size=self.args.batch_size, virtual_batch_size=256,
             device_id=self.args.gpu
         )
+        time_cost = time.time() - tic
         self.model.save_check(self.args.save_path, self.args.seed)
         self.trlog['best_res'] = self.model.best_cost
-        return
+        return time_cost
 
     def predict(self, N, C, y, info, model_name):
         self.model.load_model(osp.join(self.args.save_path, 'epoch-last-{}.pth'.format(self.args.seed)),input_dim=self.d_in, output_dim=self.d_out)

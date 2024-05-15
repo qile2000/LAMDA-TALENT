@@ -9,6 +9,7 @@ from model.utils import (
     get_device
 )
 import numpy as np
+import time
 
 class CatBoostMethod(classical_methods):
     def __init__(self, args, is_regression):
@@ -51,10 +52,13 @@ class CatBoostMethod(classical_methods):
             return
         fit_config = deepcopy(self.args.config['fit'])
         fit_config['eval_set'] = (X_val, self.y['val'])
+        tic = time.time()
         self.model.fit(X_train, self.y['train'],**fit_config)
         self.trlog['best_res'] = self.model.score(X_val, self.y['val'])
+        time_cost = time.time() - tic
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'wb') as f:
             pickle.dump(self.model, f)
+        return time_cost
 
     def predict(self, N, C, y, info, model_name):
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'rb') as f:

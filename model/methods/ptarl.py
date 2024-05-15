@@ -12,6 +12,7 @@ from model.lib.ptarl.utils import (
 from model.lib.data import (
     Dataset
 )
+import time
 
 class PTARLMethod(Method):
     def __init__(self, args, is_regression):
@@ -50,7 +51,8 @@ class PTARLMethod(Method):
         self.construct_model()
         # if not train, skip the training process. such as load the checkpoint and directly predict the results
         if not train:
-            return  
+            return
+        tic = time.time()
         best_model,_ = fit_Ptarl(self.args,self.model, self.train_loader, self.val_loader, self.criterion, 
                                  self.args.model_type, self.args.config, self.args.config['model']['regularize'], 
                                  self.is_regression, self.args.config['general']['ot_weight'], self.args.config['general']['diversity_weight'], 
@@ -64,8 +66,10 @@ class PTARLMethod(Method):
                                          self.args.model_type+'_ot', self.args.config, self.args.config['model']['regularize'], 
                                          self.is_regression, self.args.config['general']['ot_weight'], self.args.config['general']['diversity_weight'], 
                                          self.args.config['general']['r_weight'], self.args.config['general']['diversity'],self.args.seed, self.args.save_path)
+        time_cost = time.time() - tic
         self.model = best_model
         self.trlog['best_res'] = best_loss
+        return time_cost
         
     def predict(self, N, C, y, info, model_name):
         self.model_type1 = self.args.model_type + '_ot'

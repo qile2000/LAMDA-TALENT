@@ -2,6 +2,7 @@ from model.methods.base import Method
 import torch
 import numpy as np
 import torch.nn.functional as F
+import time
 
 from model.lib.data import (
     Dataset,
@@ -67,6 +68,7 @@ class DNNRMethod(Method):
         
         assert(self.C is None and self.N is not None)
 
+        tic = time.time()
         self.model.fit(np.array(self.N['train']), np.array(self.y['train']))
         
         test_logit = self.model.predict(np.array(self.N['val']))
@@ -76,7 +78,9 @@ class DNNRMethod(Method):
         test_label = torch.from_numpy(test_label)
         
         vres, metric_name = self.metric(test_logit, test_label, self.y_info)
+        time_cost = time.time() - tic
         self.trlog['best_res'] = vres[0]
+        return time_cost
 
 
     def predict(self, N, C, y, info, model_name):

@@ -10,6 +10,7 @@ from model.lib.data import (
     data_enc_process,
     data_label_process
 )
+import time
 
 class TabPFNMethod(Method):
     def __init__(self, args, is_regression):
@@ -62,8 +63,10 @@ class TabPFNMethod(Method):
         # sampled_X and sampled_Y contain sample_size samples maintaining class proportions for the training set
             from sklearn.model_selection import train_test_split
             sampled_X, _, sampled_Y, _ = train_test_split(sampled_X, sampled_Y, train_size=sample_size, stratify=sampled_Y)
+        tic = time.time()
         self.model.fit(sampled_X,sampled_Y,overwrite_warning=True)
-        return
+        time_cost = time.time() - tic
+        return time_cost
     
     def predict(self, N, C, y, info, model_name):
         self.data_format(False, N, C, y)

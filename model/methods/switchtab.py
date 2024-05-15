@@ -101,11 +101,13 @@ class SwitchTabMethod(Method):
         if not train:
             return
         
+        time_cost = 0
         for epoch in range(self.args.max_epoch):
             tic = time.time()
             self.train_epoch(epoch)
             self.validate(epoch)
             elapsed = time.time() - tic
+            time_cost += elapsed
             print(f'Epoch: {epoch}, Time cost: {elapsed}')
             if not self.continue_training:
                 break
@@ -113,6 +115,7 @@ class SwitchTabMethod(Method):
             dict(params=self.model.state_dict()),
             osp.join(self.args.save_path, 'epoch-last-{}.pth'.format(str(self.args.seed)))
         )
+        return time_cost
 
     def train_epoch(self, epoch):
         self.model.train()

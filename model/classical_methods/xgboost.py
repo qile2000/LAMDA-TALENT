@@ -2,6 +2,7 @@ from model.classical_methods.base import classical_methods
 from copy import deepcopy
 import os.path as ops
 import pickle
+import time
 
 class XGBoostMethod(classical_methods):
     def __init__(self, args, is_regression):
@@ -24,10 +25,13 @@ class XGBoostMethod(classical_methods):
             return
         fit_config = deepcopy(self.args.config['fit'])
         fit_config['eval_set'] = [(self.N['val'], self.y['val'])]
+        tic = time.time()
         self.model.fit(self.N['train'], self.y['train'],**fit_config)
         self.trlog['best_res'] = self.model.score(self.N['val'], self.y['val'])
+        time_cost = time.time() - tic
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'wb') as f:
             pickle.dump(self.model, f)
+        return time_cost
     
     def predict(self, N, C, y, info, model_name):
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'rb') as f:

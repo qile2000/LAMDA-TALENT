@@ -216,15 +216,16 @@ if __name__ == '__main__':
                 json.dump(args.config, fp, sort_keys=True, indent=4)
 
     ## Training Stage over different random seeds
-    loss_list, results_list = [], []
+    loss_list, results_list, time_list = [], [], []
     for seed in tqdm(range(args.seed_num)):
         args.seed = seed    # update seed  
         method = modeltype_to_method(args.model_type)(args, info['task_type'] == 'regression')
-        method.fit(N_trainval, C_trainval, y_trainval, info)    
+        time_cost = method.fit(N_trainval, C_trainval, y_trainval, info)    
         vl, vres, metric_name, predic_logits = method.predict(N_test, C_test, y_test, info, model_name=args.evaluate_option)
 
         loss_list.append(vl)
         results_list.append(vres)
+        time_list.append(time_cost)
         
     metric_arrays = {name: [] for name in metric_name}  
 
@@ -233,6 +234,8 @@ if __name__ == '__main__':
         for idx, name in enumerate(metric_name):
             metric_arrays[name].append(result[idx])
 
+    metric_arrays['Time'] = time_list
+    metric_name = metric_name + ('Time', )
 
     mean_metrics = {name: np.mean(metric_arrays[name]) for name in metric_name}
     std_metrics = {name: np.std(metric_arrays[name]) for name in metric_name}
@@ -241,7 +244,7 @@ if __name__ == '__main__':
     # Printing results
     print(f'{args.model_type}: {args.seed_num} Trials')
     for name in metric_name:
-        formatted_results = ','.join(['{:.4f}'.format(e) for e in metric_arrays[name]])
+        formatted_results = ', '.join(['{:.4f}'.format(e) for e in metric_arrays[name]])
         print(f'{name} Results: {formatted_results}')
         print(f'{name} MEAN = {mean_metrics[name]:.4f} ± {std_metrics[name]:.4f}')
 
@@ -249,15 +252,14 @@ if __name__ == '__main__':
     
     print('-' * 20, 'GPU info', '-' * 20)
     if torch.cuda.is_available():
-        print("CUDA is available.")
         num_gpus = torch.cuda.device_count()
-        print("Number of GPUs Available:", num_gpus)
+        print(f"{num_gpus} GPU Available.")
         for i in range(num_gpus):
             gpu_info = torch.cuda.get_device_properties(i)
             print(f"GPU {i}: {gpu_info.name}")
-            print(f"  Compute Capability: {gpu_info.major}.{gpu_info.minor}")
-            print(f"  Total Memory: {gpu_info.total_memory / 1024**2}MB")
+            print(f"  Total Memory:          {gpu_info.total_memory / 1024**2} MB")
             print(f"  Multi Processor Count: {gpu_info.multi_processor_count}")
+            print(f"  Compute Capability:    {gpu_info.major}.{gpu_info.minor}")
     else:
         print("CUDA is unavailable.")
     print('-' * 50)

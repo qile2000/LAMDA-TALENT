@@ -10,6 +10,7 @@ from model.lib.data import (
     data_norm_process,
     data_label_process
 )
+import time
 
 class TabNetMethod(Method):
     def __init__(self, args, is_regression):
@@ -87,6 +88,7 @@ class TabNetMethod(Method):
             task = "binclass"
         else:
             task = "multiclass"
+        tic = time.time()
         loss, result, auc = self.model.fit(
             X_train=X_train, y_train=y_train,
             eval_set=[(X_valid, y_valid)],
@@ -97,11 +99,12 @@ class TabNetMethod(Method):
             device=f'cuda:0',
             task=task
         )
+        time_cost = time.time() - tic
         self.model.save_model(self.args.save_path)
         self.trlog['best_res'] = self.model.best_cost
         if self.is_regression:
             self.trlog['best_res'] = self.model.best_cost * self.y_info['std']
-        return
+        return time_cost
     
     def predict(self, N, C, y, info, model_name):
         self.model.load_model(self.args.save_path,self.args.seed)

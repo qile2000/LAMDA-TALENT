@@ -1,6 +1,7 @@
 from model.classical_methods.base import classical_methods
 import os.path as ops
 import pickle
+import time
 
 class NCMMethod(classical_methods):
     def __init__(self, args, is_regression):
@@ -18,10 +19,13 @@ class NCMMethod(classical_methods):
         # if not train, skip the training process. such as load the checkpoint and directly predict the results
         if not train:
             return
+        tic = time.time()
         self.model.fit(self.N['train'], self.y['train'])
         self.trlog['best_res'] = self.model.score(self.N['val'], self.y['val'])
+        time_cost = time.time() - tic
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'wb') as f:
             pickle.dump(self.model, f)
+        return time_cost
     
     def predict(self, N, C, y, info, model_name):
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'rb') as f:
