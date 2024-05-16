@@ -244,11 +244,16 @@ if __name__ == '__main__':
     # Printing results
     print(f'{args.model_type}: {args.seed_num} Trials')
     for name in metric_name:
-        formatted_results = ', '.join(['{:.4f}'.format(e) for e in metric_arrays[name]])
-        print(f'{name} Results: {formatted_results}')
-        print(f'{name} MEAN = {mean_metrics[name]:.4f} ± {std_metrics[name]:.4f}')
+        if info['task_type'] == 'regression':
+            formatted_results = ', '.join(['{:.4e}'.format(e) for e in metric_arrays[name]])
+            print(f'{name} Results: {formatted_results}')
+            print(f'{name} MEAN = {mean_metrics[name]:.4e} ± {std_metrics[name]:.4e}')
+        else:
+            formatted_results = ', '.join(['{:.4f}'.format(e) for e in metric_arrays[name]])
+            print(f'{name} Results: {formatted_results}')
+            print(f'{name} MEAN = {mean_metrics[name]:.4f} ± {std_metrics[name]:.4f}')
 
-    print(f'Mean Loss: {mean_loss:.4f}')
+    print(f'Mean Loss: {mean_loss:.4e}')
     
     print('-' * 20, 'GPU info', '-' * 20)
     if torch.cuda.is_available():
