@@ -186,14 +186,14 @@ if __name__ == '__main__':
     # Printing results
     print(f'{args.model_type}: {args.seed_num} Trials')
     for name in metric_name:
-        if info['task_type'] == 'regression':
-            formatted_results = ', '.join(['{:.4e}'.format(e) for e in metric_arrays[name]])
+        if info['task_type'] == 'regression' and name != 'Time':
+            formatted_results = ', '.join(['{:.8e}'.format(e) for e in metric_arrays[name]])
             print(f'{name} Results: {formatted_results}')
-            print(f'{name} MEAN = {mean_metrics[name]:.4e} ± {std_metrics[name]:.4e}')
+            print(f'{name} MEAN = {mean_metrics[name]:.8e} ± {std_metrics[name]:.8e}')
         else:
-            formatted_results = ', '.join(['{:.4f}'.format(e) for e in metric_arrays[name]])
+            formatted_results = ', '.join(['{:.8f}'.format(e) for e in metric_arrays[name]])
             print(f'{name} Results: {formatted_results}')
-            print(f'{name} MEAN = {mean_metrics[name]:.4f} ± {std_metrics[name]:.4f}')
+            print(f'{name} MEAN = {mean_metrics[name]:.8f} ± {std_metrics[name]:.8f}')
 
     print('-' * 20, 'GPU info', '-' * 20)
     if torch.cuda.is_available():
