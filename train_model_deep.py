@@ -35,10 +35,10 @@ def get_args():
     # optimization parameters
     parser.add_argument('--max_epoch', type=int, default=200)
     parser.add_argument('--batch_size', type=int, default=1024)  
-    parser.add_argument('--normalization', type=str, default='standard')
+    parser.add_argument('--normalization', type=str, default='standard', choices=['none', 'standard', 'minmax', 'quantile', 'maxabs', 'power', 'robust'])
     parser.add_argument('--num_nan_policy', type=str, default='mean', choices=['mean', 'median'])
     parser.add_argument('--cat_nan_policy', type=str, default='new', choices=['new', 'most_frequent'])
-    parser.add_argument('--cat_policy', type=str, default='ohe')
+    parser.add_argument('--cat_policy', type=str, default='ohe', choices=['indices', 'ordinal', 'ohe', 'binary', 'hash', 'loo', 'target', 'catboost'])
     parser.add_argument('--cat_min_frequency', type=float, default=0.0)
 
     # other choices
