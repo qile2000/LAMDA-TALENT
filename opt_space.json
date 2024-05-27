@@ -148,8 +148,8 @@
         "model": {
             "num_layers": [
                 "int",
-                2,
-                6
+                1,
+                4
             ],
             "depth": [
                 "int",
