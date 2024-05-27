@@ -338,5 +338,6 @@
         },
         "fit": {}
     },
-    "NaiveBayes": {"model": {}, "fit": {}}
+    "NaiveBayes": {"model": {}, "fit": {}},
+    "dummy":{"model": {}, "fit": {}}
 }

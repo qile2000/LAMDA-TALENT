@@ -28,7 +28,7 @@ def get_args():
                         default='xgboost', 
                         choices=['LogReg', 'NCM', 'RandomForest', 
                                  'xgboost', 'catboost', 'lightgbm',
-                                 'svm','knn', 'NaiveBayes'
+                                 'svm','knn', 'NaiveBayes',"dummy",
                                  ])
     
     # optimization parameters 
@@ -44,7 +44,7 @@ def get_args():
     parser.add_argument('--gpu', default='0')
     parser.add_argument('--tune', action='store_true', default=False)  
     parser.add_argument('--retune', action='store_true', default=False)  
-    parser.add_argument('--dataset_path', type=str, default='data_cls_resplit')  
+    parser.add_argument('--dataset_path', type=str, default='data')  
     parser.add_argument('--model_path', type=str, default='results_model')
     parser.add_argument('--evaluate_option', type=str, default='best-val') 
     args = parser.parse_args()

@@ -265,5 +265,8 @@ def modeltype_to_method(model):
     elif model == 'svm':
         from model.classical_methods.svm import SvmMethod
         return SvmMethod
+    elif model == 'dummy':
+        from model.classical_methods.dummy import DummyMethod
+        return DummyMethod
     else:
         raise NotImplementedError("Model \"" + model + "\" not yet implemented")
