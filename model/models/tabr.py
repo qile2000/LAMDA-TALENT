@@ -266,6 +266,8 @@ class TabR(nn.Module):
             context_y_emb = self.label_encoder(candidate_y[context_idx][..., None].long())
         else:
             context_y_emb = self.label_encoder(candidate_y[context_idx][..., None])
+            if len(context_y_emb.shape) == 4:
+                context_y_emb = context_y_emb[:,:,0,:]
         values = context_y_emb + self.T(k[:, None] - context_k)
         context_x = (probs[:, None] @ values).squeeze(1)
         x = x + context_x
