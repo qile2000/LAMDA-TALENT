@@ -30,7 +30,7 @@ class NODE(nn.Module):
             num_layers=num_layers,
             layer_dim=layer_dim,
             depth=depth,
-            tree_dim=tree_dim,
+            tree_dim=max(tree_dim,self.d_out),
             bin_function=getattr(node, bin_function),
             choice_function=getattr(node, choice_function),
             flatten_output=False,
