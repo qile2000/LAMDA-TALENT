@@ -100,7 +100,8 @@ class Method(object, metaclass=abc.ABCMeta):
             else:
                 self.N_test,self.C_test = N_test['test'],None
             self.y_test = y_test['test']
-
+    
+    
     def fit(self, N, C, y, info, train = True, config = None):
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
         if self.D is None:

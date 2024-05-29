@@ -28,7 +28,7 @@ def get_args():
                         default='xgboost', 
                         choices=['LogReg', 'NCM', 'RandomForest', 
                                  'xgboost', 'catboost', 'lightgbm',
-                                 'svm','knn', 'NaiveBayes',"dummy",
+                                 'svm','knn', 'NaiveBayes',"dummy","LinearRegression"
                                  ])
     
     # optimization parameters 

@@ -339,5 +339,5 @@
         "fit": {}
     },
     "NaiveBayes": {"model": {}, "fit": {}},
-    "dummy":{"model": {}, "fit": {}}
+    "LinearRegression": {"model": {}, "fit": {}}
 }
