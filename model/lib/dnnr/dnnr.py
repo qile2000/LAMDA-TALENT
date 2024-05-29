@@ -400,6 +400,7 @@ class InputScaling(sklearn.base.BaseEstimator, metaclass=abc.ABCMeta):
         """
 
     def fit_transform(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
+        y = y.reshape(-1)
         self.fit(X, y)
         return self.transform(X)
 
