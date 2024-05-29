@@ -146,10 +146,12 @@ def objective(trial):
     trial_configs.append(config)
 
     # run with this config
-    method.fit(N_trainval, C_trainval, y_trainval, info, train=True, config=config)    
-
-    # return validation score    
-    return method.trlog['best_res']
+    try:
+        method.fit(N_trainval, C_trainval, y_trainval, info, train=True, config=config)    
+        return method.trlog['best_res']
+    except Exception as e:
+        print(e)
+        return 1e9 if info['task_type'] == 'regression' else 0.0
 
 
 with open('default_para.json', 'r') as file:
