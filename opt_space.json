@@ -819,10 +819,8 @@
         "fit":{}
     },    
     "svm": {"model": {
-            "C": ["loguniform", 1e-5, 1e5],
-            "kernel": ["categorical", ["poly", "rbf", "sigmoid"]],
-            "gamma": ["loguniform", 1e-5, 1e-1],
-            "coef0": ["uniform", 0.0, 1.0]},
+            "C": ["loguniform", 1e-5, 1e5]
+        },
         "fit":{}
     },
     "knn": {"model": {

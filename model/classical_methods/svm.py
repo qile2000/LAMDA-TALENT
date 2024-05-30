@@ -12,11 +12,11 @@ class SvmMethod(classical_methods):
     def construct_model(self, model_config = None):
         if model_config is None:
             model_config = self.args.config['model']
-        from sklearn.svm import SVC, SVR
+        from sklearn.svm import LinearSVC, LinearSVR
         if self.is_regression:
-            self.model = SVR(**model_config)
+            self.model = LinearSVR(**model_config)
         else:
-            self.model = SVC(**model_config,random_state=self.args.seed)
+            self.model = LinearSVC(**model_config,random_state=self.args.seed)
 
 
     def fit(self, N, C, y, info, train=True, config=None):
