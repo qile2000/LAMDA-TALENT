@@ -10,6 +10,7 @@ from model.utils import (
 )
 import numpy as np
 import time
+from sklearn.metrics import accuracy_score, mean_squared_error
 
 class CatBoostMethod(classical_methods):
     def __init__(self, args, is_regression):
@@ -54,7 +55,12 @@ class CatBoostMethod(classical_methods):
         fit_config['eval_set'] = (X_val, self.y['val'])
         tic = time.time()
         self.model.fit(X_train, self.y['train'],**fit_config)
-        self.trlog['best_res'] = self.model.score(X_val, self.y['val'])
+        if not self.is_regression:
+            y_pred_val = self.model.predict(X_val)
+            self.trlog['best_res'] = accuracy_score(self.y['val'], y_pred_val) 
+        else:
+            y_pred_val = self.model.predict(X_val)
+            self.trlog['best_res'] = mean_squared_error(self.y['val'], y_pred_val, squared=False)*self.y_info['std']
         time_cost = time.time() - tic
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'wb') as f:
             pickle.dump(self.model, f)
