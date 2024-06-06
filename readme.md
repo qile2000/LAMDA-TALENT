@@ -9,11 +9,11 @@ Each dataset folder `args.dataset` consists of:
 - Numeric features: `N_train/val/test.npy` (can be omitted if there are no numeric features)
 - Categorical features: `C_train/val/test.npy` (can be omitted if there are no categorical features)
 - Labels: `y_train/val/test.npy`
-- `info.json`, which must include the following three contents:
+- `info.json`, which must include the following three contents (`task_type` can be "regression", "multiclass" or "binclass"):
 
   ```json
   {
-    "task_type": "regression", # or "multiclass" or "binclass"
+    "task_type": "regression", 
     "n_num_features": 10,
     "n_cat_features": 10
   }
