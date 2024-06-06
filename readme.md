@@ -2,18 +2,18 @@ TabBench is a toolkit for learning from tabular data. It has the following advan
 
 # How to Place Datasets
 
-Datasets are placed in the upper-level directory of the project, corresponding to the file name specified by `args.dataset_path`. For instance, if the project is `TabularBenchmark`, the data should be placed in `TabularBenchmark/../args.dataset_path/args.dataset`.
+Datasets are placed in the project's upper-level directory, corresponding to the file name specified by `args.dataset_path`. For instance, if the project is `TabularBenchmark`, the data should be placed in `TabularBenchmark/../args.dataset_path/args.dataset`.
 
 Each dataset folder `args.dataset` consists of:
 
 - Numeric features: `N_train/val/test.npy` (can be omitted if there are no numeric features)
 - Categorical features: `C_train/val/test.npy` (can be omitted if there are no categorical features)
 - Labels: `y_train/val/test.npy`
-- `info.json` which must include the following three contents:
+- `info.json`, which must include the following three contents:
 
   ```json
   {
-    "task_type": "regression" or "multiclass" or "binclass",
+    "task_type": "regression", # or "multiclass" or "binclass"
     "n_num_features": 10,
     "n_cat_features": 10
   }
@@ -27,7 +27,7 @@ There are various:
 
 - **Encodings:** See the `data_enc_process` function in `model/lib/data.py`.
 - **Normalizations:** See the `data_norm_process` function in `model/lib/data.py`.
-- **Metrics:** See the `metric` function in `model/methods/base.py`. Running any method and dataset will calculate all metrics. The metric used for early stopping is uniformly accuracy/rmse.
+- **Metrics:** See the `metric` function in `model/methods/base.py`. Running any method and dataset will calculate all metrics. The metric used for early stopping is accuracy/rmse.
 
 # How to Add New Methods
 
