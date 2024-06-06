@@ -1,45 +1,41 @@
-# 如何放置数据集
+TabBench is a toolkit for learning from tabular data. It has the following advantages: 1. Includes various classical methods, tree-based methods, and the latest popular deep learning methods. 2. Easily allows the addition of datasets and methods. 3. Supports diverse normalization, encoding, and metrics. 4. We will update with extensive dataset experiment results and analysis tool codes that aid research in tabular data learning.
 
-数据集放置于项目目录的上层路径，由args.dataset_path对应文件名。即若项目为TabularBenchmark，数据放置于TabularBenchmark/../args.dataset_path/args.dataset
+# How to Place Datasets
 
-每个数据集文件夹args.dataset由:
+Datasets are placed in the upper-level directory of the project, corresponding to the file name specified by `args.dataset_path`. For instance, if the project is `TabularBenchmark`, the data should be placed in `TabularBenchmark/../args.dataset_path/args.dataset`.
 
-- 数值型特征N_train/val/test.npy(无类别型特征时可略去)
+Each dataset folder `args.dataset` consists of:
 
-- C_train/val/test.npy(无数值型特征时可略去)
+- Numeric features: `N_train/val/test.npy` (can be omitted if there are no numeric features)
+- Categorical features: `C_train/val/test.npy` (can be omitted if there are no categorical features)
+- Labels: `y_train/val/test.npy`
+- `info.json` which must include the following three contents:
 
-- y_train/val/test.npy
-
-- info.json组成，info.json中必须包含以下三个内容：
-
+  ```json
   {
-
-    "task_type": 'regression'或'multiclass'或'binclass'
-
+    "task_type": "regression" or "multiclass" or "binclass",
     "n_num_features": 10,
-
     "n_cat_features": 10
-
   }
+  ```
 
-# 如何跑方法
+# How to Run Methods
 
-示例见example_cls.sh与example_reg.sh，其余args调整参照train_model_deep.py/train_model_classical.py的get_args()
+Examples can be found in `example_cls.sh` and `example_reg.sh`. Other args adjustments refer to `train_model_deep.py/train_model_classical.py`'s `get_args()`.
 
-设有多种:
+There are various:
 
-- **encoding：**见model/lib/data.py的data_enc_process函数。目前实验发现target encoding效果较好，除了标准的onehot encoding外，推荐使用target。
-- **normalization：**见model/lib/data.py的data_norm_process函数。目前实验发现normalization影响较小，推荐使用standard。
-- **metric：**见model/methods/base.py的metric函数，跑任何方法与数据集将会计算所有metric。
+- **Encodings:** See the `data_enc_process` function in `model/lib/data.py`.
+- **Normalizations:** See the `data_norm_process` function in `model/lib/data.py`.
+- **Metrics:** See the `metric` function in `model/methods/base.py`. Running any method and dataset will calculate all metrics. The metric used for early stopping is uniformly accuracy/rmse.
 
-# 如何加新方法
+# How to Add New Methods
 
-如MLP类仅需设计模型的方法，仅需：
+For methods like the MLP class that only need to design the model, you only need to:
 
-- 继承model/methods/base.py，并在新类中重写construct_model()
-- 在model/models中添加模型类
-- 在model/utils.py的函数modeltype_to_method中添加方法名
-- 在default_para.json, opt_space.json中加入新方法的参数设定
+- Inherit from `model/methods/base.py` and override the `construct_model()` method in the new class.
+- Add the model class in `model/models`.
+- Add the method name in the `modeltype_to_method` function in `model/utils.py`.
+- Add the parameter settings for the new method in `default_para.json` and `opt_space.json`.
 
-其余需要改变训练流程的方法，基于model/methods/base.py重写部分函数即可。具体可参考model/methods/中其他方法的实现。
-
+For other methods that require changing the training process, partially override functions based on `model/methods/base.py`. For details, refer to the implementation of other methods in `model/methods/`.
