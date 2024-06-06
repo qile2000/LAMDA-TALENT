@@ -1,4 +1,11 @@
-TabBench is a toolkit for tabular data learning. It has the following advantages: 1. Includes various classical methods, tree-based methods, and the latest popular deep learning methods. 2. Easily allows the addition of datasets and methods. 3. Supports diverse normalization, encoding, and metrics. 4. We will update with extensive dataset experiment results and analysis tool codes that aid research in tabular data learning.
+**TabBench** is a benchmark with a comprehensive toolkit for tabular data learning. It offers the following advantages:
+
+1. **Diverse Methods**: Includes various classical methods, tree-based methods, and the latest popular deep learning methods.
+2. **Extensive Dataset Collection**: Equipped with 300 datasets, covering a wide range of task types, size distributions, and dataset domains.
+3. **Customizability**: Easily allows the addition of datasets and methods.
+4. **Versatile Support**: Supports diverse normalization, encoding, and metrics.
+
+**Future Updates**: We will soon update with extensive dataset experiment results and analysis tool codes that aid research in tabular data learning.
 
 # How to Place Datasets
 
