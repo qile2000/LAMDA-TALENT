@@ -199,6 +199,9 @@ def modeltype_to_method(model):
     elif model == 'tabr':
         from model.methods.tabr import TabRMethod
         return TabRMethod
+    elif model == 'modernNCA':
+        from model.methods.modernNCA import ModernNCAMethod
+        return ModernNCAMethod
     elif model == 'tabcaps':
         from model.methods.tabcaps import TabCapsMethod
         return TabCapsMethod
@@ -265,11 +268,5 @@ def modeltype_to_method(model):
     elif model == 'svm':
         from model.classical_methods.svm import SvmMethod
         return SvmMethod
-    elif model == 'dummy':
-        from model.classical_methods.dummy import DummyMethod
-        return DummyMethod
-    elif model == 'LinearRegression':
-        from model.classical_methods.lr import LinearRegressionMethod
-        return LinearRegressionMethod
     else:
         raise NotImplementedError("Model \"" + model + "\" not yet implemented")

@@ -243,6 +243,25 @@
         },
         "general": {}
     },
+    "modernNCA":{
+        "model":{
+                "dropout": ["uniform", 0.0, 0.5],
+                "d_block": ["int", 64, 1024],
+                "n_blocks": ["?int",0,0,2],
+                "dim": ["int", 64, 1024],
+                "num_embeddings": {
+                    "n_frequencies":["int",16,96],
+                    "frequency_scale":["loguniform",0.01,100.0],
+                    "d_embedding":["int",16,64]
+                }, 
+                "sample_rate":["uniform", 0.05, 0.6]
+        },
+        "training":{
+            "lr": ["loguniform", 1e-05, 0.1],
+            "weight_decay": ["?loguniform", 0.0, 1e-06, 1e-03]
+        },
+        "general":{}
+    },
     "tangos": {
         "model": {
             "d_layers": [

@@ -30,7 +30,7 @@ def get_args():
                         choices=['mlp', 'resnet', 'ftt', 'node', 'autoint',
                                  'tabpfn', 'tangos', 'saint', 'tabcaps', 'tabnet',
                                  'snn','ptarl','danets','dcn2','tabtransformer',
-                                 'dnnr', 'switchtab', 'grownet', 'tabr'])
+                                 'dnnr', 'switchtab', 'grownet','tabr','modernNCA']) # 
     
     # optimization parameters
     parser.add_argument('--max_epoch', type=int, default=200)
