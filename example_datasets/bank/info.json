@@ -1,0 +1,37 @@
+{
+    "task_type": "binclass",
+    "num_classes": 2,
+    "n_num_features": 7,
+    "n_cat_features": 9,
+    "train_size": 28934,
+    "val_size": 7234,
+    "test_size": 9043,
+    "task_intro": "The data is related with direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, in order to access if the product (bank term deposit) would be (or not) subscribed.The classification goal is to predict if the client will subscribe a term deposit (variable y).",
+    "feature_intro": {
+        "num":{
+            "age": "age",
+            "balance": "balance",
+            "day":"day",
+            "duration": "duration",
+            "campaign": "campaign",
+	    "pdays": "pdays",
+            "previous":"previous"
+        },
+        "cat":{
+		"job":"job",
+		"marital":"marital",
+		"education":"education",
+		"default":"default",
+		"housing":"housing",
+		"loan":"loan",
+		"contact":"contact",
+		"month":"month",
+		"poutcome":"poutcome"
+	}
+    },
+    "target_intro":{
+	"the product (bank term deposit) would be subscribed":"the product (bank term deposit) would not be subscribed",
+	"the product (bank term deposit) would not be subscribed":"the product (bank term deposit) would be subscribed"
+    },
+    "source": "https://archive.ics.uci.edu/ml/datasets/Bank+Marketing"
+}
