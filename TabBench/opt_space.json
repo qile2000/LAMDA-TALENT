@@ -512,7 +512,7 @@
             "base_outdim":[
                 "int",
                 64,
-                512
+                128
             ]
         },
         "training":{
