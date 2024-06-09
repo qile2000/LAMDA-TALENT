@@ -44,9 +44,9 @@ class GrowNetMethod(Method):
             self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
             
             self.data_format(is_train = True)
-            if config:
-                self.reset_stats_withconfig(config)
-            self.construct_model()
+        if config:
+            self.reset_stats_withconfig(config)
+        self.construct_model()
         
         if self.sub_model_config == None:
             self.sub_model_config = self.args.config['model']
