@@ -33,8 +33,7 @@ class ModernNCA(nn.Module):
         n_blocks:int,
         num_embeddings: Optional[dict],
         temperature:float=1.0,
-        sample_rate:float=0.8,
-        post_blocks:int=0
+        sample_rate:float=0.8
         ) -> None:
 
         super().__init__()
@@ -61,16 +60,6 @@ class ModernNCA(nn.Module):
             else make_module(num_embeddings, n_features=d_num)
         )
 
-    def make_block(self, prenorm: bool):
-        return nn.Sequential(
-                    # *([nn.LayerNorm(self.dim)] if prenorm else []),
-                    nn.Linear(self.dim if prenorm else self.d_in, self.d_block),
-                    nn.BatchNorm1d(self.d_block),
-                    nn.ReLU(),
-                    nn.Dropout(self.dropout),
-                    nn.Linear(self.d_block, self.dim),
-                    nn.Dropout(self.dropout),
-                )
     def make_layer(self):
         block=Residual_block(self.dim,self.d_block,self.dropout)
         return block

@@ -116,6 +116,10 @@ def objective(trial):
         config['general']["diversity_weight"]=0.25
         config['general']["r_weight"]=0.25
 
+    if args.model_type in ['modernNCA']:
+        config['model']["num_embeddings"].setdefault('type', 'PLREmbeddings')
+        config['model']["num_embeddings"].setdefault('lite', True)
+        
     if args.model_type in ['danets']:
         config['general']['k'] = 5
         config['general']['virtual_batch_size'] = 256

@@ -124,7 +124,7 @@
                 "d_embedding": 34,
                 "lite": true
             },
-            "sample_rate":0.8                           
+            "sample_rate":0.5                           
         },
         "training": {
             "lr": 0.01, 
