@@ -203,6 +203,15 @@ def data_enc_process(N_data, C_data, cat_policy, y_train = None, ord_encoder = N
                 cat_encoder = category_encoders.CatBoostEncoder()
                 cat_encoder.fit(C_data['train'].astype(str), y_train)
             C_data = {k: cat_encoder.transform(v.astype(str)).values for k, v in C_data.items()}
+        elif cat_policy == 'tabr_ohe':
+            if cat_encoder is None:
+                cat_encoder = sklearn.preprocessing.OneHotEncoder(
+                    handle_unknown='ignore', sparse_output=False, dtype='float64'
+                )
+                cat_encoder.fit(C_data['train'])
+            C_data = {k: cat_encoder.transform(v) for k, v in C_data.items()}
+            result = (N_data, C_data)
+            return result[0], result[1], ord_encoder, mode_values, cat_encoder
         else:
             raise_unknown('categorical encoding policy', cat_policy)
         if N_data is None:
