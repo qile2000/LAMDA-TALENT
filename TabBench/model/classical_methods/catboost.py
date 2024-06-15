@@ -22,7 +22,8 @@ class CatBoostMethod(classical_methods):
         self.trlog = {}
         assert(args.cat_policy == 'indices')
 
-    def fit(self, N, C, y, info, train=True, config=None):
+    def fit(self, data, info, train=True, config=None):
+        N, C, y = data
         if self.D is None:
             self.D = Dataset(N, C, y, info)
             self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
@@ -66,7 +67,8 @@ class CatBoostMethod(classical_methods):
             pickle.dump(self.model, f)
         return time_cost
 
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N, C, y = data
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'rb') as f:
             self.model = pickle.load(f)
         self.data_format(False, N, C, y)

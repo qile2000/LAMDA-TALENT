@@ -83,7 +83,8 @@ class TabRMethod(Method):
                 self.N_test,self.C_test = N_test['test'],None
             self.y_test = y_test['test']
 
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N,C,y = data
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
         if self.D is None:
             self.D = Dataset(N, C, y, info)
@@ -124,7 +125,8 @@ class TabRMethod(Method):
         return time_cost
 
 
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N,C,y = data
         self.model.load_state_dict(torch.load(osp.join(self.args.save_path, model_name + '-{}.pth'.format(str(self.args.seed))))['params'])
         print('best epoch {}, best val res={:.4f}'.format(self.trlog['best_epoch'], self.trlog['best_res']))
         ## Evaluation Stage

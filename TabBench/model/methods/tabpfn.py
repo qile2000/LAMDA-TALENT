@@ -43,7 +43,8 @@ class TabPFNMethod(Method):
         from model.models.tabpfn import TabPFNClassifier
         self.model = TabPFNClassifier(device = self.args.device,seed = self.args.seed)  
 
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N,C,y = data
         if self.D is None:
             self.D = Dataset(N, C, y, info)
             self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
@@ -68,7 +69,8 @@ class TabPFNMethod(Method):
         time_cost = time.time() - tic
         return time_cost
     
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N,C,y = data
         self.data_format(False, N, C, y)
         if self.N_test is not None and self.C_test is not None:
             Test_X = np.concatenate((self.N_test,self.C_test),axis=1)

@@ -18,8 +18,8 @@ class LinearRegressionMethod(classical_methods):
         from sklearn.linear_model import LinearRegression
         self.model = LinearRegression(**model_config)
     
-    def fit(self, N, C, y, info, train=True, config=None):
-        super().fit(N, C, y, info, train, config)
+    def fit(self, data, info, train=True, config=None):
+        super().fit(data, info, train, config)
         # if not train, skip the training process. such as load the checkpoint and directly predict the results
         if not train:
             return
@@ -32,7 +32,8 @@ class LinearRegressionMethod(classical_methods):
         return time_cost
         
     
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N, C, y = data
         with open(ops.join(self.args.save_path , 'best-val-{}.pkl'.format(self.args.seed)), 'rb') as f:
             self.model = pickle.load(f)
         self.data_format(False, N, C, y)

@@ -63,7 +63,8 @@ class TabCapsMethod(Method):
                 self.N_test,self.C_test = N_test['test'],None
             self.y_test = y_test['test']
       
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N,C,y = data
         if self.D is None:
             self.D = Dataset(N, C, y, info)
             self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
@@ -96,7 +97,8 @@ class TabCapsMethod(Method):
         self.trlog['best_res'] = self.model.best_cost
         return time_cost
 
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N,C,y = data
         self.model.load_model(osp.join(self.args.save_path, 'epoch-last-{}.pth'.format(self.args.seed)),input_dim=self.d_in, output_dim=self.d_out)
         self.data_format(False, N, C, y)
         test_label, test_logit, _ = self.model.predict(self.N_test, self.y_test)

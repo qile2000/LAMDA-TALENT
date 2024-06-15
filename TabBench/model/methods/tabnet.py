@@ -60,7 +60,8 @@ class TabNetMethod(Method):
             self.y_test = y_test['test']
         self.criterion = F.cross_entropy if not self.is_regression else F.mse_loss
 
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N,C,y = data
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
         if self.D is None:
             self.D = Dataset(N, C, y, info)
@@ -106,7 +107,8 @@ class TabNetMethod(Method):
             self.trlog['best_res'] = self.model.best_cost * self.y_info['std']
         return time_cost
     
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N,C,y = data
         self.model.load_model(self.args.save_path,self.args.seed)
         self.data_format(False, N, C, y)
         if self.is_regression:

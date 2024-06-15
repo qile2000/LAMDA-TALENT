@@ -53,7 +53,8 @@ class DNNRMethod(Method):
             self.y_test = y_test['test']
 
 
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N,C,y = data
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
         if self.D is None:
             self.D = Dataset(N, C, y, info)
@@ -83,7 +84,8 @@ class DNNRMethod(Method):
         return time_cost
 
 
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N,C,y = data
         print('best epoch {}, best val res={:.4f}'.format(self.trlog['best_epoch'], self.trlog['best_res']))
         
         self.data_format(False, N, C, y)

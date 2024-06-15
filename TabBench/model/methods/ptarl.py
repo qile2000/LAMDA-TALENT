@@ -34,7 +34,8 @@ class PTARLMethod(Method):
         self.model.double()
         self.model_config = model_config
 
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N,C,y = data
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
         if self.D is None:
             self.D = Dataset(N, C, y, info)
@@ -71,7 +72,8 @@ class PTARLMethod(Method):
         self.trlog['best_res'] = best_loss
         return time_cost
         
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N,C,y = data
         self.model_type1 = self.args.model_type + '_ot'
         self.cluster_centers_ = np.load(osp.join(self.args.save_path, 'cluster-centers-{}.npy'.format(str(self.args.seed))), allow_pickle=True)
         self.construct_model(self.model_config)

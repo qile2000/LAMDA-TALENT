@@ -80,6 +80,21 @@ def dataname_to_numpy(dataset_name, dataset_path):
         load_json(dir_ / 'info.json'),
     )
 
+def get_dataset(dataset_name, dataset_path):
+    N, C, y, info = dataname_to_numpy(dataset_name, dataset_path)
+    N_trainval = None if N is None else {key: N[key] for key in ["train", "val"]} if "train" in N and "val" in N else None
+    N_test = None if N is None else {key: N[key] for key in ["test"]} if "test" in N else None
+
+    C_trainval = None if C is None else {key: C[key] for key in ["train", "val"]} if "train" in C and "val" in C else None
+    C_test = None if C is None else {key: C[key] for key in ["test"]} if "test" in C else None
+
+    y_trainval = {key: y[key] for key in ["train", "val"]}
+    y_test = {key: y[key] for key in ["test"]} 
+    
+    # tune hyper-parameters
+    train_val_data = (N_trainval,C_trainval,y_trainval)
+    test_data = (N_test,C_test,y_test)
+    return train_val_data,test_data,info
 
 def data_nan_process(N_data, C_data, num_nan_policy, cat_nan_policy, num_new_value = None, imputer = None, cat_new_value = None):
     if N_data is None:
@@ -140,6 +155,34 @@ def data_nan_process(N_data, C_data, num_nan_policy, cat_nan_policy, num_new_val
         
     result = (N, C, num_new_value, imputer, cat_new_value)
     return result
+
+def num_enc_process(N_data,num_policy,n_bins=2,y_train=None,is_regression=False,encoder=None):
+    from model.lib.num_embeddings import compute_bins,PiecewiseLinearEncoding
+    if N_data is not None:
+        if num_policy == 'none':
+            return N_data,None
+        
+        elif num_policy == 'Q_PLE':
+            for item in N_data:
+                N_data[item] = torch.from_numpy(N_data[item])
+            if encoder is None:
+                bins = compute_bins(N_data['train'],n_bins = n_bins,tree_kwargs = None,y=None,regression=None)
+                encoder = PiecewiseLinearEncoding(bins)
+            for item in N_data:
+                N_data[item] = encoder(N_data[item]).cpu().numpy()
+
+        elif num_policy == 'T_PLE':
+            for item in N_data:
+                N_data[item] = torch.from_numpy(N_data[item])
+            if encoder is None:
+                tree_kwargs = {'min_samples_leaf': 64, 'min_impurity_decrease': 1e-4}
+                bins = compute_bins(N_data['train'],n_bins = n_bins,tree_kwargs = tree_kwargs,y=torch.from_numpy(y_train),regression=is_regression)
+                encoder = PiecewiseLinearEncoding(bins)
+            for item in N_data:
+                N_data[item] = encoder(N_data[item]).cpu().numpy()
+        return N_data,encoder
+    else:
+        return N_data,None
 
 
 def data_enc_process(N_data, C_data, cat_policy, y_train = None, ord_encoder = None, mode_values = None, cat_encoder = None):

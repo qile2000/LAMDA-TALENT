@@ -35,7 +35,8 @@ class GrowNetMethod(Method):
         )
         self.model.to_cuda()
 
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N,C,y = data
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
         if self.D is None:
             self.D = Dataset(N, C, y, info)
@@ -186,7 +187,8 @@ class GrowNetMethod(Method):
                 self.continue_training = False
 
 
-    def predict(self, N, C, y, info, model_name):
+    def predict(self, data, info, model_name):
+        N,C,y = data
         from model.models.grownet import DynamicNet,MLP_2HL
         self.model = DynamicNet.from_file(
             self.args.save_path + "/final-{}.pt".format(str(self.args.seed)),

@@ -10,6 +10,7 @@ from model.lib.data import (
     Dataset,
     data_nan_process,
     data_enc_process,
+    num_enc_process,
     data_norm_process,
     data_label_process,
 )
@@ -36,6 +37,7 @@ class classical_methods(object, metaclass=abc.ABCMeta):
         if is_train:
             self.N, self.C, self.num_new_value, self.imputer, self.cat_new_value = data_nan_process(self.N, self.C, self.args.num_nan_policy, self.args.cat_nan_policy)
             self.y, self.y_info, self.label_encoder = data_label_process(self.y, self.is_regression)
+            self.N,self.num_encoder = num_enc_process(self.N,num_policy = self.args.num_policy, n_bins = self.args.n_bins,y_train=self.y['train'],is_regression=self.is_regression)
             self.N, self.C, self.ord_encoder, self.mode_values, self.cat_encoder = data_enc_process(self.N, self.C, self.args.cat_policy, self.y['train'])
             self.N, self.normalizer = data_norm_process(self.N, self.args.normalization, self.args.seed)
             
@@ -43,10 +45,13 @@ class classical_methods(object, metaclass=abc.ABCMeta):
                 self.d_out = 1
             else:
                 self.d_out = len(np.unique(self.y['train']))
+            self.n_num_features = self.N['train'].shape[1] if self.N is not None else 0
+            self.n_cat_features = self.C['train'].shape[1] if self.C is not None else 0
             self.d_in = 0 if self.N is None else self.N['train'].shape[1]
         else:
             N_test, C_test, _, _, _ = data_nan_process(N, C, self.args.num_nan_policy, self.args.cat_nan_policy, self.num_new_value, self.imputer, self.cat_new_value)
             y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
+            N_test,_ = num_enc_process(N_test,num_policy=self.args.num_policy,n_bins = self.args.n_bins,y_train=None,encoder = self.num_encoder)
             N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
             N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
             if N_test is not None and C_test is not None:
@@ -60,14 +65,16 @@ class classical_methods(object, metaclass=abc.ABCMeta):
     def construct_model(self, model_config = None):
         raise NotImplementedError
 
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N, C, y = data
         if self.D is None:
             self.D = Dataset(N, C, y, info)
             self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
             self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
-            self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
-
+            # self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
+            
             self.data_format(is_train = True)
+            
         if config is not None:
             self.reset_stats_withconfig(config)
         

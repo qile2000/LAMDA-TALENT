@@ -80,7 +80,8 @@ class SwitchTabMethod(Method):
                 self.N_test, self.C_test = N_test['test'], None
             self.y_test = y_test['test']
 
-    def fit(self, N, C, y, info, train = True, config = None):
+    def fit(self, data, info, train = True, config = None):
+        N,C,y = data
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
         if self.D is None:
             self.D = Dataset(N, C, y, info)
