@@ -349,3 +349,259 @@ class PiecewiseLinearEncoding(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         x = self.impl(x)
         return x.flatten(-2) if self.impl._same_bin_count else x[:, self.impl.mask]
+    
+
+class _UnaryEncodingImpl(nn.Module):
+    edges: Tensor
+    mask: Tensor
+
+    def __init__(self, bins: List[Tensor]) -> None:
+        _check_bins(bins)
+
+        super().__init__()
+        # To stack bins to a tensor, all features must have the same number of bins.
+        # To achieve that, for each feature with a less-than-max number of bins,
+        # its bins are padded with additional phantom bins with infinite edges.
+        max_n_edges = max(len(x) for x in bins)
+        padding = torch.full(
+            (max_n_edges,),
+            math.inf,
+            dtype=bins[0].dtype,
+            device=bins[0].device,
+        )
+        edges = torch.row_stack([torch.cat([x, padding])[:max_n_edges] for x in bins])
+
+        # The rightmost edge is needed only to compute the width of the rightmost bin.
+        self.register_buffer('edges', edges[:, :-1])
+        # mask is false for the padding values.
+        self.register_buffer(
+            'mask',
+            torch.row_stack(
+                [
+                    torch.cat(
+                        [
+                            torch.ones(len(x) - 1, dtype=torch.bool, device=x.device),
+                            torch.zeros(
+                                max_n_edges - 1, dtype=torch.bool, device=x.device
+                            ),
+                        ]
+                    )[: max_n_edges - 1]
+                    for x in bins
+                ]
+            ),
+        )
+        self._bin_counts = tuple(len(x) - 1 for x in bins)
+        self._same_bin_count = all(x == self._bin_counts[0] for x in self._bin_counts)
+
+    def forward(self, x: Tensor) -> Tensor:
+        if x.ndim < 2:
+            raise ValueError(
+                f'The input must have at least two dimensions, however: {x.ndim=}'
+            )
+
+        # Compute which bin each value falls into
+        x = (x[..., None] - self.edges).sign().cumsum(dim=-1)
+
+        # Ensure values are within [0, 1] range for unary encoding
+        x = x.clamp(0, 1)
+
+        return x
+
+
+class UnaryEncoding(nn.Module):
+    """Unary encoding.
+
+    **Shape**
+
+    - Input: ``(*, n_features)``
+    - Output: ``(*, n_features, total_n_bins)``,
+      where ``total_n_bins`` is the total number of bins for all features:
+      ``total_n_bins = sum(len(b) - 1 for b in bins)``.
+    """
+
+    def __init__(self, bins: List[Tensor]) -> None:
+        """
+        Args:
+            bins: the bins computed by `compute_bins`.
+        """
+        _check_bins(bins)
+
+        super().__init__()
+        self.impl = _UnaryEncodingImpl(bins)
+
+    def forward(self, x: Tensor) -> Tensor:
+        x = self.impl(x)
+        return x.flatten(-2) if self.impl._same_bin_count else x[:, self.impl.mask]
+
+class _JohnsonEncodingImpl(nn.Module):
+    edges: Tensor
+    mask: Tensor
+
+    def __init__(self, bins: List[Tensor]) -> None:
+        _check_bins(bins)
+
+        super().__init__()
+        # To stack bins to a tensor, all features must have the same number of bins.
+        # To achieve that, for each feature with a less-than-max number of bins,
+        # its bins are padded with additional phantom bins with infinite edges.
+        max_n_edges = max(len(x) for x in bins)
+        padding = torch.full(
+            (max_n_edges,),
+            math.inf,
+            dtype=bins[0].dtype,
+            device=bins[0].device,
+        )
+        edges = torch.row_stack([torch.cat([x, padding])[:max_n_edges] for x in bins])
+
+        # The rightmost edge is needed only to compute the width of the rightmost bin.
+        self.register_buffer('edges', edges[:, :-1])
+        self.register_buffer('width', edges.diff())
+        # mask is false for the padding values.
+        self.register_buffer(
+            'mask',
+            torch.row_stack(
+                [
+                    torch.cat(
+                        [
+                            torch.ones(len(x) - 1, dtype=torch.bool, device=x.device),
+                            torch.zeros(
+                                max_n_edges - 1, dtype=torch.bool, device=x.device
+                            ),
+                        ]
+                    )[: max_n_edges - 1]
+                    for x in bins
+                ]
+            ),
+        )
+        self._bin_counts = tuple(len(x) - 1 for x in bins)
+        self._same_bin_count = all(x == self._bin_counts[0] for x in self._bin_counts)
+
+    def forward(self, x: Tensor) -> Tensor:
+        if x.ndim < 2:
+            raise ValueError(
+                f'The input must have at least two dimensions, however: {x.ndim=}'
+            )
+
+        # Compute which bin each value falls into
+        bin_indices = torch.stack([torch.bucketize(x[..., i], self.edges[i], right=True) - 1 for i in range(x.shape[-1])], dim=-1)
+
+        # Generate Johnson code for each bin index
+        max_bin = self.edges.shape[1] 
+        code_length = (max_bin + 1) // 2
+        johnson_code = torch.zeros(*x.shape, code_length, device=x.device, dtype=torch.float32)
+        for i in range(x.shape[0]):
+            for j in range(x.shape[1]):
+                johnson_code[i, j, :] = self.temp_code(bin_indices[i, j].item(), max_bin)
+
+        return johnson_code
+
+    def temp_code(self, num, num_bits):
+        num_bits = num_bits+1 if num_bits%2!=0 else num_bits
+        bits = num_bits // 2
+        a = torch.zeros([bits], dtype=torch.long)
+        for i in range(bits):
+            if bits - i - 1 < num <= num_bits - i - 1:
+                a[i] = 1
+        return a
+
+
+class JohnsonEncoding(nn.Module):
+    """Johnson encoding.
+
+    **Shape**
+
+    - Input: ``(*, n_features)``
+    - Output: ``(*, n_features, total_n_bits)``,
+      where ``total_n_bits`` is the total number of bits for all features:
+      ``total_n_bits = sum((len(b) - 1) // 2 for b in bins)``.
+    """
+
+    def __init__(self, bins: List[Tensor]) -> None:
+        """
+        Args:
+            bins: the bins computed by `compute_bins`.
+        """
+        _check_bins(bins)
+
+        super().__init__()
+        self.impl = _JohnsonEncodingImpl(bins)
+
+    def forward(self, x: Tensor) -> Tensor:
+        x = self.impl(x)
+        return x.flatten(-2) # if self.impl._same_bin_count else x[:, self.impl.mask]
+    
+class _BinsEncodingImpl(nn.Module):
+    edges: Tensor
+    mask: Tensor
+
+    def __init__(self, bins: List[Tensor]) -> None:
+        _check_bins(bins)
+
+        super().__init__()
+        # To stack bins to a tensor, all features must have the same number of bins.
+        # To achieve that, for each feature with a less-than-max number of bins,
+        # its bins are padded with additional phantom bins with infinite edges.
+        max_n_edges = max(len(x) for x in bins)
+        padding = torch.full(
+            (max_n_edges,),
+            math.inf,
+            dtype=bins[0].dtype,
+            device=bins[0].device,
+        )
+        edges = torch.row_stack([torch.cat([x, padding])[:max_n_edges] for x in bins])
+
+        # The rightmost edge is needed only to compute the width of the rightmost bin.
+        self.register_buffer('edges', edges[:, :-1])
+        # mask is false for the padding values.
+        self.register_buffer(
+            'mask',
+            torch.row_stack(
+                [
+                    torch.cat(
+                        [
+                            torch.ones(len(x) - 1, dtype=torch.bool, device=x.device),
+                            torch.zeros(
+                                max_n_edges - 1, dtype=torch.bool, device=x.device
+                            ),
+                        ]
+                    )[: max_n_edges - 1]
+                    for x in bins
+                ]
+            ),
+        )
+        self._bin_counts = tuple(len(x) - 1 for x in bins)
+        self._same_bin_count = all(x == self._bin_counts[0] for x in self._bin_counts)
+
+    def forward(self, x: Tensor) -> Tensor:
+        if x.ndim < 2:
+            raise ValueError(
+                f'The input must have at least two dimensions, however: {x.ndim=}'
+            )
+
+        # Compute which bin each value falls into
+        bin_indices = torch.stack([torch.bucketize(x[..., i], self.edges[i], right=True) - 1 for i in range(x.shape[-1])], dim=-1)
+
+        return bin_indices
+
+class BinsEncoding(nn.Module):
+    """Bins encoding.
+
+    **Shape**
+
+    - Input: ``(*, n_features)``
+    - Output: ``(*, n_features, total_n_bins)``,
+      where ``total_n_bins`` is the total number of bins for all features.
+    """
+
+    def __init__(self, bins: List[Tensor]) -> None:
+        """
+        Args:
+            bins: the bins computed by `compute_bins`.
+        """
+        _check_bins(bins)
+
+        super().__init__()
+        self.impl = _BinsEncodingImpl(bins)
+
+    def forward(self, x: Tensor) -> Tensor:
+        return self.impl(x)

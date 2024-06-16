@@ -199,7 +199,7 @@ def get_classical_args():
     parser.add_argument('--num_nan_policy', type=str, default='mean', choices=['mean', 'median'])
     parser.add_argument('--cat_nan_policy', type=str, default='new', choices=['new', 'most_frequent'])
     parser.add_argument('--cat_policy', type=str, default='ohe', choices=['indices', 'ordinal', 'ohe', 'binary', 'hash', 'loo', 'target', 'catboost'])
-    parser.add_argument('--num_policy',type=str, default='none',choices=['none','Q_PLE','T_PLE'])
+    parser.add_argument('--num_policy',type=str, default='none',choices=['none','Q_PLE','T_PLE','Q_Unary','T_Unary','Q_bins','T_bins','Q_Johnson','T_Johnson'])
     parser.add_argument('--n_bins', type=int, default=2)
     parser.add_argument('--cat_min_frequency', type=float, default=0.0)
 
@@ -268,7 +268,7 @@ def get_deep_args():
     parser.add_argument('--num_nan_policy', type=str, default='mean', choices=['mean', 'median'])
     parser.add_argument('--cat_nan_policy', type=str, default='new', choices=['new', 'most_frequent'])
     parser.add_argument('--cat_policy', type=str, default='ohe', choices=['indices', 'ordinal', 'ohe', 'binary', 'hash', 'loo', 'target', 'catboost','tabr_ohe'])
-    parser.add_argument('--num_policy',type=str, default='none',choices=['none','Q_PLE','T_PLE'])
+    parser.add_argument('--num_policy',type=str, default='none',choices=['none','Q_PLE','T_PLE','Q_Unary','T_Unary','Q_bins','T_bins','Q_Johnson','T_Johnson'])
     parser.add_argument('--n_bins', type=int, default=2)  
     parser.add_argument('--cat_min_frequency', type=float, default=0.0)
 

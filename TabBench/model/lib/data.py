@@ -157,7 +157,7 @@ def data_nan_process(N_data, C_data, num_nan_policy, cat_nan_policy, num_new_val
     return result
 
 def num_enc_process(N_data,num_policy,n_bins=2,y_train=None,is_regression=False,encoder=None):
-    from model.lib.num_embeddings import compute_bins,PiecewiseLinearEncoding
+    from model.lib.num_embeddings import compute_bins,PiecewiseLinearEncoding,UnaryEncoding,JohnsonEncoding,BinsEncoding
     if N_data is not None:
         if num_policy == 'none':
             return N_data,None
@@ -180,6 +180,58 @@ def num_enc_process(N_data,num_policy,n_bins=2,y_train=None,is_regression=False,
                 encoder = PiecewiseLinearEncoding(bins)
             for item in N_data:
                 N_data[item] = encoder(N_data[item]).cpu().numpy()
+        elif num_policy == 'Q_Unary':
+            for item in N_data:
+                N_data[item] = torch.from_numpy(N_data[item])
+            if encoder is None:
+                bins = compute_bins(N_data['train'],n_bins = n_bins,tree_kwargs = None,y=None,regression=None)
+                encoder = UnaryEncoding(bins)
+            for item in N_data:
+                N_data[item] = encoder(N_data[item]).cpu().numpy()
+        elif num_policy == 'T_Unary':
+            for item in N_data:
+                N_data[item] = torch.from_numpy(N_data[item])
+            if encoder is None:
+                tree_kwargs = {'min_samples_leaf': 64, 'min_impurity_decrease': 1e-4}
+                bins = compute_bins(N_data['train'],n_bins = n_bins,tree_kwargs = tree_kwargs,y=torch.from_numpy(y_train),regression=is_regression)
+                encoder = UnaryEncoding(bins)
+            for item in N_data:
+                N_data[item] = encoder(N_data[item]).cpu().numpy()    
+        elif num_policy == 'Q_bins':
+            for item in N_data:
+                N_data[item] = torch.from_numpy(N_data[item])
+            if encoder is None:
+                bins = compute_bins(N_data['train'],n_bins = n_bins,tree_kwargs = None,y=None,regression=None)
+                encoder = BinsEncoding(bins)
+            for item in N_data:
+                N_data[item] = encoder(N_data[item]).cpu().numpy()
+        elif num_policy == 'T_bins':
+            for item in N_data:
+                N_data[item] = torch.from_numpy(N_data[item])
+            if encoder is None:
+                tree_kwargs = {'min_samples_leaf': 64, 'min_impurity_decrease': 1e-4}
+                bins = compute_bins(N_data['train'],n_bins = n_bins,tree_kwargs = tree_kwargs,y=torch.from_numpy(y_train),regression=is_regression)
+                encoder = BinsEncoding(bins)
+            for item in N_data:
+                N_data[item] = encoder(N_data[item]).cpu().numpy()  
+        elif num_policy == 'Q_Johnson':
+            for item in N_data:
+                N_data[item] = torch.from_numpy(N_data[item])
+            if encoder is None:
+                bins = compute_bins(N_data['train'],n_bins = n_bins,tree_kwargs = None,y=None,regression=None)
+                encoder = JohnsonEncoding(bins)
+            for item in N_data:
+                N_data[item] = encoder(N_data[item]).cpu().numpy()
+        elif num_policy == 'T_Johnson':
+            for item in N_data:
+                N_data[item] = torch.from_numpy(N_data[item])
+            if encoder is None:
+                tree_kwargs = {'min_samples_leaf': 64, 'min_impurity_decrease': 1e-4}
+                bins = compute_bins(N_data['train'],n_bins = n_bins,tree_kwargs = tree_kwargs,y=torch.from_numpy(y_train),regression=is_regression)
+                encoder = JohnsonEncoding(bins)
+            for item in N_data:
+                N_data[item] = encoder(N_data[item]).cpu().numpy()            
+        
         return N_data,encoder
     else:
         return N_data,None
