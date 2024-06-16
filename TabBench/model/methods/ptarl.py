@@ -37,15 +37,15 @@ class PTARLMethod(Method):
     def fit(self, data, info, train = True, config = None):
         N,C,y = data
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
-        if self.D is None:
-            self.D = Dataset(N, C, y, info)
-            self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
-            self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
-            self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
-            
-            self.data_format(is_train = True)
+        self.D = Dataset(N, C, y, info)
+        self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
+        self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
+        self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
+        
+        
         if config is not None:
             self.reset_stats_withconfig(config)
+        self.data_format(is_train = True)
         cluster_centers_ = np.zeros([self.args.config['model']['n_clusters'], 1])
         self.cluster_centers_ = cluster_centers_
         self.model_type1 = self.args.model_type

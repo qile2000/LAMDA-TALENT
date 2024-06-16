@@ -56,16 +56,16 @@ class DNNRMethod(Method):
     def fit(self, data, info, train = True, config = None):
         N,C,y = data
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
-        if self.D is None:
-            self.D = Dataset(N, C, y, info)
-            self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
-            self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
-            self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
-            
-            self.data_format(is_train = True)
-            if config:
-                self.reset_stats_withconfig(config)
-            self.construct_model()
+        self.D = Dataset(N, C, y, info)
+        self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
+        self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
+        self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
+        
+        
+        if config:
+            self.reset_stats_withconfig(config)
+        self.data_format(is_train = True)
+        self.construct_model()
         
         assert(self.C is None and self.N is not None)
 

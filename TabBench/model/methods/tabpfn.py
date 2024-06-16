@@ -45,12 +45,12 @@ class TabPFNMethod(Method):
 
     def fit(self, data, info, train = True, config = None):
         N,C,y = data
-        if self.D is None:
-            self.D = Dataset(N, C, y, info)
-            self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
-            self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
-            self.data_format(is_train = True)
-            self.construct_model()
+        # if self.D is None:
+        self.D = Dataset(N, C, y, info)
+        self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
+        self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
+        self.data_format(is_train = True)
+        self.construct_model()
 
         sampled_Y = self.y['train']
         if self.N is not None and self.C is not None:

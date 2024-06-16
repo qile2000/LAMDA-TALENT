@@ -24,12 +24,11 @@ class CatBoostMethod(classical_methods):
 
     def fit(self, data, info, train=True, config=None):
         N, C, y = data
-        if self.D is None:
-            self.D = Dataset(N, C, y, info)
-            self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
-            self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
-            self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
-            self.data_format(is_train = True)
+        self.D = Dataset(N, C, y, info)
+        self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
+        self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
+        self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
+        
         model_config = None
         if config is not None:
             self.reset_stats_withconfig(config)
@@ -37,7 +36,7 @@ class CatBoostMethod(classical_methods):
         
         if model_config is None:
             model_config = self.args.config['model']
-
+        self.data_format(is_train = True)
         from catboost import CatBoostClassifier, CatBoostRegressor
         
         cat_features = list(range(self.n_num_features, self.n_num_features + self.n_cat_features))
@@ -53,6 +52,7 @@ class CatBoostMethod(classical_methods):
         if not train:
             return
         fit_config = deepcopy(self.args.config['fit'])
+        fit_config.pop('n_bins')
         fit_config['eval_set'] = (X_val, self.y['val'])
         tic = time.time()
         self.model.fit(X_train, self.y['train'],**fit_config)

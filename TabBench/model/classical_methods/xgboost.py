@@ -25,6 +25,7 @@ class XGBoostMethod(classical_methods):
         if not train:
             return
         fit_config = deepcopy(self.args.config['fit'])
+        fit_config.pop('n_bins')
         fit_config['eval_set'] = [(self.N['val'], self.y['val'])]
         tic = time.time()
         self.model.fit(self.N['train'], self.y['train'],**fit_config)

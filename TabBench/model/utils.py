@@ -242,6 +242,8 @@ def get_classical_args():
     if torch.cuda.is_available():     
         torch.backends.cudnn.benchmark = True
     pprint(vars(args))
+    
+    args.config['fit']['n_bins'] = args.n_bins
     return args,default_para,opt_space   
 
 def get_deep_args():  
@@ -310,6 +312,8 @@ def get_deep_args():
     if torch.cuda.is_available():     
         torch.backends.cudnn.benchmark = True
     pprint(vars(args))
+    
+    args.config['training']['n_bins'] = args.n_bins
     return args,default_para,opt_space   
 
 def show_results_classical(args,info,metric_name,results_list,time_list):
@@ -404,6 +408,18 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
     import optuna.trial
     def objective(trial):
         config = {}
+        try:
+            opt_space[args.model_type]['training']['n_bins'] = [
+                    "int",
+                    2, 
+                    256
+            ]
+        except:
+            opt_space[args.model_type]['fit']['n_bins'] = [
+                    "int",
+                    2, 
+                    256
+            ]
         merge_sampled_parameters(
             config, sample_parameters(trial, opt_space[args.model_type], config)
         )    
@@ -484,7 +500,7 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
                 config['model']['d_ffn_factor'] *= 2 / 3
 
         trial_configs.append(config)
-        # method.fit(N_trainval, C_trainval, y_trainval, info, train=True, config=config)
+        # method.fit(train_val_data, info, train=True, config=config)  
         # run with this config
         try:
             method.fit(train_val_data, info, train=True, config=config)    
