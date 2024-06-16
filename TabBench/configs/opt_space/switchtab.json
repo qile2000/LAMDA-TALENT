@@ -1,0 +1,24 @@
+{
+    "switchtab": {
+        "model": {
+            "alpha": [
+                "loguniform",
+                0.01,
+                100
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-06,
+                0.001
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

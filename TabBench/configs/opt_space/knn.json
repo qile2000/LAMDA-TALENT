@@ -1,0 +1,29 @@
+{
+    "knn": {
+        "model": {
+            "n_neighbors": [
+                "int",
+                1,
+                128
+            ],
+            "weights": [
+                "categorical",
+                [
+                    "uniform",
+                    "distance"
+                ]
+            ],
+            "p": [
+                "categorical",
+                [
+                    1,
+                    1.5,
+                    2,
+                    2.5,
+                    3
+                ]
+            ]
+        },
+        "fit": {}
+    }
+}

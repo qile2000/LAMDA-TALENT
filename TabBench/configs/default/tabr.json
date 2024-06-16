@@ -1,0 +1,28 @@
+{
+    "tabr": {
+        "model": {
+            "num_embeddings": {
+                "type": "PLREmbeddings",
+                "n_frequencies": 77,
+                "frequency_scale": 0.04431360576139521,
+                "d_embedding": 34,
+                "lite": true
+            },
+            "d_main": 265,
+            "context_dropout": 0.38920071545944357,
+            "d_multiplier": 2.0,
+            "encoder_n_blocks": 0,
+            "predictor_n_blocks": 1,
+            "mixer_normalization": "auto",
+            "dropout0": 0.38852797479169876,
+            "dropout1": 0.0,
+            "normalization": "LayerNorm",
+            "activation": "ReLU"
+        },
+        "training": {
+            "lr": 0.0003121273641315169,
+            "weight_decay": 1.2260352006404615e-06
+        },
+        "general": {}
+    }
+}

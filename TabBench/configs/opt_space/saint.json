@@ -1,0 +1,61 @@
+{
+    "saint": {
+        "model": {
+            "depth": [
+                "categorical",
+                [
+                    4,
+                    6
+                ]
+            ],
+            "heads": [
+                "categorical",
+                [
+                    4,
+                    8
+                ]
+            ],
+            "dim": [
+                "categorical",
+                [
+                    16,
+                    32,
+                    64
+                ]
+            ],
+            "attn_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "ff_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "attentiontype": [
+                "?categorical",
+                "colrow",
+                [
+                    "colrow",
+                    "row",
+                    "col"
+                ]
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                3e-05,
+                0.001
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.0001
+            ]
+        },
+        "general": {}
+    }
+}

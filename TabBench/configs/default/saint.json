@@ -1,0 +1,18 @@
+{
+    "saint": {
+        "model": {
+            "depth": 6,
+            "heads": 8,
+            "dim": 32,
+            "attn_dropout": 0.0,
+            "ff_dropout": 0.0,
+            "attentiontype": "colrow",
+            "cont_embeddings": "MLP"
+        },
+        "training": {
+            "lr": 0.0001,
+            "weight_decay": 0.01
+        },
+        "general": {}
+    }
+}

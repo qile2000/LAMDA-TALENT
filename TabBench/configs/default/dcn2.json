@@ -1,0 +1,18 @@
+{
+    "dcn2": {
+        "model": {
+            "d": 512,
+            "n_hidden_layers": 2,
+            "n_cross_layers": 3,
+            "hidden_dropout": 0.1,
+            "cross_dropout": 0.1,
+            "stacked": false,
+            "d_embedding": 64
+        },
+        "training": {
+            "lr": 0.0001,
+            "weight_decay": 0.0002
+        },
+        "general": {}
+    }
+}

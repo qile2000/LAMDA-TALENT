@@ -1,0 +1,48 @@
+{
+    "tangos": {
+        "model": {
+            "d_layers": [
+                "$mlp_d_layers",
+                1,
+                8,
+                64,
+                512
+            ],
+            "dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.5
+            ],
+            "lambda1": [
+                "loguniform",
+                0.001,
+                10
+            ],
+            "lambda2": [
+                "loguniform",
+                0.0001,
+                1
+            ],
+            "subsample": [
+                "int",
+                30,
+                100
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                0.0001,
+                0.001
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

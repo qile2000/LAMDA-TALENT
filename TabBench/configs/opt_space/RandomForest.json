@@ -1,0 +1,17 @@
+{
+    "RandomForest": {
+        "model": {
+            "min_samples_split": [
+                "int",
+                2,
+                10
+            ],
+            "min_samples_leaf": [
+                "int",
+                1,
+                10
+            ]
+        },
+        "fit": {}
+    }
+}

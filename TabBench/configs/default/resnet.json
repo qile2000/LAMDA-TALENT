@@ -1,0 +1,18 @@
+{
+    "resnet": {
+        "model": {
+            "d": 192,
+            "d_hidden_factor": 2.0,
+            "hidden_dropout": 0.3,
+            "n_layers": 2,
+            "residual_dropout": 0.0,
+            "activation": "relu",
+            "normalization": "batchnorm"
+        },
+        "training": {
+            "lr": 0.0003,
+            "weight_decay": 1e-05
+        },
+        "general": {}
+    }
+}

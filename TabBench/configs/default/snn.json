@@ -1,0 +1,17 @@
+{
+    "snn": {
+        "model": {
+            "d_layers": [
+                384,
+                384
+            ],
+            "dropout": 0.2,
+            "d_embedding": 64
+        },
+        "training": {
+            "lr": 0.0001,
+            "weight_decay": 0.0002
+        },
+        "general": {}
+    }
+}

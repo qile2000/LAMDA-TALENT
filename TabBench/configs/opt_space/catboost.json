@@ -1,0 +1,32 @@
+{
+    "catboost": {
+        "model": {
+            "bagging_temperature": [
+                "uniform",
+                0.0,
+                1.0
+            ],
+            "depth": [
+                "int",
+                3,
+                10
+            ],
+            "l2_leaf_reg": [
+                "loguniform",
+                1.0,
+                10.0
+            ],
+            "leaf_estimation_iterations": [
+                "int",
+                1,
+                10
+            ],
+            "learning_rate": [
+                "loguniform",
+                1e-05,
+                1
+            ]
+        },
+        "fit": {}
+    }
+}

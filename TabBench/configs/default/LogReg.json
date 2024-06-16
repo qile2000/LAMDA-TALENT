@@ -1,0 +1,9 @@
+{
+    "LogReg": {
+        "model": {
+            "penalty": "l2",
+            "max_iter": 5000
+        },
+        "fit": {}
+    }
+}

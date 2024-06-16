@@ -1,0 +1,38 @@
+{
+    "tabnet": {
+        "model": {
+            "lr": [
+                "uniform",
+                0.001,
+                0.01
+            ],
+            "gamma": [
+                "uniform",
+                1,
+                2
+            ],
+            "n_steps": [
+                "int",
+                3,
+                10
+            ],
+            "n_independent": [
+                "int",
+                1,
+                5
+            ],
+            "n_shared": [
+                "int",
+                1,
+                5
+            ],
+            "momentum": [
+                "uniform",
+                0.01,
+                0.4
+            ]
+        },
+        "training": {},
+        "general": {}
+    }
+}

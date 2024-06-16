@@ -1,0 +1,16 @@
+{
+    "mlp": {
+        "model": {
+            "d_layers": [
+                384,
+                384
+            ],
+            "dropout": 0.1
+        },
+        "training": {
+            "lr": 0.0003,
+            "weight_decay": 1e-05
+        },
+        "general": {}
+    }
+}

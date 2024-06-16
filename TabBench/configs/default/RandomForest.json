@@ -1,0 +1,9 @@
+{
+    "RandomForest": {
+        "model": {
+            "max_depth": 12,
+            "n_estimators": 2000
+        },
+        "fit": {}
+    }
+}

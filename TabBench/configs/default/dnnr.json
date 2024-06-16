@@ -1,0 +1,13 @@
+{
+    "dnnr": {
+        "model": {
+            "n_neighbors": 3,
+            "n_derivative_neighbors": 128,
+            "order": "1",
+            "solver": "linear_regression",
+            "index": "annoy"
+        },
+        "training": {},
+        "general": {}
+    }
+}

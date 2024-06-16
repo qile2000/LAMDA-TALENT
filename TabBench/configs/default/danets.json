@@ -1,0 +1,17 @@
+{
+    "danets": {
+        "model": {
+            "base_outdim": 64,
+            "n_layers": 20,
+            "dropout": 0.1
+        },
+        "training": {
+            "lr": 0.0001,
+            "weight_decay": 0.0002
+        },
+        "general": {
+            "k": 5,
+            "virtual_batch_size": 256
+        }
+    }
+}

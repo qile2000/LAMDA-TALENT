@@ -1,0 +1,11 @@
+{
+    "knn": {
+        "model": {
+            "weights": "distance",
+            "algorithm": "auto",
+            "p": 2,
+            "metric": "minkowski"
+        },
+        "fit": {}
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "LogReg": {
+        "model": {
+            "C": [
+                "loguniform",
+                1e-05,
+                5
+            ],
+            "penalty": [
+                "categorical",
+                [
+                    "l2",
+                    null
+                ]
+            ],
+            "max_iter": [
+                "int",
+                50,
+                500
+            ]
+        },
+        "fit": {}
+    }
+}

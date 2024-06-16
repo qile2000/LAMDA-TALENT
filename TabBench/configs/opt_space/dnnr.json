@@ -1,0 +1,41 @@
+{
+    "dnnr": {
+        "model": {
+            "n_neighbors": [
+                "int",
+                3,
+                3
+            ],
+            "n_derivative_neighbors": [
+                "int",
+                32,
+                1024
+            ],
+            "order": [
+                "categorical",
+                [
+                    "1",
+                    "2diag"
+                ]
+            ],
+            "solver": [
+                "categorical",
+                [
+                    "linear_regression",
+                    "scipy_lsqr",
+                    "numpy",
+                    "ridge",
+                    "lasso"
+                ]
+            ],
+            "index": [
+                "categorical",
+                [
+                    "annoy"
+                ]
+            ]
+        },
+        "training": {},
+        "general": {}
+    }
+}

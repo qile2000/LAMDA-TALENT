@@ -1,0 +1,12 @@
+{
+    "catboost": {
+        "fit": {
+            "logging_level": "Silent"
+        },
+        "model": {
+            "early_stopping_rounds": 50,
+            "n_estimators": 2000,
+            "od_pval": 0.001
+        }
+    }
+}

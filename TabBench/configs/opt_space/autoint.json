@@ -1,0 +1,45 @@
+{
+    "autoint": {
+        "model": {
+            "n_layers": [
+                "int",
+                1,
+                6
+            ],
+            "d_token": [
+                "categorical",
+                [
+                    8,
+                    16,
+                    32,
+                    64,
+                    128
+                ]
+            ],
+            "residual_dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.2
+            ],
+            "attention_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.001
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

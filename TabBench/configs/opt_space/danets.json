@@ -1,0 +1,36 @@
+{
+    "danets": {
+        "model": {
+            "n_layers": [
+                "int",
+                6,
+                32
+            ],
+            "dropout": [
+                "?uniform",
+                0.0,
+                0.0,
+                0.5
+            ],
+            "base_outdim": [
+                "int",
+                64,
+                128
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

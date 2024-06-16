@@ -1,0 +1,57 @@
+{
+    "tabtransformer": {
+        "model": {
+            "dim": [
+                "categorical",
+                [
+                    32,
+                    64,
+                    128,
+                    256
+                ]
+            ],
+            "depth": [
+                "categorical",
+                [
+                    1,
+                    2,
+                    3,
+                    6,
+                    12
+                ]
+            ],
+            "heads": [
+                "categorical",
+                [
+                    2,
+                    4,
+                    8
+                ]
+            ],
+            "attn_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "ff_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

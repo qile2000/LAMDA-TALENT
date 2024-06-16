@@ -1,0 +1,20 @@
+{
+    "tangos": {
+        "model": {
+            "d_layers": [
+                256,
+                256,
+                256
+            ],
+            "dropout": 0.1,
+            "lambda1": 1,
+            "lambda2": 0.01,
+            "subsample": 50
+        },
+        "training": {
+            "lr": 0.001,
+            "weight_decay": 0.0002
+        },
+        "general": {}
+    }
+}

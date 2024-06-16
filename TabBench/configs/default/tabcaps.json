@@ -1,0 +1,15 @@
+{
+    "tabcaps": {
+        "model": {
+            "lr": 0.001,
+            "weight_decay": 0.0002,
+            "sub_class": 3,
+            "init_dim": 16,
+            "primary_capsule_size": 16,
+            "digit_capsule_size": 16,
+            "leaves": 16
+        },
+        "training": {},
+        "general": {}
+    }
+}

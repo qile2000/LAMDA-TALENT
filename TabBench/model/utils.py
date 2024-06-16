@@ -232,11 +232,15 @@ def get_classical_args():
     
     # load config parameters
     args.seed = 0
-    with open('default_para.json', 'r') as file:
-        default_para = json.load(file)
-
-    with open('opt_space.json', 'r') as file:
+    
+    config_default_path = os.path.join('configs','default',args.model_type+'.json')
+    config_opt_path = os.path.join('configs','opt_space',args.model_type+'.json')
+    with open(config_default_path,'r') as file:
+        default_para = json.load(file)  
+    
+    with open(config_opt_path,'r') as file:
         opt_space = json.load(file)
+
     args.config = default_para[args.model_type]
     set_seeds(args.seed)
     if torch.cuda.is_available():     
@@ -302,10 +306,12 @@ def get_deep_args():
     
     # load config parameters
     args.seed = 0
-    with open('default_para.json', 'r') as file:
-        default_para = json.load(file)
-
-    with open('opt_space.json', 'r') as file:
+    config_default_path = os.path.join('configs','default',args.model_type+'.json')
+    config_opt_path = os.path.join('configs','opt_space',args.model_type+'.json')
+    with open(config_default_path,'r') as file:
+        default_para = json.load(file)  
+    
+    with open(config_opt_path,'r') as file:
         opt_space = json.load(file)
     args.config = default_para[args.model_type]
     set_seeds(args.seed)

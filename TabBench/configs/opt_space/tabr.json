@@ -1,0 +1,62 @@
+{
+    "tabr": {
+        "model": {
+            "d_main": [
+                "int",
+                96,
+                384
+            ],
+            "context_dropout": [
+                "uniform",
+                0.0,
+                0.6
+            ],
+            "encoder_n_blocks": [
+                "int",
+                0,
+                1
+            ],
+            "predictor_n_blocks": [
+                "int",
+                1,
+                2
+            ],
+            "dropout0": [
+                "uniform",
+                0.0,
+                0.6
+            ],
+            "num_embeddings": {
+                "n_frequencies": [
+                    "int",
+                    16,
+                    96
+                ],
+                "frequency_scale": [
+                    "loguniform",
+                    0.01,
+                    100.0
+                ],
+                "d_embedding": [
+                    "int",
+                    16,
+                    64
+                ]
+            }
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                3e-05,
+                0.001
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

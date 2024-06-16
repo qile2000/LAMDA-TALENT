@@ -1,0 +1,41 @@
+{
+    "node": {
+        "model": {
+            "num_layers": [
+                "int",
+                1,
+                4
+            ],
+            "depth": [
+                "int",
+                4,
+                6
+            ],
+            "tree_dim": [
+                "int",
+                2,
+                3
+            ],
+            "layer_dim": [
+                "categorical",
+                [
+                    512,
+                    1024
+                ]
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

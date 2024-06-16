@@ -1,0 +1,48 @@
+{
+    "lightgbm": {
+        "model": {
+            "num_leaves": [
+                "int",
+                10,
+                100
+            ],
+            "max_depth": [
+                "int",
+                3,
+                10
+            ],
+            "learning_rate": [
+                "loguniform",
+                0.001,
+                1.0
+            ],
+            "min_child_weight": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "min_child_samples": [
+                "int",
+                2,
+                100
+            ],
+            "subsample": [
+                "uniform",
+                0.5,
+                1.0
+            ],
+            "colsample_bytree": [
+                "uniform",
+                0.5,
+                1.0
+            ],
+            "reg_lambda": [
+                "?loguniform",
+                0.0,
+                1e-05,
+                1.0
+            ]
+        },
+        "fit": {}
+    }
+}

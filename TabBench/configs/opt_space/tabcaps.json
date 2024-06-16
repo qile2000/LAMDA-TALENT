@@ -1,0 +1,43 @@
+{
+    "tabcaps": {
+        "model": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.1
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ],
+            "sub_class": [
+                "int",
+                1,
+                5
+            ],
+            "init_dim": [
+                "int",
+                32,
+                128
+            ],
+            "primary_capsule_size": [
+                "int",
+                4,
+                32
+            ],
+            "digit_capsule_size": [
+                "int",
+                4,
+                32
+            ],
+            "leaves": [
+                "int",
+                16,
+                64
+            ]
+        },
+        "training": {},
+        "general": {}
+    }
+}
