@@ -39,7 +39,6 @@ class SwitchTabMethod(Method):
     # Feature corruption + feature num must be even
     def data_format(self, is_train = True, N = None, C = None, y = None):
         if is_train:
-            from model.models.switchtab import feature_corruption
             self.N, self.C, self.num_new_value, self.imputer, self.cat_new_value = data_nan_process(self.N, self.C, self.args.num_nan_policy, self.args.cat_nan_policy)
             self.y, self.y_info, self.label_encoder = data_label_process(self.y, self.is_regression)
             self.N, self.C, self.ord_encoder, self.mode_values, self.cat_encoder = data_enc_process(self.N, self.C, self.args.cat_policy, self.y['train'])
@@ -56,7 +55,6 @@ class SwitchTabMethod(Method):
                 self.d_out = len(np.unique(self.y['train']))
             self.d_in = 0 if self.N is None else self.N['train'].shape[1]
             self.categories = get_categories(self.C)
-            self.N['train'] = feature_corruption(torch.from_numpy(self.N['train'])).numpy()
 
             self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True)
             self.recon_criterion = F.mse_loss
@@ -119,9 +117,12 @@ class SwitchTabMethod(Method):
         return time_cost
 
     def train_epoch(self, epoch):
+        from model.models.switchtab import feature_corruption
         self.model.train()
         tl = Averager()
         for i, ((X1, y1), (X2, y2)) in enumerate(zip(self.train_loader, self.train_loader), 1):
+            X1 = feature_corruption(X1)
+            X2 = feature_corruption(X2)
             self.train_step = self.train_step + 1
             if self.N is not None and self.C is not None:
                 X1_num, X1_cat = X1[0], X1[1]
