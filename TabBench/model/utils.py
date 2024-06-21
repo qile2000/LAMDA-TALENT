@@ -262,11 +262,12 @@ def get_deep_args():
         default_args = json.load(file)
     parser.add_argument('--dataset', type=str, default=default_args['dataset'])
     parser.add_argument('--model_type', type=str, 
-                        default=default_args['model_type'], 
+                        default=default_args['model_type'],
                         choices=['mlp', 'resnet', 'ftt', 'node', 'autoint',
                                  'tabpfn', 'tangos', 'saint', 'tabcaps', 'tabnet',
-                                 'snn','ptarl','danets','dcn2','tabtransformer',
-                                 'dnnr', 'switchtab', 'grownet','tabr','modernNCA']) # 
+                                 'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
+                                 'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
+                                 'hyperfast'])
     
     # optimization parameters
     parser.add_argument('--max_epoch', type=int, default=default_args['max_epoch'])
@@ -616,6 +617,9 @@ def get_method(model):
     elif model == 'switchtab':
         from model.methods.switchtab import SwitchTabMethod
         return SwitchTabMethod
+    elif model == 'hyperfast':
+        from model.methods.hyperfast import HyperFastMethod
+        return HyperFastMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod
