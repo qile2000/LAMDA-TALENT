@@ -2,8 +2,6 @@
     "tabpfn": {
         "model": {},
         "training": {},
-        "general": {
-            "sample_size": 3000
-        }
+        "general": {}
     }
 }

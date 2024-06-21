@@ -1,6 +1,7 @@
 {
     "hyperfast": {
         "model": {},
-        "training": {}
+        "training": {},
+        "general": {}
     }
 }

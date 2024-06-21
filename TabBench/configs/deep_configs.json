@@ -1,5 +1,5 @@
 {
-    "dataset": "Bank_Customer_Churn_Dataset",
+    "dataset": "bank",
     "model_type": "mlp", 
     "max_epoch": 200,
     "batch_size": 1024,
@@ -17,6 +17,6 @@
     "tune": false,
     "retune": false,
     "evaluate_option": "best-val",
-    "dataset_path": "data",
+    "dataset_path": "example_datasets",
     "model_path": "results_model" 
 }
