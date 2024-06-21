@@ -6,8 +6,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.init as nn_init
 from torch import Tensor
-
-
+# Implementation of "AutoInt: Automatic Feature Interaction Learning via Self-Attentive Neural Networks"
+# Source: https://github.com/yandex-research/rtdl-revisiting-models/blob/main/bin/autoint.py
 def reglu(x: Tensor) -> Tensor:
     a, b = x.chunk(2, dim=-1)
     return a * F.relu(b)

@@ -2,7 +2,7 @@ import torch
 import numpy as np
 import os.path as osp
 from tqdm import tqdm
-
+# Source: https://github.com/HangtingYe/PTaRL
 def run_one_epoch(model, data_loader, loss_func, model_type, config, regularize, ot_weight, diversity_weight, r_weight, diversity, optimizer=None):
     import torch.nn.functional as F
     running_loss = 0.0

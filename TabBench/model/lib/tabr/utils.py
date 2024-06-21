@@ -9,7 +9,7 @@ from torch import Tensor
 from torch.nn.parameter import Parameter
 import math
 
-
+# adapted from https://github.com/yandex-research/tabular-dl-tabr
 def _initialize_embeddings(weight: Tensor, d: Optional[int]) -> None:
     if d is None:
         d = weight.shape[-1]

@@ -2,7 +2,7 @@ import math
 import typing as ty
 import torch
 import torch.nn as nn
-
+# Source: https://github.com/yandex-research/rtdl-revisiting-models/blob/main/bin/dcn2.py
 # %%
 class CrossLayer(nn.Module):
     def __init__(self, d, dropout):

@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+# adapted from https://github.com/alanjeffares/TANGOS
 # %%
 class Tangos(nn.Module):
     def __init__(

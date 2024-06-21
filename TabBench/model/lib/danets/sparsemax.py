@@ -4,15 +4,7 @@ import torch.nn.functional as F
 
 import torch
 
-"""
-Other possible implementations:
-https://github.com/KrisKorrel/sparsemax-pytorch/blob/master/sparsemax.py
-https://github.com/msobroza/SparsemaxPytorch/blob/master/mnist/sparsemax.py
-https://github.com/vene/sparse-structured-attention/blob/master/pytorch/torchsparseattn/sparsemax.py
-"""
-
-
-# credits to Yandex https://github.com/Qwicen/node/blob/master/lib/nn_utils.py
+# Source: https://github.com/WhatAShot/DANet/blob/main/model/sparsemax.py
 def _make_ix_like(input, dim=0):
     d = input.size(dim)
     rho = torch.arange(1, d + 1, device=input.device, dtype=input.dtype)

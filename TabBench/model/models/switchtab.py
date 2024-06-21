@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-
+# Source: https://github.com/avivnur/SwitchTab/blob/main/model.py
 # Feature corruption function
 def feature_corruption(x, corruption_ratio=0.3):
     # We sample a mask of the features to be zeroed out

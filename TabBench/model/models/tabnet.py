@@ -6,7 +6,7 @@ from model.lib.tabnet.abstract_model import TabModel
 from model.lib.tabnet.multiclass_utils import infer_output_dim, check_output_dim
 from torch.utils.data import DataLoader
 import scipy
-
+# adapted from https://github.com/dreamquark-ai/tabnet/blob/develop/pytorch_tabnet/tab_model.py
 
 class TabNetClassifier(TabModel):
     def __post_init__(self):

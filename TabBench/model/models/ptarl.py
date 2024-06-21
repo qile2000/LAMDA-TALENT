@@ -5,7 +5,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+# adapted from https://github.com/HangtingYe/PTaRL
 class MLP(nn.Module):
     def __init__(
         self,

@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
-
+# adapted from https://github.com/yandex-research/rtdl-revisiting-models/blob/main/bin/resnet.py
 # %%
 def reglu(x):
     a, b = x.chunk(2, dim=-1)

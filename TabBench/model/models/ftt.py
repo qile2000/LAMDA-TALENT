@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.init as nn_init
 from torch import Tensor
-
+# Source: https://github.com/yandex-research/rtdl-revisiting-models/blob/main/bin/ft_transformer.py
 def reglu(x):
     a, b = x.chunk(2, dim=-1)
     return a * F.relu(b)

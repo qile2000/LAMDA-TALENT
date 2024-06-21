@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
 import math
-
+# Source: https://github.com/yandex-research/rtdl-revisiting-models/blob/main/bin/snn.py
 # %%
 class SNN(nn.Module):
     def __init__(

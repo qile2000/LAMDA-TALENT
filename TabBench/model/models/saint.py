@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from torch import nn, einsum
 import numpy as np
 from einops import rearrange
-
+# Source: https://github.com/kodikarthik21/SAINT/blob/main/models/model.py
 #classes
 class Residual(nn.Module):
     def __init__(self, fn):

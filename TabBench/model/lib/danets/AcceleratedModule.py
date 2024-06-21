@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+# Source: https://github.com/WhatAShot/DANet/blob/main/model/AcceleratedModule.py
 class AcceleratedCreator(object):
     def __init__(self, input_dim, base_out_dim, k):
         super(AcceleratedCreator, self).__init__()

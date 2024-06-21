@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from torch.nn.functional import cross_entropy, mse_loss
 from model.utils import Timer, set_seeds
 
+# adapted from https://github.com/WhatAShot/TabCaps
 class TabCapsClassifier(TabCapsModel):
     def __post_init__(self):
         super(TabCapsClassifier, self).__post_init__()

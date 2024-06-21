@@ -3,7 +3,7 @@ import typing as ty
 from enum import Enum
 import torch
 import torch.nn as nn
-
+# Source: https://github.com/sbadirli/GrowNet/
 # %%
 class ForwardType(Enum):
     SIMPLE = 0

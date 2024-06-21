@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from torch import nn, einsum
 
 from einops import rearrange, repeat
-
+# adapted from https://github.com/lucidrains/tab-transformer-pytorch
 # helpers
 
 def exists(val):

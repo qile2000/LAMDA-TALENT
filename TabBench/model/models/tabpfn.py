@@ -20,6 +20,8 @@ from sklearn.utils import column_or_1d
 
 from model.lib.tabpfn.utils import CustomUnpickler
 from model.lib.tabpfn.utils import load_model_workflow, get_params_from_config, transformer_predict
+# Source: https://github.com/automl/TabPFN
+
 
 class TabPFNClassifier(BaseEstimator, ClassifierMixin):
 

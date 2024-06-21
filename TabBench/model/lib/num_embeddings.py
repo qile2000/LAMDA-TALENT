@@ -57,6 +57,7 @@ def compute_bins(
     regression: Optional[bool] = None,
     verbose: bool = False,
 ) -> List[Tensor]:
+    # Source: https://github.com/yandex-research/rtdl-num-embeddings/blob/main/package/rtdl_num_embeddings.py
     """Compute bin edges for `PiecewiseLinearEmbeddings`.
 
     **Usage**
@@ -233,7 +234,7 @@ class _PiecewiseLinearEncodingImpl(nn.Module):
     edges: Tensor
     width: Tensor
     mask: Tensor
-
+    # Source: https://github.com/yandex-research/rtdl-num-embeddings/blob/main/package/rtdl_num_embeddings.py
     def __init__(self, bins: List[Tensor]) -> None:
         _check_bins(bins)
 
@@ -335,7 +336,7 @@ class PiecewiseLinearEncoding(nn.Module):
       where ``total_n_bins`` is the total number of bins for all features:
       ``total_n_bins = sum(len(b) - 1 for b in bins)``.
     """
-
+    # Source: https://github.com/yandex-research/rtdl-num-embeddings/blob/main/package/rtdl_num_embeddings.py
     def __init__(self, bins: List[Tensor]) -> None:
         """
         Args:
