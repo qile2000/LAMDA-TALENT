@@ -14,7 +14,7 @@
             "day":"day",
             "duration": "duration",
             "campaign": "campaign",
-	    "pdays": "pdays",
+	        "pdays": "pdays",
             "previous":"previous"
         },
         "cat":{
