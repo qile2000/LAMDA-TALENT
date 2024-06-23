@@ -569,6 +569,9 @@ def get_method(model):
     elif model == 'ftt':
         from model.methods.ftt import FTTMethod
         return FTTMethod
+    elif model == 'tabptm':
+        from model.methods.tabptm import TabPTMMethod
+        return TabPTMMethod
     elif model == 'tabpfn':
         from model.methods.tabpfn import TabPFNMethod
         return TabPFNMethod

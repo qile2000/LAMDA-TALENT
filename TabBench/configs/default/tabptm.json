@@ -1,0 +1,17 @@
+{
+    "tabptm": {
+        "model": {
+            "d_layers": [
+                510, 
+                263, 
+                363
+            ],
+            "dropout": 0.2
+        },
+        "training": {
+            "lr": 0.001, 
+            "weight_decay": 0.0002
+        },
+        "general":{}
+    }
+}
