@@ -59,7 +59,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 - **[TabTransformer](https://arxiv.org/abs/2012.06678)**: A token-based method that enhances tabular data modeling by transforming categorical features into contextual embeddings.
 - **[FT-Transformer](https://arxiv.org/abs/2106.11959)**: A token-based method which transforms features to embeddings and applies a series of attention-based transformations to the embeddings.
 - **[TANGOS](https://openreview.net/pdf?id=n6H86gW8u0d)**: A regularization-based method for tabular data that uses gradient attributions to encourage neuron specialization and orthogonalization.
-- **[SwitchTab](https://arxiv.org/abs/2401.02013)**: A regularization-based method tailored for tabular data that improves representation learning through an asymmetric encoder-decoder framework.
+- **[SwitchTab](https://arxiv.org/abs/2401.02013)**: A self-supervised method tailored for tabular data that improves representation learning through an asymmetric encoder-decoder framework.
 - **[PTaRL](https://openreview.net/pdf?id=G32oY4Vnm8)**: A regularization-based framework that enhances prediction by constructing and projecting into a prototype-based space.
 - **[TabPFN](https://arxiv.org/abs/2207.01848)**: A general model which involves the use of pre-trained deep neural networks that can be directly applied to any tabular task.
 - **[HyperFast](https://arxiv.org/abs/2402.14335)**: A meta-trained hypernetwork that generates task-specific neural networks for instant classification of tabular data.
@@ -73,12 +73,12 @@ Clone this GitHub repository:
 
 ```bash
 git clone https://github.com/qile2000/LAMDA-TALENT
-cd LAMDA-TALENT/TabBench
+cd LAMDA-TALENT/LAMDA-TALENT
 ```
 
 ### 🔑 Run experiment
 
-1. Edit the `[MODEL_NAME].json` file for global settings and hyperparameters.
+1. Edit the `config/default/[MODEL_NAME].json`  and `config/opt_space/[MODEL_NAME].json` for global settings and hyperparameters.
 
 2. Run:
 
