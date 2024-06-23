@@ -20,6 +20,7 @@ from model.lib.hyperfast.utils import (
 )
 from model.lib.hyperfast.model import HyperFast
 
+# Source: https://github.com/AI-sandbox/HyperFast/blob/main/hyperfast/hyperfast.py
 
 class HyperFastClassifier(BaseEstimator):
     """

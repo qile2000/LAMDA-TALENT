@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from sklearn.decomposition import PCA
 from .utils import *
 
-
+#Source: https://github.com/AI-sandbox/HyperFast/blob/main/hyperfast/model.py
 class HyperFast(nn.Module):
     def __init__(self, cfg):
         super().__init__()

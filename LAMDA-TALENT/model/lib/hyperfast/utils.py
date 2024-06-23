@@ -9,7 +9,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset
 from types import SimpleNamespace
 
-
+# Source: https://github.com/AI-sandbox/HyperFast/blob/main/hyperfast/utils.py
 def seed_everything(seed: int):
     random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
