@@ -15,9 +15,6 @@
         <a href="TODO">[Paper]</a> [<b>Code</b>]
     <p>
 </div>
-<p align="center">   <a href="#-introduction">🎉Introduction</a> •    <a href="#-cite-talent">📚Citing TALENT</a> • <a href="#-method">🌟 Methods</a> •   <a href="#-Usage">☄️ How to Use TALENT</a> •   
-    <br> <a href="#-datasets">🗂️ Benchmark Datasets</a> •  <a href="#-results">📝 Experimental Results</a> •  <a href="#-acknowledgments">👨‍🏫Acknowledgments</a> •    <a href="#-contact">🤗Contact</a> </p>
-
 
 
 ---
