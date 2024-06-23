@@ -16,7 +16,8 @@
         <a href="TODO">[Paper]</a> [<b>Code</b>]
     <p>
 </div>
-
+<p align="center">   <a href="#-introduction">🎉Introduction</a> •    <a href="#-cite-talent">📚Cite TALENT</a> • <a href="#-method">🌟 Methods</a> •   <a href="#-Usage">☄️ How to Use TALENT</a> •   
+    <br> <a href="#-datasets">🗂️ Benchmark Datasets</a> •   <a href="#-acknowledgments">👨‍🏫Acknowledgments</a> •    <a href="#-contact">🤗Contact</a> </p>
 
 
 ---
@@ -168,3 +169,5 @@ If there are any questions, please feel free to propose new features by opening 
 ## 🚀 Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=qile2000/LAMDA-TALENT&type=Date)](https://star-history.com/#qile2000/LAMDA-TALENT&Date)
+
+> Thanks [LAMDA-PILOT](https://github.com/sun-hailong/LAMDA-PILOT) and [LAMDA-ZhiJian](https://github.com/zhangyikaii/LAMDA-ZhiJian) for the template.
