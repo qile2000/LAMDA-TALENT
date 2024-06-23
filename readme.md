@@ -1,4 +1,3 @@
-
 <p align="center">
   <a href=""><img src="https://img.shields.io/badge/TALENT-v0.1-darkcyan"></a>
   <a href=""><img src="https://img.shields.io/github/stars/qile2000/LAMDA-TALENT?color=4fb5ee"></a>
@@ -16,8 +15,9 @@
         <a href="TODO">[Paper]</a> [<b>Code</b>]
     <p>
 </div>
-<p align="center">   <a href="#-introduction">🎉Introduction</a> •    <a href="#-cite-talent">📚Cite TALENT</a> • <a href="#-method">🌟 Methods</a> •   <a href="#-Usage">☄️ How to Use TALENT</a> •   
-    <br> <a href="#-datasets">🗂️ Benchmark Datasets</a> •   <a href="#-acknowledgments">👨‍🏫Acknowledgments</a> •    <a href="#-contact">🤗Contact</a> </p>
+<p align="center">   <a href="#-introduction">🎉Introduction</a> •    <a href="#-cite-talent">📚Citing TALENT</a> • <a href="#-method">🌟 Methods</a> •   <a href="#-Usage">☄️ How to Use TALENT</a> •   
+    <br> <a href="#-datasets">🗂️ Benchmark Datasets</a> •  <a href="#-results">📝 Experimental Results</a> •  <a href="#-acknowledgments">👨‍🏫Acknowledgments</a> •    <a href="#-contact">🤗Contact</a> </p>
+
 
 
 ---
@@ -115,27 +115,6 @@ Datasets are available at [Google Drive](https://drive.google.com/drive/folders/
 
 TODO
 
-
-## 👨‍🏫 Acknowledgments
-
-We thank the following repos for providing helpful components/functions in our work:
-
-- [Rtdl-revisiting-models](https://github.com/yandex-research/rtdl-revisiting-models)
-- [Rtdl-num-embeddings](https://github.com/yandex-research/rtdl-num-embeddings)
-- [Tabular-dl-tabr](https://github.com/yandex-research/tabular-dl-tabr)
-- [DANet](https://github.com/WhatAShot/DANet)
-- [TabCaps](https://github.com/WhatAShot/TabCaps)
-- [DNNR](https://github.com/younader/dnnr)
-- [PTaRL](https://github.com/HangtingYe/PTaRL)
-- [Saint](https://github.com/somepago/saint)
-- [SwitchTab](https://github.com/avivnur/SwitchTab)
-- [TabNet](https://github.com/dreamquark-ai/tabnet)
-- [TabPFN](https://github.com/automl/TabPFN)
-- [Tabtransformer-pytorch](https://github.com/lucidrains/tab-transformer-pytorch)
-- [TANGOS](https://github.com/alanjeffares/TANGOS)
-- [GrowNet](https://github.com/sbadirli/GrowNet)
-- [HyperFast](https://github.com/AI-sandbox/HyperFast)
-
 ## 📝 Experimental Results
 
 We provide comprehensive evaluations of classical and deep tabular methods based on our toolbox in a fair manner in the Figure. Three tabular prediction tasks, namely, binary classification, multi-class classification, and regression, are considered, and each subfigure represents a different task type.
@@ -161,6 +140,28 @@ We use accuracy and RMSE as the metrics for classification and regression, respe
 From the comparison, we observe that **CatBoost** achieves the best average rank in most classification and regression tasks. Among all deep tabular methods, **ModernNCA** performs the best in most cases while maintaining an acceptable training cost. These results highlight the effectiveness of CatBoost and ModernNCA in handling various tabular prediction tasks, making them suitable choices for practitioners seeking high performance and efficiency.
 
 These visualizations serve as an effective tool for quickly and fairly assessing the strengths and weaknesses of various tabular methods across different task types, enabling researchers and practitioners to make informed decisions when selecting suitable modeling techniques for their specific needs.
+
+## 👨‍🏫 Acknowledgments
+
+We thank the following repos for providing helpful components/functions in our work:
+
+- [Rtdl-revisiting-models](https://github.com/yandex-research/rtdl-revisiting-models)
+- [Rtdl-num-embeddings](https://github.com/yandex-research/rtdl-num-embeddings)
+- [Tabular-dl-tabr](https://github.com/yandex-research/tabular-dl-tabr)
+- [DANet](https://github.com/WhatAShot/DANet)
+- [TabCaps](https://github.com/WhatAShot/TabCaps)
+- [DNNR](https://github.com/younader/dnnr)
+- [PTaRL](https://github.com/HangtingYe/PTaRL)
+- [Saint](https://github.com/somepago/saint)
+- [SwitchTab](https://github.com/avivnur/SwitchTab)
+- [TabNet](https://github.com/dreamquark-ai/tabnet)
+- [TabPFN](https://github.com/automl/TabPFN)
+- [Tabtransformer-pytorch](https://github.com/lucidrains/tab-transformer-pytorch)
+- [TANGOS](https://github.com/alanjeffares/TANGOS)
+- [GrowNet](https://github.com/sbadirli/GrowNet)
+- [HyperFast](https://github.com/AI-sandbox/HyperFast)
+
+
 
 ## 🤗 Contact
 
