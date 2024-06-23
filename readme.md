@@ -1,4 +1,4 @@
-<div align="center">
+
 <p align="center">
   <a href=""><img src="https://img.shields.io/badge/TALENT-v0.1-darkcyan"></a>
   <a href=""><img src="https://img.shields.io/github/stars/qile2000/LAMDA-TALENT?color=4fb5ee"></a>
@@ -16,6 +16,7 @@
         <a href="TODO">[Paper]</a> [<b>Code</b>]
     <p>
 </div>
+
 
 
 ---
