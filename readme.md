@@ -78,7 +78,7 @@ cd LAMDA-TALENT/LAMDA-TALENT
 
 ### 🔑 Run experiment
 
-1. Edit the `config/default/[MODEL_NAME].json`  and `config/opt_space/[MODEL_NAME].json` for global settings and hyperparameters.
+1. Edit the `configs/default/[MODEL_NAME].json`  and `config/opt_space/[MODEL_NAME].json` for global settings and hyperparameters.
 
 2. Run:
 
@@ -93,7 +93,14 @@ cd LAMDA-TALENT/LAMDA-TALENT
 
 ### 🛠️How to Add New Methods
 
-TODO
+For methods like the MLP class that only need to design the model, you only need to:
+
+- Add the model class in `model/models`.
+- Inherit from `model/methods/base.py` and override the `construct_model()` method in the new class.
+- Add the method name in the `get_method` function in `model/utils.py`.
+- Add the parameter settings for the new method in `configs/default/[MODEL_NAME].json` and `configs/opt_space/[MODEL_NAME].json`.
+
+For other methods that require changing the training process, partially override functions based on `model/methods/base.py`. For details, refer to the implementation of other methods in `model/methods/`.
 
 ### 📦 Dependencies
 
@@ -110,13 +117,32 @@ Datasets are available at [Google Drive](https://drive.google.com/drive/folders/
 
 ### 📂How to Place Datasets
 
-TODO
+Datasets are placed in the project's current directory, corresponding to the file name specified by `args.dataset_path`. For instance, if the project is `LAMDA-TALENT`, the data should be placed in `LAMDA-TALENT/args.dataset_path/args.dataset`.
+
+Each dataset folder `args.dataset` consists of:
+
+- Numeric features: `N_train/val/test.npy` (can be omitted if there are no numeric features)
+
+- Categorical features: `C_train/val/test.npy` (can be omitted if there are no categorical features)
+
+- Labels: `y_train/val/test.npy`
+
+- `info.json`, which must include the following three contents (task_type can be "regression", "multiclass" or "binclass"):
+  
+
+  ```json
+  {
+    "task_type": "regression", 
+    "n_num_features": 10,
+    "n_cat_features": 10
+  }
+  ```
 
 ## 📝 Experimental Results
 
 We provide comprehensive evaluations of classical and deep tabular methods based on our toolbox in a fair manner in the Figure. Three tabular prediction tasks, namely, binary classification, multi-class classification, and regression, are considered, and each subfigure represents a different task type.
 
-We use accuracy and RMSE as the metrics for classification and regression, respectively. To calibrate the metrics, we choose the average performance rank to compare all methods, where a lower rank indicates better performance, following  [Sheskin (2003)](https://www.taylorfrancis.com/books/mono/10.1201/9781420036268/handbook-parametric-nonparametric-statistical-procedures-david-sheskin). Efficiency is calculated by the average training time in seconds, with lower values denoting better time efficiency. The model size is visually indicated by the radius of the circles, offering a quick glance at the trade-off between model complexity and performance.
+We use `Accuracy` and `RMSE` as the metrics for classification tasks and regression tasks, respectively. To calibrate the metrics, we choose the average performance rank to compare all methods, where a lower rank indicates better performance, following  [Sheskin (2003)](https://www.taylorfrancis.com/books/mono/10.1201/9781420036268/handbook-parametric-nonparametric-statistical-procedures-david-sheskin). Efficiency is calculated by the average training time in seconds, with lower values denoting better time efficiency. The model size is visually indicated by the radius of the circles, offering a quick glance at the trade-off between model complexity and performance.
 
 - Binary classification
 
