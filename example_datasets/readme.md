@@ -18,7 +18,7 @@ This zip file contains all the tabular datasets used in the paper. Each dataset 
     "n_num_features": 10,
     "n_cat_features": 10
   }
-  
+  ```
   - `task_type`: The type of task, can be `"regression"`, `"multiclass"`, or `"binclass"`.
   - `n_num_features`: Number of numeric features.
   - `n_cat_features`: Number of categorical features.
