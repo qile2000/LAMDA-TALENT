@@ -18,6 +18,7 @@ class HyperFastMethod(Method):
         assert(is_regression == False)
         assert(args.normalization == 'none')
         assert(args.cat_policy == 'indices')
+        assert(args.num_policy == 'none')
         assert(args.tune != True)
 
 

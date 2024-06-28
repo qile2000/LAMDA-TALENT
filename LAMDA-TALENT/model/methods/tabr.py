@@ -38,6 +38,7 @@ class TabRMethod(Method):
     def __init__(self, args, is_regression):
         super().__init__(args, is_regression)
         assert(args.cat_policy == 'tabr_ohe')
+        assert(args.num_policy == 'none')
 
 
     def construct_model(self, model_config = None):
