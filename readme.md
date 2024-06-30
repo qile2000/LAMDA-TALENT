@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./resources/TALENT-logo.png"  width="1000px">
+<img src="./resources/TALENT-LOGO.png"  width="1000px">
 </p>
 <p align="center">
   <a href=""><img src="https://img.shields.io/badge/TALENT-v0.1-darkcyan"></a>
@@ -18,6 +18,7 @@
         <a href="TODO">[Paper]</a> [<b>Code</b>]
     <p>
 </div>
+
 
 
 
