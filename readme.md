@@ -1,4 +1,7 @@
 <p align="center">
+<img src="./resources/TALENT-logo.png"  width="1000px">
+</p>
+<p align="center">
   <a href=""><img src="https://img.shields.io/badge/TALENT-v0.1-darkcyan"></a>
   <a href=""><img src="https://img.shields.io/github/stars/qile2000/LAMDA-TALENT?color=4fb5ee"></a>
   <a href=""><img src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
@@ -15,6 +18,7 @@
         <a href="TODO">[Paper]</a> [<b>Code</b>]
     <p>
 </div>
+
 
 
 ---
