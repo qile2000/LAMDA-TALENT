@@ -40,14 +40,11 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 **If you use any content of this repo for your work, please cite the following bib entry:**
 
 ```bibtex
-@misc{ye2024closerlookdeeplearning,
+@article{ye2024closerlookdeeplearning,
       title={A Closer Look at Deep Learning on Tabular Data}, 
       author={Han-Jia Ye and Si-Yang Liu and Hao-Run Cai and Qi-Le Zhou and De-Chuan Zhan},
-      year={2024},
-      eprint={2407.00956},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2407.00956}, 
+      journal={arXiv preprint arXiv:2407.00956},
+      year={2024}
 }
 ```
 
