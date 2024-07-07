@@ -30,8 +30,8 @@
                 ],
                 "frequency_scale": [
                     "loguniform",
-                    0.01,
-                    100.0
+                    0.005,
+                    10.0
                 ],
                 "d_embedding": [
                     "int",
