@@ -162,6 +162,8 @@ We provide comprehensive evaluations of classical and deep tabular methods based
 
 We use `Accuracy` and `RMSE` as the metrics for classification tasks and regression tasks, respectively. To calibrate the metrics, we choose the average performance rank to compare all methods, where a lower rank indicates better performance, following  [Sheskin (2003)](https://www.taylorfrancis.com/books/mono/10.1201/9781420036268/handbook-parametric-nonparametric-statistical-procedures-david-sheskin). Efficiency is calculated by the average training time in seconds, with lower values denoting better time efficiency. The model size is visually indicated by the radius of the circles, offering a quick glance at the trade-off between model complexity and performance.
 
+The classical method `SVM` provided in TALENT is a `LinearSVM` to ensure faster training.  We also consider the `Dummy` baseline, which outputs the label of the major class and the average labels for classification and regression tasks, respectively.
+
 - Binary classification
 
   <img src="./resources/binclass.png" style="zoom:36%;" />
