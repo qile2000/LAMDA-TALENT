@@ -15,9 +15,10 @@
         TALENT: A Tabular Analytics and Learning Toolbox
     <p>
     <p>
-        <a href="TODO">[Paper]</a> [<b>Code</b>]
+        <a href="https://arxiv.org/abs/2407.04057">[Paper]</a> [<b>Code</b>]
     <p>
 </div>
+
 
 
 
@@ -41,10 +42,17 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ```bibtex
 @article{ye2024closerlookdeeplearning,
-      title={A Closer Look at Deep Learning on Tabular Data}, 
-      author={Han-Jia Ye and Si-Yang Liu and Hao-Run Cai and Qi-Le Zhou and De-Chuan Zhan},
-      journal={arXiv preprint arXiv:2407.00956},
-      year={2024}
+         title={A Closer Look at Deep Learning on Tabular Data}, 
+         author={Han-Jia Ye and Si-Yang Liu and Hao-Run Cai and Qi-Le Zhou and De-Chuan Zhan},
+         journal={arXiv preprint arXiv:2407.00956},
+         year={2024}
+}
+
+@article{liu2024talenttabularanalyticslearning,
+         title={TALENT: A Tabular Analytics and Learning Toolbox}, 
+         author={Si-Yang Liu and Hao-Run Cai and Qi-Le Zhou and Han-Jia Ye},
+         journal={arXiv preprint arXiv:2407.04057},
+         year={2024}
 }
 ```
 
