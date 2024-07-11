@@ -15,9 +15,10 @@
         TALENT: A Tabular Analytics and Learning Toolbox
     <p>
     <p>
-        <a href="https://arxiv.org/abs/2407.04057">[Paper]</a> [<b>Code</b>]
+        <a href="https://arxiv.org/abs/2407.04057">[Paper]</a>
     <p>
 </div>
+
 
 
 
