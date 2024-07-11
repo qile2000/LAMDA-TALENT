@@ -1,0 +1,26 @@
+{
+    "bishop": {
+        "model": {
+            "emb_dim":32,
+            "out_dim":24,
+            "patch_dim":8,
+            "factor":10, 
+            "n_agg":4,
+            "d_model":512, 
+            "d_ff":256,
+            "n_heads":4, 
+            "e_layer":2, 
+            "d_layer":2,  
+            "emb_dropout":0.1,
+            "dropout":0.2,
+            "share_div":8, 
+            "mlp_dropout":0.2,
+            "hopfield":true
+        },
+        "training": {
+            "lr": 0.00005,
+            "weight_decay": 1e-05
+        },
+        "general": {}
+    }
+}

@@ -267,7 +267,7 @@ def get_deep_args():
                                  'tabpfn', 'tangos', 'saint', 'tabcaps', 'tabnet',
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
-                                 'hyperfast'])
+                                 'hyperfast','bishop'])
     
     # optimization parameters
     parser.add_argument('--max_epoch', type=int, default=default_args['max_epoch'])
@@ -623,6 +623,9 @@ def get_method(model):
     elif model == 'hyperfast':
         from model.methods.hyperfast import HyperFastMethod
         return HyperFastMethod
+    elif model == 'bishop':
+        from model.methods.bishop import BiSHopMethod
+        return BiSHopMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod

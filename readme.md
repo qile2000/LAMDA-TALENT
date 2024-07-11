@@ -56,6 +56,10 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 }
 ```
 
+## 📰 What's New
+
+- [2024-07]🌟 Add [BiSHop](https://arxiv.org/abs/2404.03830) (ICML 2024).
+
 ## 🌟 Methods
 
 TALENT integrates an extensive array of 20+ deep learning architectures for tabular data, including but not limited to:
@@ -82,6 +86,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 - **[TabPFN](https://arxiv.org/abs/2207.01848)**: A general model which involves the use of pre-trained deep neural networks that can be directly applied to any tabular task.
 - **[HyperFast](https://arxiv.org/abs/2402.14335)**: A meta-trained hypernetwork that generates task-specific neural networks for instant classification of tabular data.
 - **[TabPTM](https://arxiv.org/abs/2311.00055)**: A general method for tabular data that standardizes heterogeneous datasets using meta-representations, allowing a pre-trained model to generalize to unseen datasets without additional training.
+- **[BiSHop](https://arxiv.org/abs/2404.03830)**: An end-to-end framework for deep tabular learning which leverages a sparse Hopfield model with adaptable sparsity, enhanced by column-wise and row-wise modules.
 
 ## ☄️ How to Use TALENT
 
