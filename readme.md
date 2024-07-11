@@ -123,11 +123,22 @@ For other methods that require changing the training process, partially override
 ### 📦 Dependencies
 
 1. [torch](https://github.com/pytorch/pytorch)
+
 2. [scikit-learn](https://github.com/scikit-learn/scikit-learn)
+
 3. [pandas](https://github.com/pandas-dev/pandas)
+
 4. [tqdm](https://github.com/tqdm/tqdm)
+
 5. [numpy](https://github.com/numpy/numpy)
+
 6. [scipy](https://github.com/scipy/scipy)
+
+7. If you want to use **TabR**, you have to manually install faiss, which is only available on **conda**:
+
+   ```bash
+   conda install faiss-gpu -c pytorch
+   ```
 
 ## 🗂️ Benchmark Datasets
 
