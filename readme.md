@@ -20,10 +20,6 @@
 </div>
 
 
-
-
-
-
 ---
 
 ## 🎉 Introduction
@@ -60,6 +56,8 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 ## 📰 What's New
 
 - [2024-07]🌟 Add [BiSHop](https://arxiv.org/abs/2404.03830) (ICML 2024).
+- [2024-06]🌟 Check out our new baseline [ModernNCA](https://arxiv.org/abs/2407.03257), inspired by traditional **Neighbor Component Analysis**, which outperforms both tree-based and other deep tabular models, while also reducing training time and model size!
+- [2024-06]🌟 Check out our [benchmark paper](https://arxiv.org/abs/2407.00956) about tabular data, which provides comprehensive evaluations of classical and deep tabular methods based on our toolbox in a fair manner!
 
 ## 🌟 Methods
 
