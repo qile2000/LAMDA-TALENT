@@ -7,6 +7,7 @@
   <a href=""><img src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
   <a href=""><img src="https://img.shields.io/github/last-commit/qile2000/LAMDA-TALENT?color=blue"></a>
    <br>
+    <a href='https://arxiv.org/abs/2407.04057'><img src='https://img.shields.io/badge/Arxiv-2407.04057-b31b1b.svg?logo=arXiv'></a>
     <img src="https://img.shields.io/badge/PYTORCH-2.0.1-red?style=for-the-badge&logo=pytorch" alt="PyTorch - Version" height="21">
     <img src="https://img.shields.io/badge/PYTHON-3.10-red?style=for-the-badge&logo=python&logoColor=white" alt="Python - Version" height="21">
 </p>
@@ -18,6 +19,7 @@
         <a href="https://arxiv.org/abs/2407.04057">[Paper]</a>
     <p>
 </div>
+
 
 
 ---
