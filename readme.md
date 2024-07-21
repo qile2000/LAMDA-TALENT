@@ -3,7 +3,7 @@
 </p>
 <p align="center">
     <a href='https://arxiv.org/abs/2407.04057'><img src='https://img.shields.io/badge/Arxiv-2407.04057-b31b1b.svg?logo=arXiv'></a>
-    <a href='https://zhuanlan.zhihu.com/p/708721145'><img src='https://img.shields.io/badge/中文解答-b0.svg?logo=zhihu'></a>
+    <a href='https://zhuanlan.zhihu.com/p/708721145'><img src='https://img.shields.io/badge/中文解读-b0.svg?logo=zhihu'></a>
   <a href=""><img src="https://img.shields.io/github/stars/qile2000/LAMDA-TALENT?color=4fb5ee"></a>
   <a href=""><img src="https://img.shields.io/github/last-commit/qile2000/LAMDA-TALENT?color=blue"></a>
    <br>
@@ -19,6 +19,7 @@
         <a href="https://arxiv.org/abs/2407.04057">[Paper]</a> <a href="https://zhuanlan.zhihu.com/p/708721145">[中文解读]</a> 
     <p>
 </div>
+
 
 
 
