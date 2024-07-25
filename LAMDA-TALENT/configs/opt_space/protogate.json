@@ -1,0 +1,50 @@
+{
+    "protogate": {
+        "model": {
+            "hidden_layer_list": [
+                "$mlp_d_layers",
+                1,
+                4,
+                64,
+                512
+            ]
+        },
+        "training": {
+            "lr": [
+                "categorical",
+                [
+                    5e-2, 
+                    7.5e-2, 
+                    1e-1
+                ]
+            ],
+            "weight_decay": [
+                "?loguniform",
+                0.0,
+                1e-06,
+                0.001
+            ],
+            "l1_coef":[
+                "categorical",
+                [
+                    1e-4, 
+                    2e-4, 
+                    3e-4, 
+                    4e-4, 
+                    6e-4
+                ]
+            ],
+            "pred_k":[
+                "categorical",
+                [
+                    1, 
+                    2, 
+                    3, 
+                    4, 
+                    5
+                ]
+            ]
+        },
+        "general": {}
+    }
+}

@@ -267,7 +267,7 @@ def get_deep_args():
                                  'tabpfn', 'tangos', 'saint', 'tabcaps', 'tabnet',
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
-                                 'hyperfast', 'bishop', 'realmlp'])
+                                 'hyperfast', 'bishop', 'realmlp', 'protogate'])
     
     # optimization parameters
     parser.add_argument('--max_epoch', type=int, default=default_args['max_epoch'])
@@ -504,6 +504,14 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
             config['model'].setdefault('kv_compression', None)
             config['model'].setdefault('kv_compression_sharing', None)
 
+        if args.model_type in ['protogate']:
+            config['training'].setdefault('lam', 1e-3)
+            config['training'].setdefault('pred_coef', 1)
+            config['training'].setdefault('sorting_tau', 16)
+            config['training'].setdefault('feature_selection', True)
+            config['model'].setdefault('a',1)
+            config['model'].setdefault('sigma',0.5)
+
         if config.get('config_type') == 'trv4':
             if config['model']['activation'].endswith('glu'):
                 # This adjustment is needed to keep the number of parameters roughly in the
@@ -626,6 +634,9 @@ def get_method(model):
     elif model == 'bishop':
         from model.methods.bishop import BiSHopMethod
         return BiSHopMethod
+    elif model == 'protogate':
+        from model.methods.protogate import ProtoGateMethod
+        return ProtoGateMethod
     elif model == 'realmlp':
         from model.methods.realmlp import RealMLPMethod
         return RealMLPMethod

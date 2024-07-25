@@ -1,0 +1,22 @@
+{
+    "protogate": {
+        "model": {
+            "a":1,
+            "sigma":0.5,
+            "hidden_layer_list": [
+                200
+            ]
+        },
+        "training": {
+            "lr": 0.1,
+            "weight_decay": 1e-05,
+            "pred_k":3,
+            "lam":1e-3,
+            "l1_coef":2e-4,
+            "pred_coef":1,
+            "sorting_tau":16,
+            "feature_selection":true
+        },
+        "general": {}
+    }
+}
