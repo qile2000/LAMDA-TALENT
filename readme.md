@@ -60,6 +60,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 📰 What's New
 
+- [2024-07]🌟 Add [ProtoGate](https://arxiv.org/abs/2306.12330) (ICML 2024).
 - [2024-07]🌟 Add [BiSHop](https://arxiv.org/abs/2404.03830) (ICML 2024).
 - [2024-06]🌟 Check out our new baseline [ModernNCA](https://arxiv.org/abs/2407.03257), inspired by traditional **Neighbor Component Analysis**, which outperforms both tree-based and other deep tabular models, while also reducing training time and model size!
 - [2024-06]🌟 Check out our [benchmark paper](https://arxiv.org/abs/2407.00956) about tabular data, which provides comprehensive evaluations of classical and deep tabular methods based on our toolbox in a fair manner!
@@ -91,6 +92,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 - **[HyperFast](https://arxiv.org/abs/2402.14335)**: A meta-trained hypernetwork that generates task-specific neural networks for instant classification of tabular data.
 - **[TabPTM](https://arxiv.org/abs/2311.00055)**: A general method for tabular data that standardizes heterogeneous datasets using meta-representations, allowing a pre-trained model to generalize to unseen datasets without additional training.
 - **[BiSHop](https://arxiv.org/abs/2404.03830)**: An end-to-end framework for deep tabular learning which leverages a sparse Hopfield model with adaptable sparsity, enhanced by column-wise and row-wise modules.
+- **[ProtoGate](https://arxiv.org/abs/2306.12330)**: A prototype-based model for feature selection in HDLSS biomedical data that adapts global and local feature selection to enhance prediction accuracy and interpretability, addressing co-adaptation issues through a non-parametric prototype-based mechanism.
 
 ## ☄️ How to Use TALENT
 
@@ -223,6 +225,8 @@ We thank the following repos for providing helpful components/functions in our w
 - [TANGOS](https://github.com/alanjeffares/TANGOS)
 - [GrowNet](https://github.com/sbadirli/GrowNet)
 - [HyperFast](https://github.com/AI-sandbox/HyperFast)
+- [BiSHop](https://github.com/MAGICS-LAB/BiSHop)
+- [ProtoGate](https://github.com/SilenceX12138/ProtoGate)
 
 
 
