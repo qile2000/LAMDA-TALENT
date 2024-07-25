@@ -1,0 +1,17 @@
+{
+    "realmlp": {
+        "model": {
+            "num_emb_type": "pbld",
+            "add_front_scale": true,
+            "lr": 4e-2,
+            "p_drop": 0.15,
+            "act": "selu",
+            "hidden_sizes": [256, 256, 256],
+            "wd": 2e-2,
+            "plr_sigma": 0.1,
+            "ls_eps": 0.1
+        },
+        "training": {},
+        "general": {}
+    }
+}

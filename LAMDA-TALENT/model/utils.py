@@ -267,7 +267,7 @@ def get_deep_args():
                                  'tabpfn', 'tangos', 'saint', 'tabcaps', 'tabnet',
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
-                                 'hyperfast','bishop'])
+                                 'hyperfast', 'bishop', 'realmlp'])
     
     # optimization parameters
     parser.add_argument('--max_epoch', type=int, default=default_args['max_epoch'])
@@ -626,6 +626,9 @@ def get_method(model):
     elif model == 'bishop':
         from model.methods.bishop import BiSHopMethod
         return BiSHopMethod
+    elif model == 'realmlp':
+        from model.methods.realmlp import RealMLPMethod
+        return RealMLPMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod

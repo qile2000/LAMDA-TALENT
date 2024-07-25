@@ -1,0 +1,72 @@
+{
+    "realmlp": {
+        "model": {
+            "num_emb_type": [
+                "categorical",
+                [
+                    "none",
+                    "pbld",
+                    "pl",
+                    "plr"
+                ]
+            ],
+            "add_front_scale": [
+                "categorical",
+                [
+                    true,
+                    false
+                ]
+            ],
+            "lr": [
+                "loguniform",
+                0.02,
+                0.3
+            ],
+            "p_drop": [
+                "categorical",
+                [
+                    0.00,
+                    0.15,
+                    0.30
+                ]
+            ],
+            "act": [
+                "categorical",
+                [
+                    "selu",
+                    "relu",
+                    "mish"
+                ]
+            ],
+            "hidden_sizes": [
+                "categorical",
+                [
+                    [256, 256, 256],
+                    [64, 64, 64, 64, 64],
+                    [512]
+                ]
+            ],
+            "wd": [
+                "categorical",
+                [
+                    0.0,
+                    2e-2
+                ]
+            ],
+            "plr_sigma": [
+                "loguniform",
+                0.05,
+                0.5
+            ],
+            "ls_eps": [
+                "categorical",
+                [
+                    0.0,
+                    0.1
+                ]
+            ]
+        },
+        "training": {},
+        "general": {}
+    }
+}
