@@ -106,9 +106,13 @@ class RealMLPMethod(Method):
             cat_features = [1] * self.C['train'].shape[1] + [0] * self.N['train'].shape[1]
         
         y_train = np.array(self.y['train'])
+        
+        X_train_and_val = np.concatenate([X_train, X_val], axis=0)
+        y_train_and_val = np.concatenate([y_train, y_val], axis=0)
+        val_idxs = np.arange(X_train.shape[0], X_train.shape[0] + X_val.shape[0], dtype=np.int32)
 
         tic = time.time()
-        self.model.fit(X_train, y_train, cat_features=cat_features)
+        self.model.fit(X_train_and_val, y_train_and_val, val_idxs=val_idxs, cat_features=cat_features)
         
         test_logit = self.model.predict(X_val)
         test_label = self.y['val']
