@@ -83,7 +83,6 @@ class RealMLPMethod(Method):
         self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
         self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
         
-        
         if config:
             self.reset_stats_withconfig(config)
         self.data_format(is_train = True)
@@ -106,6 +105,7 @@ class RealMLPMethod(Method):
             cat_features = [1] * self.C['train'].shape[1] + [0] * self.N['train'].shape[1]
         
         y_train = np.array(self.y['train'])
+        y_val = np.array(self.y['val'])
         
         X_train_and_val = np.concatenate([X_train, X_val], axis=0)
         y_train_and_val = np.concatenate([y_train, y_val], axis=0)
