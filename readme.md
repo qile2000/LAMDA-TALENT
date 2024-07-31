@@ -40,7 +40,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 📚Citing TALENT
 
-**If you use any content of this repo for your work, please cite the following bib entry:**
+**If you use any content of this repo for your work, please cite the following bib entries:**
 
 ```bibtex
 @article{ye2024closerlookdeeplearning,
@@ -230,7 +230,7 @@ We thank the following repos for providing helpful components/functions in our w
 - [BiSHop](https://github.com/MAGICS-LAB/BiSHop)
 - [ProtoGate](https://github.com/SilenceX12138/ProtoGate)
 
-- [Pytabkit)](https://github.com/dholzmueller/pytabkit)
+- [Pytabkit](https://github.com/dholzmueller/pytabkit)
 
 ## 🤗 Contact
 
