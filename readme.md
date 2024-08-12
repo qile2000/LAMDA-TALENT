@@ -60,6 +60,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 📰 What's New
 
+- [2024-08]🌟 Add [MLP_PLR](https://arxiv.org/abs/2203.05556) (NeurIPS 2022).
 - [2024-07]🌟 Add [RealMLP](https://arxiv.org/abs/2407.04491).
 - [2024-07]🌟 Add [ProtoGate](https://arxiv.org/abs/2306.12330) (ICML 2024).
 - [2024-07]🌟 Add [BiSHop](https://arxiv.org/abs/2404.03830) (ICML 2024).
@@ -95,6 +96,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 - **[BiSHop](https://arxiv.org/abs/2404.03830)**: An end-to-end framework for deep tabular learning which leverages a sparse Hopfield model with adaptable sparsity, enhanced by column-wise and row-wise modules.
 - **[ProtoGate](https://arxiv.org/abs/2306.12330)**: A prototype-based model for feature selection in HDLSS biomedical data that adapts global and local feature selection to enhance prediction accuracy and interpretability, addressing co-adaptation issues through a non-parametric prototype-based mechanism.
 - **[RealMLP](https://arxiv.org/abs/2407.04491)**: An improved multilayer perceptron (MLP).
+- **[MLP_PLR](https://arxiv.org/abs/2203.05556)**: An improved multilayer perceptron (MLP), which utilizes periodic activations.
 
 ## ☄️ How to Use TALENT
 
@@ -229,7 +231,6 @@ We thank the following repos for providing helpful components/functions in our w
 - [HyperFast](https://github.com/AI-sandbox/HyperFast)
 - [BiSHop](https://github.com/MAGICS-LAB/BiSHop)
 - [ProtoGate](https://github.com/SilenceX12138/ProtoGate)
-
 - [Pytabkit](https://github.com/dholzmueller/pytabkit)
 
 ## 🤗 Contact
