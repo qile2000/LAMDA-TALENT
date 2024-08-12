@@ -267,7 +267,8 @@ def get_deep_args():
                                  'tabpfn', 'tangos', 'saint', 'tabcaps', 'tabnet',
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
-                                 'hyperfast', 'bishop', 'realmlp', 'protogate'])
+                                 'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr'
+                                 ])
     
     # optimization parameters
     parser.add_argument('--max_epoch', type=int, default=default_args['max_epoch'])
@@ -470,7 +471,11 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
             config['model'].setdefault('dropout1', 0.0)
             config['model'].setdefault('normalization', "LayerNorm")
             config['model'].setdefault('activation', "ReLU")
-
+        
+        if args.model_type in ['mlp_plr']:
+            config['model']["num_embeddings"].setdefault('type', 'PLREmbeddings')
+            config['model']["num_embeddings"].setdefault('lite', True)
+            
         if args.model_type in ['ptarl']:
             config['model']['n_clusters'] = 20
             config['model']["regularize"]="True"
@@ -640,6 +645,9 @@ def get_method(model):
     elif model == 'realmlp':
         from model.methods.realmlp import RealMLPMethod
         return RealMLPMethod
+    elif model == 'mlp_plr':
+        from model.methods.mlp_plr import MLP_PLRMethod
+        return MLP_PLRMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod
