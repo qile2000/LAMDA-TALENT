@@ -267,7 +267,8 @@ def get_deep_args():
                                  'tabpfn', 'tangos', 'saint', 'tabcaps', 'tabnet',
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
-                                 'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr'
+                                 'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr',
+                                 'excelformer'
                                  ])
     
     # optimization parameters
@@ -459,6 +460,14 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
             config['model'].setdefault('kv_compression', None)
             config['model'].setdefault('kv_compression_sharing', None)    
 
+        if args.model_type in ['excelformer']:
+            config['model'].setdefault('prenormalization', False)
+            config['model'].setdefault('kv_compression', None)
+            config['model'].setdefault('kv_compression_sharing', None)  
+            config['model'].setdefault('token_bias', True)
+            config['model'].setdefault('init_scale', 0.01)
+            config['model'].setdefault('n_heads', 8)
+
         if args.model_type in ["node"]:
             config["model"].setdefault("choice_function", "sparsemax")
             config["model"].setdefault("bin_function", "sparsemoid")
@@ -648,6 +657,9 @@ def get_method(model):
     elif model == 'mlp_plr':
         from model.methods.mlp_plr import MLP_PLRMethod
         return MLP_PLRMethod
+    elif model == 'excelformer':
+        from model.methods.excelformer import ExcelFormerMethod
+        return ExcelFormerMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod

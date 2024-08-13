@@ -6,6 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from typing import Optional, Union
 # %%
+# Source: https://github.com/yandex-research/rtdl-num-embeddings
 class MLP(nn.Module):
     def __init__(
         self,

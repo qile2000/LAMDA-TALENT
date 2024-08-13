@@ -1,0 +1,23 @@
+{
+    "excelformer":{
+        "model": {
+            "prenormalization": true,
+            "kv_compression": null,
+            "kv_compression_sharing": null,
+            "token_bias": true,
+            "ffn_dropout": 0, 
+            "attention_dropout": 0.3, 
+            "residual_dropout": 0.0,
+            "n_layers": 3, 
+            "n_heads": 32, 
+            "d_token": 256,
+            "init_scale": 0.01
+        },
+        "training": {
+            "lr": 1e-4,
+            "weight_decay": 0,
+            "mix_type":"none"
+        },
+        "general": {}
+    }
+}
