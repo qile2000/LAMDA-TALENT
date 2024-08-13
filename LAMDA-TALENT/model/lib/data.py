@@ -390,11 +390,11 @@ def data_loader_process(is_regression, X, Y, y_info, device, batch_size, is_trai
         trainset = TData(is_regression, X, Y, y_info, 'train')
         valset = TData(is_regression, X, Y, y_info, 'val')
         train_loader = DataLoader(dataset=trainset, batch_size=batch_size, shuffle=True, num_workers=0)        
-        val_loader = DataLoader(dataset=valset, batch_size=8192, shuffle=False, num_workers=0) 
+        val_loader = DataLoader(dataset=valset, batch_size=batch_size, shuffle=False, num_workers=0) 
         return X[0], X[1], Y, train_loader, val_loader, loss_fn
     else:
         testset = TData(is_regression, X, Y, y_info, 'test')
-        test_loader = DataLoader(dataset=testset, batch_size=8192, shuffle=False, num_workers=0)        
+        test_loader = DataLoader(dataset=testset, batch_size=batch_size, shuffle=False, num_workers=0)        
         return X[0], X[1], Y, test_loader, loss_fn
 
 
