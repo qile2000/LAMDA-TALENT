@@ -60,6 +60,8 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 📰 What's New
 
+
+- [2024-08]🌟 Add [Excelformer](https://arxiv.org/abs/2301.02819) (KDD 2024).
 - [2024-08]🌟 Add [MLP_PLR](https://arxiv.org/abs/2203.05556) (NeurIPS 2022).
 - [2024-07]🌟 Add [RealMLP](https://arxiv.org/abs/2407.04491).
 - [2024-07]🌟 Add [ProtoGate](https://arxiv.org/abs/2306.12330) (ICML 2024).
@@ -97,6 +99,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 - **[ProtoGate](https://arxiv.org/abs/2306.12330)**: A prototype-based model for feature selection in HDLSS biomedical data that adapts global and local feature selection to enhance prediction accuracy and interpretability, addressing co-adaptation issues through a non-parametric prototype-based mechanism.
 - **[RealMLP](https://arxiv.org/abs/2407.04491)**: An improved multilayer perceptron (MLP).
 - **[MLP_PLR](https://arxiv.org/abs/2203.05556)**: An improved multilayer perceptron (MLP), which utilizes periodic activations.
+- **[Excelformer](https://arxiv.org/abs/2301.02819)**: A deep learning model for tabular data prediction, featuring a semi-permeable attention module to address rotational invariance, tailored data augmentation, and an attentive feedforward network, making it a reliable solution across diverse datasets.
 
 ## ☄️ How to Use TALENT
 
@@ -232,6 +235,7 @@ We thank the following repos for providing helpful components/functions in our w
 - [BiSHop](https://github.com/MAGICS-LAB/BiSHop)
 - [ProtoGate](https://github.com/SilenceX12138/ProtoGate)
 - [Pytabkit](https://github.com/dholzmueller/pytabkit)
+- [Excelformer](https://github.com/WhatAShot/ExcelFormer)
 
 ## 🤗 Contact
 
