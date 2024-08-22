@@ -6,7 +6,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from typing import Optional, Union
 # %%
-# Source: https://github.com/yandex-research/rtdl-num-embeddings
 class MLP(nn.Module):
     def __init__(
         self,
@@ -45,6 +44,7 @@ class MLP(nn.Module):
             x=x_num
         elif x_cat is not None:
             x=x_cat
+            x = x.to(torch.float64)
         for layer in self.layers:
             # print(x.shape,self.d_in)
             x = layer(x)
