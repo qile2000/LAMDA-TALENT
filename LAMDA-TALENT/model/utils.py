@@ -268,7 +268,7 @@ def get_deep_args():
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
                                  'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr',
-                                 'excelformer'
+                                 'excelformer', 'grande'
                                  ])
     
     # optimization parameters
@@ -525,6 +525,11 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
             config['training'].setdefault('feature_selection', True)
             config['model'].setdefault('a',1)
             config['model'].setdefault('sigma',0.5)
+        
+        if args.model_type in ['grande']:
+            config['model'].setdefault('from_logits', True)
+            config['model'].setdefault('use_class_weights', True)
+            config['model'].setdefault('bootstrap', False)
 
         if config.get('config_type') == 'trv4':
             if config['model']['activation'].endswith('glu'):
@@ -660,6 +665,9 @@ def get_method(model):
     elif model == 'excelformer':
         from model.methods.excelformer import ExcelFormerMethod
         return ExcelFormerMethod
+    elif model == 'grande':
+        from model.methods.grande import GRANDEMethod
+        return GRANDEMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod
