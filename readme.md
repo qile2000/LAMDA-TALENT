@@ -238,6 +238,7 @@ We thank the following repos for providing helpful components/functions in our w
 - [ProtoGate](https://github.com/SilenceX12138/ProtoGate)
 - [Pytabkit](https://github.com/dholzmueller/pytabkit)
 - [Excelformer](https://github.com/WhatAShot/ExcelFormer)
+- [GRANDE](https://github.com/s-marton/GRANDE)
 
 ## 🤗 Contact
 
