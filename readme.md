@@ -61,6 +61,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 ## 📰 What's New
 
 
+- [2024-08]🌟 Add [GRANDE](https://arxiv.org/abs/2309.17130) (ICLR 2024).
 - [2024-08]🌟 Add [Excelformer](https://arxiv.org/abs/2301.02819) (KDD 2024).
 - [2024-08]🌟 Add [MLP_PLR](https://arxiv.org/abs/2203.05556) (NeurIPS 2022).
 - [2024-07]🌟 Add [RealMLP](https://arxiv.org/abs/2407.04491).
@@ -100,6 +101,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 - **[RealMLP](https://arxiv.org/abs/2407.04491)**: An improved multilayer perceptron (MLP).
 - **[MLP_PLR](https://arxiv.org/abs/2203.05556)**: An improved multilayer perceptron (MLP), which utilizes periodic activations.
 - **[Excelformer](https://arxiv.org/abs/2301.02819)**: A deep learning model for tabular data prediction, featuring a semi-permeable attention module to address rotational invariance, tailored data augmentation, and an attentive feedforward network, making it a reliable solution across diverse datasets.
+- **[GRANDE](https://arxiv.org/abs/2309.17130)**: A tree-mimic method for learning hard, axis-aligned decision tree ensembles using end-to-end gradient descent.
 
 ## ☄️ How to Use TALENT
 
