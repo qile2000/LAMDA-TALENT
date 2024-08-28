@@ -27,8 +27,11 @@ class GRANDE(nn.Module):
 
         split_index_array = self.entmax15(self.split_index_array)
 
-        split_index_array = split_index_array - (split_index_array - nn.functional.one_hot(torch.argmax(split_index_array, dim=-1), num_classes=split_index_array.shape[-1]).float())
-
+        split_index_array = split_index_array - (split_index_array - nn.functional.one_hot(torch.argmax(split_index_array, dim=-1), num_classes=split_index_array.shape[-1]).double())
+        X_estimator = X_estimator.double()
+        split_index_array = split_index_array.to(inputs.device)
+        # print(self.split_values.dtype)
+        # print(split_index_array.dtype)
         s1_sum = torch.einsum("ein,ein->ei", self.split_values, split_index_array)
         s2_sum = torch.einsum("ben,ein->bei", X_estimator, split_index_array)
 
@@ -36,7 +39,9 @@ class GRANDE(nn.Module):
         node_result_corrected = node_result - (node_result - torch.round(node_result))
 
         node_result_extended = node_result_corrected[:, :, self.internal_node_index_list]
-
+        # print(self.path_identifier_list.device)
+        # print(node_result_extended.device)
+        self.path_identifier_list = self.path_identifier_list.to(inputs.device)
         p = torch.prod(((1 - self.path_identifier_list) * node_result_extended + self.path_identifier_list * (1 - node_result_extended)), dim=3)
 
         estimator_weights_leaf = torch.einsum("el,bel->be", self.estimator_weights, p)
@@ -94,7 +99,7 @@ class GRANDE(nn.Module):
                 indices = [np.random.choice(self.batch_size, size=self.subset_size, replace=False) for _ in range(self.n_estimators)]
                 self.data_select = torch.tensor(indices)
 
-            self.counts = torch.tensor(np.unique(self.data_select.numpy(), return_counts=True)[1], dtype=torch.float32)
+            self.counts = torch.tensor(np.unique(self.data_select.numpy(), return_counts=True)[1], dtype=torch.float64)
 
         self.features_by_estimator = torch.tensor([np.random.choice(self.number_of_variables, size=self.selected_variables, replace=False) for _ in range(self.n_estimators)])
 
@@ -106,7 +111,7 @@ class GRANDE(nn.Module):
                 internal_node_index = 2 ** (current_depth - 1) + leaf_index // (2 ** (self.depth - current_depth + 1)) - 1
                 self.path_identifier_list.append(path_identifier)
                 self.internal_node_index_list.append(internal_node_index)
-        self.path_identifier_list = torch.tensor(self.path_identifier_list).view(-1, self.depth).float()
+        self.path_identifier_list = torch.tensor(self.path_identifier_list).view(-1, self.depth).double()
         self.internal_node_index_list = torch.tensor(self.internal_node_index_list).view(-1, self.depth).long()
 
         leaf_classes_array_shape = [self.n_estimators, self.leaf_node_num_] if self.task_type in ['binclass', 'regression'] else [self.n_estimators, self.leaf_node_num_, self.number_of_classes]
@@ -156,9 +161,9 @@ class GRANDE(nn.Module):
 
     def preprocess_data(self, X_train, y_train, X_val, y_val):
         if isinstance(y_train, pd.Series):
-            y_train = y_train.values.astype(np.float32)
+            y_train = y_train.values.astype(np.float64)
         if isinstance(y_val, pd.Series):
-            y_val = y_val.values.astype(np.float32)
+            y_val = y_val.values.astype(np.float64)
 
         if not isinstance(X_train, pd.DataFrame):
             X_train = pd.DataFrame(X_train)
@@ -209,29 +214,31 @@ class GRANDE(nn.Module):
         X_train = self.encoder_ohe.transform(X_train)
         X_val = self.encoder_ohe.transform(X_val)
 
-        X_train = X_train.astype(np.float32)
-        X_val = X_val.astype(np.float32)
-
-        quantile_noise = 1e-4
-        quantile_train = np.copy(X_train.values).astype(np.float64)
+        X_train = X_train.astype(np.float64)
+        X_val = X_val.astype(np.float64)
+        X_train = X_train.values
+        X_val = X_val.values
+        # quantile_noise = 1e-4
+        # quantile_train = np.copy(X_train.values).astype(np.float64)
         
-        stds = np.std(quantile_train, axis=0, keepdims=True)
-        noise_std = quantile_noise / np.maximum(stds, quantile_noise)
-        quantile_train += noise_std * np.random.randn(*quantile_train.shape)
+        # stds = np.std(quantile_train, axis=0, keepdims=True)
+        # noise_std = quantile_noise / np.maximum(stds, quantile_noise)
+        # quantile_train += noise_std * np.random.randn(*quantile_train.shape)
 
-        quantile_train = pd.DataFrame(quantile_train, columns=X_train.columns, index=X_train.index)
+        # quantile_train = pd.DataFrame(quantile_train, columns=X_train.columns, index=X_train.index)
 
-        self.normalizer = sklearn.preprocessing.QuantileTransformer(
-            n_quantiles=min(quantile_train.shape[0], 1000),
-            output_distribution='normal',
-        )
+        # self.normalizer = sklearn.preprocessing.QuantileTransformer(
+        #     n_quantiles=min(quantile_train.shape[0], 1000),
+        #     output_distribution='normal',
+        # )
 
-        self.normalizer.fit(quantile_train.values.astype(np.float64))
-        X_train = self.normalizer.transform(X_train.values.astype(np.float64))
-        X_val = self.normalizer.transform(X_val.values.astype(np.float64))
+        # self.normalizer.fit(quantile_train.values.astype(np.float64))
+        # X_train = self.normalizer.transform(X_train.values.astype(np.float64))
+        # X_val = self.normalizer.transform(X_val.values.astype(np.float64))
 
-        self.mean = np.mean(y_train)
-        self.std = np.std(y_train)
+        # self.mean = np.mean(y_train)
+        # self.std = np.std(y_train)
+        # print(self.mean, self.std)
 
         return X_train, y_train, X_val, y_val
 

@@ -37,6 +37,7 @@ class GRANDEMethod(Method):
                 task_type='binclass' if self.is_binclass else 'multiclass' if self.is_multiclass else 'regression',
                 **model_config
                 ).to(self.args.device) 
+        # print(self.args.device)
         self.model.double()
 
     def data_format(self, is_train = True, N = None, C = None, y = None):
@@ -45,14 +46,14 @@ class GRANDEMethod(Method):
             self.y, self.y_info, self.label_encoder = data_label_process(self.y, self.is_regression)
             self.N,self.num_encoder = num_enc_process(self.N,num_policy = self.args.num_policy, n_bins = self.args.config['training']['n_bins'],y_train=self.y['train'],is_regression=self.is_regression)
             self.N, self.C, self.ord_encoder, self.mode_values, self.cat_encoder = data_enc_process(self.N, self.C, self.args.cat_policy, self.y['train'])
-            # self.N, self.normalizer = data_norm_process(self.N, self.args.normalization, self.args.seed)
+            self.N, self.normalizer = data_norm_process(self.N, self.args.normalization, self.args.seed)
 
         else:
             N_test, C_test, _, _, _ = data_nan_process(N, C, self.args.num_nan_policy, self.args.cat_nan_policy, self.num_new_value, self.imputer, self.cat_new_value)
             y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
             N_test,_ = num_enc_process(N_test,num_policy=self.args.num_policy,n_bins = self.args.config['training']['n_bins'],y_train=None,encoder = self.num_encoder)
             N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
-            # N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
+            N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
             if N_test is not None and C_test is not None:
                 self.N_test, self.C_test = N_test['test'], C_test['test']
             elif N_test is None and C_test is not None:
@@ -99,13 +100,17 @@ class GRANDEMethod(Method):
             self.model.number_of_classes = len(np.unique(y_train))
         else:
             self.model.number_of_classes = 1
+
         self.model.build_model()
         
-        train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.float32))
+        self.model.to(self.args.device)
+        self.model.double()
+
+        train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float64), torch.tensor(y_train, dtype=torch.float64))
         self.train_loader = DataLoader(train_dataset, batch_size=self.args.batch_size, shuffle=True, drop_last=True)
 
         if X_val is not None and y_val is not None:
-            val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.float32))
+            val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float64), torch.tensor(y_val, dtype=torch.float64))
             self.val_loader = DataLoader(val_dataset, batch_size=self.args.batch_size, shuffle=False)
         else:
             self.val_loader = None
@@ -163,19 +168,21 @@ class GRANDEMethod(Method):
         
         y_test = np.array(self.y_test)
         
-        X_test = self.model.apply_preprocessing(X_test)
+        # X_test = self.model.apply_preprocessing(X_test)
         
-        test_dataset = TensorDataset(torch.tensor(X_test, dtype=torch.float32), torch.tensor(y_test, dtype=torch.float32))
-        self.test_loader = DataLoader(test_dataset, batch_size=4096, shuffle=False, drop_last=False)
+        test_dataset = TensorDataset(torch.tensor(X_test, dtype=torch.float64), torch.tensor(y_test, dtype=torch.float64))
+        self.test_loader = DataLoader(test_dataset, batch_size=1024, shuffle=False, drop_last=False)
         
         test_logit, test_label = [], []
         with torch.no_grad():
             for i, (X, y) in tqdm(enumerate(self.test_loader)):
+                X, y = X.to(self.args.device), y.to(self.args.device)
                 pred = self.model(X)
                 test_logit.append(pred)
                 test_label.append(y)
         
-        print(f'[DEBUG 318] {test_logit=}, {test_label=}')
+        # print(f'[DEBUG 318] {test_logit=}, {test_label=}')
+
         test_logit = torch.cat(test_logit, 0)
         test_label = torch.cat(test_label, 0)
         
@@ -183,9 +190,9 @@ class GRANDEMethod(Method):
         vl = self.criterion(test_logit, test_label__).item()
         
         if self.is_binclass:
-            test_logit = np.stack([-test_logit.squeeze(), test_logit.squeeze()], axis=-1)
-        elif self.is_regression:
-            test_logit = test_logit * self.model.std + self.model.mean
+            test_logit = np.stack([-test_logit.cpu().squeeze(), test_logit.cpu().squeeze()], axis=-1)
+        # elif self.is_regression:
+        #     test_logit = test_logit * self.model.std + self.model.mean
 
         vres, metric_name = self.metric(test_logit, test_label, self.y_info)
 
@@ -202,6 +209,7 @@ class GRANDEMethod(Method):
             self.train_step = self.train_step + 1
 
             y = y.long() if self.is_multiclass else y.unsqueeze(1)
+            X, y = X.to(self.args.device), y.to(self.args.device)
             loss = self.criterion(self.model(X), y)
 
             tl.add(loss.item())
@@ -224,8 +232,10 @@ class GRANDEMethod(Method):
         ## Evaluation Stage
         self.model.eval()
         test_logit, test_label = [], []
+
         with torch.no_grad():
             for i, (X, y) in tqdm(enumerate(self.val_loader)):
+                X, y = X.to(self.args.device), y.to(self.args.device)
                 pred = self.model(X)
                 test_logit.append(pred)
                 test_label.append(y)
@@ -244,13 +254,14 @@ class GRANDEMethod(Method):
             measure = np.greater_equal
 
         if self.is_binclass:
-            test_logit = np.stack([-test_logit.squeeze(), test_logit.squeeze()], axis=-1)
-        elif self.is_regression:
-            test_logit = test_logit * self.model.std + self.model.mean
+            test_logit = np.stack([-test_logit.cpu().squeeze(), test_logit.cpu().squeeze()], axis=-1)
+        # elif self.is_regression:
+        #     test_logit = test_logit * self.model.std + self.model.mean
             
         vres, metric_name = self.metric(test_logit, test_label, self.y_info)
 
         print('epoch {}, val, loss={:.4f} {} result={:.4f}'.format(epoch, vl, task_type, vres[0]))
+
         if measure(vres[0], self.trlog['best_res']) or epoch == 0:
             self.trlog['best_res'] = vres[0]
             self.trlog['best_epoch'] = epoch
