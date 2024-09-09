@@ -61,6 +61,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 ## 📰 What's New
 
 
+- [2024-09]🌟 Add [AMFormer](https://arxiv.org/abs/2402.02334) (AAAI 2024).
 - [2024-08]🌟 Add [GRANDE](https://arxiv.org/abs/2309.17130) (ICLR 2024).
 - [2024-08]🌟 Add [Excelformer](https://arxiv.org/abs/2301.02819) (KDD 2024).
 - [2024-08]🌟 Add [MLP_PLR](https://arxiv.org/abs/2203.05556) (NeurIPS 2022).
@@ -102,6 +103,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 - **[MLP_PLR](https://arxiv.org/abs/2203.05556)**: An improved multilayer perceptron (MLP), which utilizes periodic activations.
 - **[Excelformer](https://arxiv.org/abs/2301.02819)**: A deep learning model for tabular data prediction, featuring a semi-permeable attention module to address rotational invariance, tailored data augmentation, and an attentive feedforward network, making it a reliable solution across diverse datasets.
 - **[GRANDE](https://arxiv.org/abs/2309.17130)**: A tree-mimic method for learning hard, axis-aligned decision tree ensembles using end-to-end gradient descent.
+- **[AMFormer](https://arxiv.org/abs/2402.02334)**: A token-based method which improves the transformer architecture for tabular data by incorporating parallel addition and multiplication attention mechanisms, utilizing prompt tokens to constrain feature interactions.
 
 ## ☄️ How to Use TALENT
 
@@ -239,6 +241,7 @@ We thank the following repos for providing helpful components/functions in our w
 - [Pytabkit](https://github.com/dholzmueller/pytabkit)
 - [Excelformer](https://github.com/WhatAShot/ExcelFormer)
 - [GRANDE](https://github.com/s-marton/GRANDE)
+- [AMFormer](https://github.com/aigc-apps/AMFormer)
 
 ## 🤗 Contact
 
