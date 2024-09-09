@@ -1,0 +1,49 @@
+{
+    "amformer": {
+        "model": {
+            "depth": [
+                "int",
+                1,
+                4
+            ],
+            "dim": [
+                "categorical",
+                [
+                    8,
+                    16,
+                    32,
+                    64,
+                    128
+                ]
+            ],
+            "attn_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "ff_dropout": [
+                "uniform",
+                0.0,
+                0.5
+            ],
+            "num_special_tokens": [
+                "int",
+                1,
+                4
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.001
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

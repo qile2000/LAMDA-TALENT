@@ -268,7 +268,7 @@ def get_deep_args():
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
                                  'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr',
-                                 'excelformer', 'grande'
+                                 'excelformer', 'grande','amformer','tabptm'
                                  ])
     
     # optimization parameters
@@ -531,6 +531,15 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
             config['model'].setdefault('use_class_weights', True)
             config['model'].setdefault('bootstrap', False)
 
+        if args.model_type in ['amformer']:
+            config['model'].setdefault('heads', 8)
+            config['model'].setdefault('groups', [54,54,54,54])
+            config['model'].setdefault('sum_num_per_group', [32,16,8,4])
+            config['model'].setdefault("prod_num_per_group", [6,6,6,6])
+            config['model'].setdefault("cluster", True)
+            config['model'].setdefault("target_mode", "mix")
+            config['model'].setdefault("token_descent", False)
+
         if config.get('config_type') == 'trv4':
             if config['model']['activation'].endswith('glu'):
                 # This adjustment is needed to keep the number of parameters roughly in the
@@ -668,6 +677,9 @@ def get_method(model):
     elif model == 'grande':
         from model.methods.grande import GRANDEMethod
         return GRANDEMethod
+    elif model == 'amformer':
+        from model.methods.amformer import AMFormerMethod
+        return AMFormerMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod
