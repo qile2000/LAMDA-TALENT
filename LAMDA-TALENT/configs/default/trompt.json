@@ -1,0 +1,14 @@
+{
+    "trompt": {
+        "model": {
+            "P":128,
+            "d":128,
+            "n_cycles":6
+        },
+        "training": {
+            "lr": 0.0003,
+            "weight_decay": 1e-05
+        },
+        "general": {}
+    }
+}

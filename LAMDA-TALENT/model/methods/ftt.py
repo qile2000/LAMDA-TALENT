@@ -16,3 +16,5 @@ class FTTMethod(Method):
                 **model_config
                 ).to(self.args.device) 
         self.model.double()
+
+    

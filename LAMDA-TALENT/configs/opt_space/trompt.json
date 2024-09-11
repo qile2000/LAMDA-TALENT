@@ -1,0 +1,42 @@
+{
+    "trompt": {
+        "model": {
+            "n_cycles": [
+                "int",
+                3,
+                8
+            ],
+            "d": [
+                "categorical",
+                [
+                    32,
+                    64,
+                    128,
+                    256
+                ]
+            ],
+            "P": [
+                "categorical",
+                [
+                    32,
+                    64,
+                    128,
+                    256
+                ]
+            ]
+        },
+        "training": {
+            "lr": [
+                "loguniform",
+                1e-05,
+                0.001
+            ],
+            "weight_decay": [
+                "loguniform",
+                1e-06,
+                0.001
+            ]
+        },
+        "general": {}
+    }
+}

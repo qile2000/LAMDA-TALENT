@@ -268,7 +268,7 @@ def get_deep_args():
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
                                  'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr',
-                                 'excelformer', 'grande','amformer','tabptm'
+                                 'excelformer', 'grande','amformer','tabptm','trompt'
                                  ])
     
     # optimization parameters
@@ -680,6 +680,9 @@ def get_method(model):
     elif model == 'amformer':
         from model.methods.amformer import AMFormerMethod
         return AMFormerMethod
+    elif model == 'trompt':
+        from model.methods.trompt import TromptMethod
+        return TromptMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod
