@@ -58,6 +58,8 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 }
 ```
 
+
+
 ## 📰 What's New
 
 - [2024-09]🌟 Add [Trompt](https://arxiv.org/abs/2305.18446) (ICML 2023).

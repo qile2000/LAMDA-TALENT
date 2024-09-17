@@ -1,7 +1,7 @@
 from tqdm import tqdm
 from model.utils import (
     get_classical_args,tune_hyper_parameters,
-    show_results_classical,get_method
+    show_results_classical,get_method,set_seeds
 )
 from model.lib.data import (
     get_dataset
@@ -18,6 +18,7 @@ if __name__ == '__main__':
     ## Training Stage over different random seeds
     for seed in tqdm(range(args.seed_num)):
         args.seed = seed    # update seed  
+        set_seeds(args.seed)
         method = get_method(args.model_type)(args, info['task_type'] == 'regression')
         time_cost = method.fit(train_val_data, info,train=True)    
         vres, metric_name, predict_logits = method.predict(test_data, info, model_name=args.evaluate_option)

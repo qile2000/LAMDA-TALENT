@@ -2,7 +2,7 @@
 from tqdm import tqdm
 from model.utils import (
     get_deep_args,show_results,tune_hyper_parameters,
-    get_method
+    get_method,set_seeds
 )
 from model.lib.data import (
     get_dataset
@@ -19,6 +19,7 @@ if __name__ == '__main__':
     
     for seed in tqdm(range(args.seed_num)):
         args.seed = seed    # update seed  
+        set_seeds(args.seed)
         method = get_method(args.model_type)(args, info['task_type'] == 'regression')
         time_cost = method.fit(train_val_data, info)    
         vl, vres, metric_name, predict_logits = method.predict(test_data, info, model_name=args.evaluate_option)
