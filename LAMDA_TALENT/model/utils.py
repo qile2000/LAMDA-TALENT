@@ -13,7 +13,11 @@ import os.path as osp
 THIS_PATH = os.path.dirname(__file__)
 
 def mkdir(path):
-    """make dir exists okay"""
+    """
+    Create a directory if it does not exist.
+
+    :path: str, path to the directory
+    """
     try:
         os.makedirs(path)
     except OSError as exc:  # Python >2.5
@@ -23,11 +27,22 @@ def mkdir(path):
             raise
 
 def set_gpu(x):
+    """
+    Set environment variable CUDA_VISIBLE_DEVICES
+    
+    :x: str, GPU id
+    """
     os.environ['CUDA_VISIBLE_DEVICES'] = x
     print('using gpu:', x)
 
 
 def ensure_path(path, remove=True):
+    """
+    Ensure a path exists.
+
+    path: str, path to the directory
+    remove: bool, whether to remove the directory if it exists
+    """
     if os.path.exists(path):
         if remove:
             if input('{} exists, remove? ([y]/n)'.format(path)) != 'n':
@@ -39,12 +54,19 @@ def ensure_path(path, remove=True):
 
 #  --- criteria helper ---
 class Averager():
+    """
+    A simple averager.
 
+    """
     def __init__(self):
         self.n = 0
         self.v = 0
 
     def add(self, x):
+        """
+        
+        :x: float, value to be added
+        """
         self.v = (self.v * self.n + x) / (self.n + 1)
         self.n += 1
 
@@ -57,6 +79,12 @@ class Timer():
         self.o = time.time()
 
     def measure(self, p=1):
+        """
+        Measure the time since the last call to measure.
+
+        :p: int, period of printing the time
+        """
+
         x = (time.time() - self.o) / p
         x = int(x)
         if x >= 3600:
@@ -71,6 +99,12 @@ def pprint(x):
 
 #  ---- import from lib.util -----------
 def set_seeds(base_seed: int, one_cuda_seed: bool = False) -> None:
+    """
+    Set random seeds for reproducibility.
+
+    :base_seed: int, base seed
+    :one_cuda_seed: bool, whether to set one seed for all GPUs
+    """
     assert 0 <= base_seed < 2 ** 32 - 10000
     random.seed(base_seed)
     np.random.seed(base_seed + 1)
@@ -93,12 +127,27 @@ def get_device() -> torch.device:
 
 import sklearn.metrics as skm
 def rmse(y, prediction, y_info):
+    """
+    
+    :y: np.ndarray, ground truth
+    :prediction: np.ndarray, prediction
+    :y_info: dict, information about the target variable
+    :return: float, root mean squared error
+    """
     rmse = skm.mean_squared_error(y, prediction) ** 0.5  # type: ignore[code]
     if y_info['policy'] == 'mean_std':
         rmse *= y_info['std']
     return rmse
     
 def load_config(args, config=None, config_name=None):
+    """
+    Load the config file.
+
+    :args: argparse.Namespace, arguments
+    :config: dict, config file
+    :config_name: str, name of the config file
+    :return: argparse.Namespace, arguments
+    """
     if config is None:
         config_path = os.path.join(os.path.abspath(os.path.join(THIS_PATH, '..')), 
                                    'configs', args.dataset, 
@@ -121,6 +170,14 @@ def load_config(args, config=None, config_name=None):
 
 # parameter search
 def sample_parameters(trial, space, base_config):
+    """
+    Sample hyper-parameters.
+
+    :trial: optuna.trial.Trial, trial
+    :space: dict, search space
+    :base_config: dict, base configuration
+    :return: dict, sampled hyper-parameters
+    """
     def get_distribution(distribution_name):
         return getattr(trial, f'suggest_{distribution_name}')
 
@@ -172,6 +229,12 @@ def sample_parameters(trial, space, base_config):
     return result
 
 def merge_sampled_parameters(config, sampled_parameters):
+    """
+    Merge the sampled hyper-parameters.
+
+    :config: dict, configuration
+    :sampled_parameters: dict, sampled hyper-parameters
+    """
     for k, v in sampled_parameters.items():
         if isinstance(v, dict):
             merge_sampled_parameters(config.setdefault(k, {}), v)
@@ -180,6 +243,12 @@ def merge_sampled_parameters(config, sampled_parameters):
             config[k] = v
 
 def get_classical_args():
+    """
+    Get the arguments for classical models.
+
+    :return: argparse.Namespace, arguments
+    """
+
     import argparse
     import warnings
     warnings.filterwarnings("ignore")
@@ -252,6 +321,11 @@ def get_classical_args():
     return args,default_para,opt_space   
 
 def get_deep_args():  
+    """
+    Get the arguments for deep learning models.
+
+    :return: argparse.Namespace, arguments
+    """
     import argparse 
     import warnings
     warnings.filterwarnings("ignore")
@@ -330,6 +404,15 @@ def get_deep_args():
     return args,default_para,opt_space   
 
 def show_results_classical(args,info,metric_name,results_list,time_list):
+    """
+    Show the results for classical models.
+
+    :args: argparse.Namespace, arguments
+    :info: dict, information about the dataset
+    :metric_name: list, names of the metrics
+    :results_list: list, list of results
+    :time_list: list, list of time
+    """
     metric_arrays = {name: [] for name in metric_name}  
 
 
@@ -373,6 +456,16 @@ def show_results_classical(args,info,metric_name,results_list,time_list):
 
 
 def show_results(args,info,metric_name,loss_list,results_list,time_list):
+    """
+    Show the results for deep learning models.
+
+    :args: argparse.Namespace, arguments
+    :info: dict, information about the dataset
+    :metric_name: list, names of the metrics
+    :loss_list: list, list of loss
+    :results_list: list, list of results
+    :time_list: list, list of time
+    """
     metric_arrays = {name: [] for name in metric_name}  
 
 
@@ -416,6 +509,15 @@ def show_results(args,info,metric_name,loss_list,results_list,time_list):
     print('-' * 50)
 
 def tune_hyper_parameters(args,opt_space,train_val_data,info):
+    """
+    Tune hyper-parameters.
+
+    :args: argparse.Namespace, arguments
+    :opt_space: dict, search space
+    :train_val_data: tuple, training and validation data
+    :info: dict, information about the dataset
+    :return: argparse.Namespace, arguments
+    """
     import optuna
     import optuna.samplers
     import optuna.trial
@@ -593,6 +695,12 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
     return args
 
 def get_method(model):
+    """
+    Get the method class.
+
+    :model: str, model name
+    :return: class, method class
+    """
     if model == "mlp":
         from model.methods.mlp import MLPMethod
         return MLPMethod

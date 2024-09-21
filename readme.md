@@ -9,7 +9,10 @@
    <br>
     <img src="https://img.shields.io/badge/PYTORCH-2.0.1-red?style=for-the-badge&logo=pytorch" alt="PyTorch - Version" height="21">
     <img src="https://img.shields.io/badge/PYTHON-3.10-red?style=for-the-badge&logo=python&logoColor=white" alt="Python - Version" height="21">
-    <a href=""><img src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
+    <a href="">
+    <a href='https://lamda-talent.readthedocs.io/en/latest/?badge=latest'>
+    <img src='https://readthedocs.org/projects/lamda-talent/badge/?version=latest' alt='Documentation Status' />
+</a><img src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
 </p>
 <div align="center">
     <p>
