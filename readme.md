@@ -119,7 +119,7 @@ Clone this GitHub repository:
 
 ```bash
 git clone https://github.com/qile2000/LAMDA-TALENT
-cd LAMDA-TALENT/LAMDA-TALENT
+cd LAMDA-TALENT/LAMDA_TALENT
 ```
 
 ### 🔑 Run experiment
