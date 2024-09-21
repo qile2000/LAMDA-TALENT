@@ -3,6 +3,6 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "LAMDA-TALENT"
+name = "LAMDA_TALENT"
 authors = [{name = "Siyang Liu", email = "liusy@lamda.nju.edu.cn"}]
 dynamic = ["version", "description"]
