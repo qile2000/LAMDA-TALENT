@@ -61,26 +61,31 @@ Contents
 .. toctree::
    :maxdepth: 2
    :caption: Tutorials
+
    tutorials
 
 .. toctree::
    :maxdepth: 2
    :caption: Methods
+
    methods
    
 .. toctree::
    :maxdepth: 2
    :caption: Dependencies
+   
    dependencies
 
 .. toctree::
    :maxdepth: 2
    :caption: Benchmark_Datasets   
+
    benchmark_datasets
 
 .. toctree::
    :maxdepth: 2
    :caption: Experimental_Results
+
    experimental_results
 
 .. toctree::
@@ -90,9 +95,10 @@ Contents
    api/utils
    api/data
    api/method_base
-   
+
 .. toctree::
    :maxdepth: 2
    :caption: Acknowledgements
+
    acknowledgements
 
