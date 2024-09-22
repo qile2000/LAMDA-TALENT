@@ -22,6 +22,7 @@ Optional Dependencies
 Some methods in TALENT require additional dependencies for specific tasks. If you intend to use the following methods, make sure to install these optional packages:
 
 - `faiss-gpu <https://github.com/facebookresearch/faiss>`_ : Required for **TabR** to efficiently handle nearest neighbor searches. Install via conda:
+   
    .. code-block:: bash
 
       conda install faiss-gpu -c pytorch
@@ -36,6 +37,7 @@ To install the necessary dependencies for TALENT, you can use the following comm
 1. **Using pip**:
 
    Install the required libraries from the `requirements.txt` file:
+   
    .. code-block:: bash
    
       pip install -r requirements.txt
@@ -44,6 +46,7 @@ To install the necessary dependencies for TALENT, you can use the following comm
 2. **Using conda**:
 
    If you are using `conda`, you can create a new environment and install the dependencies:
+   
    .. code-block:: bash
    
       conda create -n talent python=3.10
