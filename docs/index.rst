@@ -4,11 +4,6 @@
 TALENT: A Tabular Analytics and Learning Toolbox
 ====================================
 
-.. autoclass:: LAMDA_TALENT.model.utils.Averager
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   
 .. image:: ../resources/TALENT-LOGO.png
    :width: 1000px
    :align: center
