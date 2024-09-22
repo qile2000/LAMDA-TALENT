@@ -57,6 +57,15 @@ class Dataset:
         return self.n_num_features + self.n_cat_features
 
     def size(self, part: str) -> int:
+        """
+        Return the size of the dataset partition.
+
+        Args:
+
+        - part: str
+
+        Returns: int
+        """
         X = self.N if self.N is not None else self.C
         assert(X is not None)
         return len(X[part])
@@ -65,6 +74,14 @@ THIS_PATH = os.path.dirname(__file__)
 DATA_PATH = os.path.abspath(os.path.join(THIS_PATH, '..', '..', '..'))
 
 def dataname_to_numpy(dataset_name, dataset_path):
+
+    """
+    Load the dataset from the numpy files.
+
+    :param dataset_name: str
+    :param dataset_path: str
+    :return: Tuple[ArrayDict, ArrayDict, ArrayDict, Dict[str, Any]]
+    """
     dir_ = Path(os.path.join(DATA_PATH, dataset_path, dataset_name))
 
     def load(item) -> ArrayDict:
@@ -81,6 +98,13 @@ def dataname_to_numpy(dataset_name, dataset_path):
     )
 
 def get_dataset(dataset_name, dataset_path):
+    """
+    Load the dataset from the numpy files.
+
+    :param dataset_name: str
+    :param dataset_path: str
+    :return: Tuple[ArrayDict, ArrayDict, ArrayDict, Dict[str, Any]]
+    """
     N, C, y, info = dataname_to_numpy(dataset_name, dataset_path)
     N_trainval = None if N is None else {key: N[key] for key in ["train", "val"]} if "train" in N and "val" in N else None
     N_test = None if N is None else {key: N[key] for key in ["test"]} if "test" in N else None
@@ -97,6 +121,18 @@ def get_dataset(dataset_name, dataset_path):
     return train_val_data,test_data,info
 
 def data_nan_process(N_data, C_data, num_nan_policy, cat_nan_policy, num_new_value = None, imputer = None, cat_new_value = None):
+    """
+    Process the NaN values in the dataset.
+
+    :param N_data: ArrayDict
+    :param C_data: ArrayDict
+    :param num_nan_policy: str
+    :param cat_nan_policy: str
+    :param num_new_value: Optional[np.ndarray]
+    :param imputer: Optional[SimpleImputer]
+    :param cat_new_value: Optional[str]
+    :return: Tuple[ArrayDict, ArrayDict, Optional[np.ndarray], Optional[SimpleImputer], Optional[str]]
+    """
     if N_data is None:
         N = None
     else:
@@ -157,6 +193,17 @@ def data_nan_process(N_data, C_data, num_nan_policy, cat_nan_policy, num_new_val
     return result
 
 def num_enc_process(N_data,num_policy,n_bins=2,y_train=None,is_regression=False,encoder=None):
+    """
+    Process the numerical features in the dataset.
+
+    :param N_data: ArrayDict
+    :param num_policy: str
+    :param n_bins: int
+    :param y_train: Optional[np.ndarray]
+    :param is_regression: bool
+    :param encoder: Optional[PiecewiseLinearEncoding]
+    :return: Tuple[ArrayDict, Optional[PiecewiseLinearEncoding]]
+    """
     from model.lib.num_embeddings import compute_bins,PiecewiseLinearEncoding,UnaryEncoding,JohnsonEncoding,BinsEncoding
     if N_data is not None:
         if num_policy == 'none':
@@ -238,6 +285,19 @@ def num_enc_process(N_data,num_policy,n_bins=2,y_train=None,is_regression=False,
 
 
 def data_enc_process(N_data, C_data, cat_policy, y_train = None, ord_encoder = None, mode_values = None, cat_encoder = None):
+    """
+    Process the categorical features in the dataset.
+
+    :param N_data: ArrayDict
+    :param C_data: ArrayDict
+    :param cat_policy: str
+    :param y_train: Optional[np.ndarray]
+    :param ord_encoder: Optional[OrdinalEncoder]
+    :param mode_values: Optional[List[int]]
+    :param cat_encoder: Optional[OneHotEncoder]
+    :return: Tuple[ArrayDict, ArrayDict, Optional[OrdinalEncoder], Optional[List[int]], Optional[OneHotEncoder]]
+    """
+
     if C_data is not None:
         unknown_value = np.iinfo('int64').max - 3
         if ord_encoder is None:
@@ -318,6 +378,15 @@ def data_enc_process(N_data, C_data, cat_policy, y_train = None, ord_encoder = N
         return N_data, C_data, None, None, None
 
 def data_norm_process(N_data, normalization, seed, normalizer = None):
+    """
+    Process the normalization of the dataset.
+
+    :param N_data: ArrayDict
+    :param normalization: str
+    :param seed: int
+    :param normalizer: Optional[TransformerMixin]
+    :return: Tuple[ArrayDict, Optional[TransformerMixin]]
+    """
     if N_data is None or normalization == 'none':
         return N_data, None
 
@@ -348,6 +417,15 @@ def data_norm_process(N_data, normalization, seed, normalizer = None):
     return result, normalizer
 
 def data_label_process(y_data, is_regression, info = None, encoder = None):
+    """
+    Process the labels in the dataset.
+
+    :param y_data: ArrayDict
+    :param is_regression: bool
+    :param info: Optional[Dict[str, Any]]
+    :param encoder: Optional[LabelEncoder]
+    :return: Tuple[ArrayDict, Dict[str, Any], Optional[LabelEncoder]]
+    """
     y = deepcopy(y_data)        
     if is_regression:
         y = {k: v.astype(float) for k,v in y.items()}
@@ -366,6 +444,18 @@ def data_label_process(y_data, is_regression, info = None, encoder = None):
         return y, {'policy': 'none'}, encoder
 
 def data_loader_process(is_regression, X, Y, y_info, device, batch_size, is_train):
+    """
+    Process the data loader.
+
+    :param is_regression: bool
+    :param X: Tuple[ArrayDict, ArrayDict]
+    :param Y: ArrayDict
+    :param y_info: Dict[str, Any]
+    :param device: torch.device
+    :param batch_size: int
+    :param is_train: bool
+    :return: Tuple[ArrayDict, ArrayDict, ArrayDict, DataLoader, DataLoader, Callable]
+    """
     X = tuple(None if x is None else to_tensors(x) for x in X)
     Y = to_tensors(Y)
 
@@ -401,11 +491,23 @@ def data_loader_process(is_regression, X, Y, y_info, device, batch_size, is_trai
     
 
 def to_tensors(data: ArrayDict) -> ty.Dict[str, torch.Tensor]:
+    """
+    Convert the numpy arrays to torch tensors.
+
+    :param data: ArrayDict
+    :return: Dict[str, torch.Tensor]
+    """
     return {k: torch.as_tensor(v) for k, v in data.items()}
 
 def get_categories(
     X_cat: ty.Optional[ty.Dict[str, torch.Tensor]]
 ) -> ty.Optional[ty.List[int]]:
+    """
+    Get the categories for each categorical feature.
+
+    :param X_cat: Optional[Dict[str, torch.Tensor]]
+    :return: Optional[List[int]]
+    """
     return (
         None
         if X_cat is None

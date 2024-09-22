@@ -4,7 +4,7 @@ LAMDA-TALENT Utils Module
 
 The **utils** module provides utility functions and helper classes used across the TALENT project. These functions include GPU management, configuration loading, random seed setting, and logging.
 
-.. automodule:: utils
+.. automodule:: LAMDA_TALENT.model.utils.utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -13,7 +13,7 @@ The **utils** module provides utility functions and helper classes used across t
 Classes
 ==========================
 
-.. autoclass:: Averager
+.. autoclass:: LAMDA_TALENT.model.utils.Averager
    :members:
    :undoc-members:
    :show-inheritance:
@@ -25,7 +25,7 @@ This class helps compute the running average of values, useful for logging and e
 - **add(x)**: Add a new value `x` to the average.
 - **item()**: Return the current average.
 
-.. autoclass:: Timer
+.. autoclass:: LAMDA_TALENT.model.utils.Timer
    :members:
    :undoc-members:
    :show-inheritance:

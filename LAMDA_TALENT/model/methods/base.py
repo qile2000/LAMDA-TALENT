@@ -25,6 +25,12 @@ from model.lib.data import (
 )
 
 def check_softmax(logits):
+    """
+    Check if the logits are already probabilities, and if not, convert them to probabilities.
+    
+    :param logits: np.ndarray of shape (N, C) with logits
+    :return: np.ndarray of shape (N, C) with probabilities
+    """
     # Check if any values are outside the [0, 1] range and Ensure they sum to 1
     if np.any((logits < 0) | (logits > 1)) or (not np.allclose(logits.sum(axis=-1), 1, atol=1e-5)):
         exps = np.exp(logits - np.max(logits, axis=1, keepdims=True))  # stabilize by subtracting max
@@ -34,6 +40,10 @@ def check_softmax(logits):
 
 class Method(object, metaclass=abc.ABCMeta):
     def __init__(self, args, is_regression):
+        """
+        :param args: argparse object
+        :param is_regression: bool, whether the task is regression or not
+        """
         self.args = args
         print(args.config)
         self.is_regression = is_regression
@@ -56,6 +66,11 @@ class Method(object, metaclass=abc.ABCMeta):
         self.args.device = get_device()
 
     def reset_stats_withconfig(self, config):
+        """
+        Reset the training statistics with a new configuration.
+
+        :param config: dict, new configuration
+        """
         set_seeds(self.args.seed)
         self.train_step = 0
         self.val_count = 0
@@ -74,6 +89,14 @@ class Method(object, metaclass=abc.ABCMeta):
             self.trlog['best_res'] = 0
 
     def data_format(self, is_train = True, N = None, C = None, y = None):
+        """
+        Format the data for training or testing.
+
+        :param is_train: bool, whether the data is for training or testing
+        :param N: dict, numerical data
+        :param C: dict, categorical data
+        :param y: dict, labels
+        """
         if is_train:
             self.N, self.C, self.num_new_value, self.imputer, self.cat_new_value = data_nan_process(self.N, self.C, self.args.num_nan_policy, self.args.cat_nan_policy)
             self.y, self.y_info, self.label_encoder = data_label_process(self.y, self.is_regression)
@@ -106,6 +129,15 @@ class Method(object, metaclass=abc.ABCMeta):
     
     
     def fit(self, data, info, train = True, config = None):
+        """
+        Fit the method to the data.
+
+        :param data: tuple, (N, C, y)
+        :param info: dict, information about the data
+        :param train: bool, whether to train the method
+        :param config: dict, configuration for the method
+        :return: float, time cost
+        """
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)
         N,C,y = data
         self.D = Dataset(N, C, y, info)
@@ -142,6 +174,14 @@ class Method(object, metaclass=abc.ABCMeta):
         return time_cost
 
     def predict(self, data, info, model_name):
+        """
+        Predict the results of the data.
+
+        :param data: tuple, (N, C, y)
+        :param info: dict, information about the data
+        :param model_name: str, name of the model
+        :return: tuple, (loss, metric, metric_name, predictions)
+        """
         N,C,y = data
         self.model.load_state_dict(torch.load(osp.join(self.args.save_path, model_name + '-{}.pth'.format(str(self.args.seed))))['params'])
         print('best epoch {}, best val res={:.4f}'.format(self.trlog['best_epoch'], self.trlog['best_res']))
@@ -181,6 +221,11 @@ class Method(object, metaclass=abc.ABCMeta):
         return vl, vres, metric_name, test_logit
 
     def train_epoch(self, epoch):
+        """
+        Train the model for one epoch.
+
+        :param epoch: int, the current epoch
+        """
         self.model.train()
         tl = Averager()
         for i, (X, y) in enumerate(self.train_loader, 1):
@@ -207,6 +252,11 @@ class Method(object, metaclass=abc.ABCMeta):
         self.trlog['train_loss'].append(tl)    
 
     def validate(self, epoch):
+        """
+        Validate the model.
+
+        :param epoch: int, the current epoch
+        """
         print('best epoch {}, best val res={:.4f}'.format(
             self.trlog['best_epoch'], 
             self.trlog['best_res']))
@@ -259,6 +309,14 @@ class Method(object, metaclass=abc.ABCMeta):
         torch.save(self.trlog, osp.join(self.args.save_path, 'trlog'))   
 
     def metric(self, predictions, labels, y_info):
+        """
+        Compute the evaluation metric.
+
+        :param predictions: np.ndarray, predictions
+        :param labels: np.ndarray, labels
+        :param y_info: dict, information about the labels
+        :return: tuple, (metric, metric_name)
+        """
         if not isinstance(labels, np.ndarray):
             labels = labels.cpu().numpy()
         if not isinstance(predictions, np.ndarray):

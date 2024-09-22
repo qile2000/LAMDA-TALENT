@@ -19,10 +19,9 @@
         TALENT: A Tabular Analytics and Learning Toolbox
     <p>
     <p>
-        <a href="https://arxiv.org/abs/2407.04057">[Paper]</a> <a href="https://zhuanlan.zhihu.com/p/708721145">[中文解读]</a> 
+        <a href="https://arxiv.org/abs/2407.04057">[Paper]</a> <a href="https://zhuanlan.zhihu.com/p/708721145">[中文解读]</a> <a href="https://lamda-talent.readthedocs.io/en/latest">[Docs]</a> 
     <p>
 </div>
-
 
 
 
