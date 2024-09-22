@@ -37,13 +37,14 @@ Each dataset consists of the following files:
 3. **Labels**: `y_train.npy`, `y_val.npy`, `y_test.npy`.
 4. **Dataset metadata**: `info.json`, which must include the following fields:
    
-   ```json
-   {
-     "task_type": "regression",  // or "multiclass", "binclass"
-     "n_num_features": 10,
-     "n_cat_features": 10
-   }
-   ```
+   .. code-block:: json
+
+      {
+      "task_type": "regression",  or "multiclass", "binclass"
+      "n_num_features": 10,
+      "n_cat_features": 10
+      }
+   
 
 ==========================
 Placing Datasets
@@ -53,13 +54,14 @@ To correctly set up the datasets for use with TALENT, follow these steps:
 
 1. Place the downloaded datasets in the root directory of your project. The directory structure should follow this format:
 
-   ```bash
-   LAMDA-TALENT/
-   ├── args.dataset_path/
-       ├── dataset1/
-       ├── dataset2/
-       └── ...
-   ```
+   .. code-block:: bash
+
+      LAMDA-TALENT/
+      ├── args.dataset_path/
+         ├── dataset1/
+         ├── dataset2/
+         └── ...
+   
 
 2. Update the `args.dataset_path` parameter in your configuration files to point to the correct location of the datasets.
 
@@ -75,12 +77,13 @@ To use a dataset for training or evaluation, follow these steps:
 
 2. Ensure the paths in the configuration file are correct:
 
-   ```json
-   {
-     "dataset_path": "./args.dataset_path",
-     "dataset": "dataset1"
-   }
-   ```
+   .. code-block:: json
+   
+      {
+      "dataset_path": "./args.dataset_path",
+      "dataset": "dataset1"
+      }
+   
 
 3. Run your experiment with the appropriate dataset by specifying the correct configuration file.
 

@@ -10,13 +10,15 @@ This guide will walk you through how to set up and use the TALENT toolbox for be
 
 To get started, clone the TALENT repository from GitHub:
 
-``
-git clone https://github.com/qile2000/LAMDA-TALENT
-``
+.. code-block:: bash
 
-``
-cd LAMDA-TALENT/LAMDA-TALENT
-``
+   git clone https://github.com/qile2000/LAMDA-TALENT
+
+
+.. code-block:: bash
+
+   cd LAMDA-TALENT/LAMDA-TALENT
+
 
 Make sure you have the required dependencies installed. Refer to the `dependencies` section for more details on how to install them.
 
@@ -34,15 +36,16 @@ TALENT supports running experiments for both deep learning methods and classical
    
    To run an experiment for deep learning methods, use the following command:
 
-   ``
-   python train_model_deep.py --model_type [MODEL_NAME]
-   ``
+   .. code-block:: bash
 
+      python train_model_deep.py --model_type [MODEL_NAME]
+
+   
    For classical machine learning methods, use:
 
-   ``
-   python train_model_classical.py --model_type [MODEL_NAME]
-   ``
+   .. code-block:: bash
+
+      python train_model_classical.py --model_type [MODEL_NAME]
 
    Replace `[MODEL_NAME]` with the name of the model you wish to run (e.g., `MLP`, `ResNet`, `XGBoost`, etc.).
 
