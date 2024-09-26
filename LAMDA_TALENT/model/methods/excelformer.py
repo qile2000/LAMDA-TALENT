@@ -55,15 +55,16 @@ class ExcelFormerMethod(Method):
         self.D = Dataset(N, C, y, info)
         mi_func = mutual_info_regression if self.D.is_regression else mutual_info_classif
 
-        mi_scores = mi_func(self.D.N['train'], self.D.y['train'])
-        mi_ranks = np.argsort(-mi_scores)
-        self.sorted_mi_scores = torch.from_numpy(mi_scores[mi_ranks] / mi_scores.sum()).to(torch.float64).to(self.args.device)
         self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
         self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
         self.n_num_features, self.n_cat_features = self.D.n_num_features, self.D.n_cat_features
         if config is not None:
             self.reset_stats_withconfig(config)
         self.data_format(is_train = True)
+        mi_scores = mi_func(self.N['train'].cpu().numpy(), self.y['train'].cpu().numpy())
+        mi_ranks = np.argsort(-mi_scores)
+        self.sorted_mi_scores = torch.from_numpy(mi_scores[mi_ranks] / mi_scores.sum()).to(torch.float64).to(self.args.device)
+        
         self.construct_model()
         self.optimizer = torch.optim.AdamW(
             self.model.parameters(), 
@@ -121,7 +122,7 @@ class ExcelFormerMethod(Method):
                     loss = self.criterion(preds, mix_y)
                 else:
                     loss = lambdas * self.criterion(preds, y) + lambdas2 * self.criterion(preds, y[shuffled_ids])
-                    # loss = loss.mean()
+                    loss = loss.mean()
             tl.add(loss.item())
             self.optimizer.zero_grad()
             loss.backward()
