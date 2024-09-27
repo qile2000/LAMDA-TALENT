@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from model.lib.tabr.utils import make_module
 from typing import Optional, Union
+# the block is initially designed as residual block, however, we find without residual connection, the performance is still good
+# so we remove the residual connection
 class Residual_block(nn.Module):
     def __init__(self,d_in,d,dropout):
         super().__init__()
@@ -53,7 +55,6 @@ class ModernNCA(nn.Module):
                 self.post_encoder.add_module(name,self.make_layer())
             self.post_encoder.add_module('bn',nn.BatchNorm1d(dim))
         self.encoder = nn.Linear(self.d_in, dim)
-        # self.bn=nn.BatchNorm1d(dim)
         self.num_embeddings = (
             None
             if num_embeddings is None
@@ -66,8 +67,7 @@ class ModernNCA(nn.Module):
             
 
     def forward(self, x, y,
-                candidate_x, candidate_y,
-                context_size, is_train,
+                candidate_x, candidate_y, is_train,
                 ):
         if is_train:
             data_size=candidate_x.shape[0]
@@ -103,7 +103,13 @@ class ModernNCA(nn.Module):
             candidate_y=candidate_y.unsqueeze(-1)
 
         # calculate distance
+        # default we use euclidean distance, however, cosine distance is also a good choice for classification, after tuning
+        # of temperature, cosine distance even outperforms euclidean distance for classification
         distances = torch.cdist(x, candidate_x, p=2)
+        # x=F.normalize(x,p=2,dim=-1)   # this is code for cosine distance
+        # candidate_x=F.normalize(candidate_x,p=2,dim=-1)
+        # distances=torch.mm(x,candidate_x.T)
+        # distances=-distances
         distances=distances/self.T
         # remove the label of training index
         if is_train:
@@ -112,5 +118,7 @@ class ModernNCA(nn.Module):
         logits = torch.mm(distances, candidate_y)
         eps=1e-7
         if self.d_out>1:
+            # if task type is classification, since the logit is already normalized, we calculate the log of the logit 
+            # and use nll_loss to calculate the loss
             logits=torch.log(logits+eps)
-        return logits.squeeze()
+        return logits.squeeze(-1)
