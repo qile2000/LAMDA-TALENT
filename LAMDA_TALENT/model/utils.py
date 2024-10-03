@@ -818,5 +818,11 @@ def get_method(model):
     elif model == 'svm':
         from model.classical_methods.svm import SvmMethod
         return SvmMethod
+    elif model == 'dummy':
+        from model.classical_methods.dummy import DummyMethod
+        return DummyMethod
+    elif model == 'LinearRegression':
+        from model.classical_methods.lr import LinearRegressionMethod
+        return LinearRegressionMethod
     else:
         raise NotImplementedError("Model \"" + model + "\" not yet implemented")
