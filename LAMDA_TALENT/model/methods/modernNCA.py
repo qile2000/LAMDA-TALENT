@@ -23,6 +23,7 @@ def make_random_batches(
 ) :
     permutation = torch.randperm(train_size, device=device)
     batches = permutation.split(batch_size)
+    # this function is borrowed from tabr
     # Below, we check that we do not face this issue:
     # https://github.com/pytorch/vision/issues/3816
     # This is still noticeably faster than running randperm on CPU.
@@ -37,6 +38,8 @@ class ModernNCAMethod(Method):
     def __init__(self, args, is_regression):
         super().__init__(args, is_regression)
         assert(args.cat_policy == 'tabr_ohe')
+        # tabr_ohe is the cat_policy doing one-hot encoding for categorical features, but do not concatenate the one-hot encoded features with the numerical features
+        # we reuse it from tabr repo, and do not change it
         assert(args.num_policy == 'none')
 
     def construct_model(self, model_config = None):
@@ -103,7 +106,6 @@ class ModernNCAMethod(Method):
         )
         self.train_size = self.N['train'].shape[0] if self.N is not None else self.C['train'].shape[0]
         self.train_indices = torch.arange(self.train_size, device=self.args.device)
-        self.context_size = 96
         # if not train, skip the training process. such as load the checkpoint and directly predict the results
         if not train:
             return
@@ -158,7 +160,6 @@ class ModernNCAMethod(Method):
                     y = None,
                     candidate_x = candidate_x,
                     candidate_y = candidate_y,
-                    context_size = self.context_size,
                     is_train = False,
                 ).squeeze(-1)
                 
@@ -207,7 +208,6 @@ class ModernNCAMethod(Method):
                 y=y,
                 candidate_x = candidate_x,
                 candidate_y=candidate_y,
-                context_size=self.context_size,
                 is_train=True,
             ).squeeze(-1)
             
@@ -259,7 +259,6 @@ class ModernNCAMethod(Method):
                     y = None,
                     candidate_x = candidate_x,
                     candidate_y = candidate_y,
-                    context_size = self.context_size,
                     is_train = False,
                 ).squeeze(-1)
                 
