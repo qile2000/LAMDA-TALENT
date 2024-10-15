@@ -11,7 +11,12 @@ from model.lib.trompt.trompt import TromptCell, TromptDecoder
 class Trompt(nn.Module): #Trompt
     def __init__(self, n_num_features, cat_cardinalities,d_out, P, d, n_cycles):
         super().__init__()
-        self.tcell = TromptCell(n_num_features,cat_cardinalities, P, d)
+        # self.tcell = TromptCell(n_num_features,cat_cardinalities, P, d)
+        self.tcell = nn.ModuleList(
+            [
+                TromptCell(n_num_features,cat_cardinalities, P, d) for i in range(n_cycles)
+            ]
+        )
         self.tdown = TromptDecoder(d,d_out)
         self.init_rec = nn.Parameter(torch.empty(P, d))
         nn.init.normal_(self.init_rec, std=0.01)
@@ -21,7 +26,7 @@ class Trompt(nn.Module): #Trompt
         O = self.init_rec.unsqueeze(0).repeat(x_num.shape[0], 1, 1)
         outputs = []
         for i in range(self.n_cycles):
-            O = self.tcell(x_num, x_cat, O)
+            O = self.tcell[i](x_num, x_cat, O)
             # print(O.shape)
             # print(self.tdown(O).shape)
             outputs.append(self.tdown(O))
