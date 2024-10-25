@@ -253,7 +253,7 @@ We thank the following repos for providing helpful components/functions in our w
 
 ## 🤗 Contact
 
-If there are any questions, please feel free to propose new features by opening an issue or contact the author: **Siyang Liu** ([liusy@lamda.nju.edu.cn](mailto:liusy@lamda.nju.edu.cn)) and **Haorun Cai** ([caihr@smail.nju.edu.cn](mailto:caihr@smail.nju.edu.cn)) and **Qile Zhou** ([zhouql@lamda.nju.edu.cn](mailto:zhouql@lamda.nju.edu.cn)) and **Han-Jia Ye** ([yehj@lamda.nju.edu.cn](mailto:yehj@lamda.nju.edu.cn)). Enjoy the code.
+If there are any questions, please feel free to propose new features by opening an issue or contact the author: **Siyang Liu** ([liusy@lamda.nju.edu.cn](mailto:liusy@lamda.nju.edu.cn)) and **Haorun Cai** ([caihr@smail.nju.edu.cn](mailto:caihr@smail.nju.edu.cn)) and **Qile Zhou** ([zhouql@lamda.nju.edu.cn](mailto:zhouql@lamda.nju.edu.cn)) and **Jun-Peng Jiang** ([jiangjp@lamda.nju.edu.cn](mailto:jiangjp@lamda.nju.edu.cn)) and **Han-Jia Ye** ([yehj@lamda.nju.edu.cn](mailto:yehj@lamda.nju.edu.cn)). Enjoy the code.
 
 ## 🚀 Star History
 
