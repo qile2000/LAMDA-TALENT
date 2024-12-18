@@ -152,7 +152,7 @@ class TabM(nn.Module):
             if arch_type == 'vanilla'
             else delu.nn.NLinear(k, d_block, d_out)  # type: ignore[code]
         )
-
+        self.d_out = d_out
         # >>>
         self.arch_type = arch_type
         self.k = k
@@ -187,4 +187,6 @@ class TabM(nn.Module):
             # with the rest of the script (loss, metrics, predictions, ...).
             # (B, D_OUT) -> (B, 1, D_OUT)
             x = x[:, None]
+        if self.d_out == 1:
+            x = x.squeeze(-1)
         return x
