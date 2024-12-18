@@ -64,12 +64,13 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 📰 What's New
 
+- [2024-12]🌟 Add [TabM](https://arxiv.org/abs/2410.24210) .
 - [2024-09]🌟 Add [Trompt](https://arxiv.org/abs/2305.18446) (ICML 2023).
 - [2024-09]🌟 Add [AMFormer](https://arxiv.org/abs/2402.02334) (AAAI 2024).
 - [2024-08]🌟 Add [GRANDE](https://arxiv.org/abs/2309.17130) (ICLR 2024).
 - [2024-08]🌟 Add [Excelformer](https://arxiv.org/abs/2301.02819) (KDD 2024).
 - [2024-08]🌟 Add [MLP_PLR](https://arxiv.org/abs/2203.05556) (NeurIPS 2022).
-- [2024-07]🌟 Add [RealMLP](https://arxiv.org/abs/2407.04491).
+- [2024-07]🌟 Add [RealMLP](https://arxiv.org/abs/2407.04491)(NeurIPS 2024).
 - [2024-07]🌟 Add [ProtoGate](https://arxiv.org/abs/2306.12330) (ICML 2024).
 - [2024-07]🌟 Add [BiSHop](https://arxiv.org/abs/2404.03830) (ICML 2024).
 - [2024-06]🌟 Check out our new baseline [ModernNCA](https://arxiv.org/abs/2407.03257), inspired by traditional **Neighbor Component Analysis**, which outperforms both tree-based and other deep tabular models, while also reducing training time and model size!
@@ -109,6 +110,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 28. **[GRANDE](https://arxiv.org/abs/2309.17130)**: A tree-mimic method for learning hard, axis-aligned decision tree ensembles using end-to-end gradient descent.
 29. **[AMFormer](https://arxiv.org/abs/2402.02334)**: A token-based method which improves the transformer architecture for tabular data by incorporating parallel addition and multiplication attention mechanisms, utilizing prompt tokens to constrain feature interactions.
 30. **[Trompt](https://arxiv.org/abs/2305.18446)**: A prompt-based deep neural network for tabular data that separates learning into intrinsic column features and sample-specific feature importance.
+30. **[TabM](https://arxiv.org/abs/2410.24210)** :  A model based on MLP and variations of BatchEnsemble.
 
 
 
@@ -250,6 +252,7 @@ We thank the following repos for providing helpful components/functions in our w
 - [Excelformer](https://github.com/WhatAShot/ExcelFormer)
 - [GRANDE](https://github.com/s-marton/GRANDE)
 - [AMFormer](https://github.com/aigc-apps/AMFormer)
+- [TabM](https://github.com/yandex-research/tabm)
 
 ## 🤗 Contact
 

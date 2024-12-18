@@ -37,7 +37,65 @@ class CLSEmbedding(nn.Module):
         return torch.cat([self.weight.expand(len(x), 1, -1), x], dim=1)
 
 
+class ResNet(nn.Module):
+    def __init__(
+        self,
+        *,
+        d_in: None | int = None,
+        d_out: None | int = None,
+        n_blocks: int,
+        d_block: int,
+        dropout: float,
+        d_hidden_multiplier: float | int,
+        n_linear_layers_per_block: int = 2,
+        activation: str = 'ReLU',
+        normalization: str,
+        first_normalization: bool,
+    ) -> None:
+        assert n_linear_layers_per_block in (1, 2)
+        if n_linear_layers_per_block == 1:
+            assert d_hidden_multiplier == 1
+        super().__init__()
 
+        Activation = getattr(nn, activation)
+        Normalization = (
+            Identity if normalization == 'none' else getattr(nn, normalization)
+        )
+        d_hidden = int(d_block * d_hidden_multiplier)
+
+        self.proj = None if d_in is None else nn.Linear(d_in, d_block)
+        self.blocks = nn.ModuleList(
+            [
+                nn.Sequential(
+                    Normalization(d_block) if first_normalization else Identity(),
+                    (
+                        nn.Linear(d_block, d_hidden)
+                        if n_linear_layers_per_block == 2
+                        else nn.Linear(d_block, d_block)
+                    ),
+                    Activation(),
+                    nn.Dropout(dropout),
+                    (
+                        nn.Linear(d_hidden, d_block)
+                        if n_linear_layers_per_block == 2
+                        else Identity()
+                    ),
+                )
+                for _ in range(n_blocks)
+            ]
+        )
+        self.preoutput = nn.Sequential(Normalization(d_block), Activation())
+        self.output = None if d_out is None else nn.Linear(d_block, d_out)
+
+    def forward(self, x: Tensor) -> Tensor:
+        if self.proj is not None:
+            x = self.proj(x)
+        for block in self.blocks:
+            x = x + block(x)
+        x = self.preoutput(x)
+        if self.output is not None:
+            x = x + self.output(x)
+        return x
 
 
 class LinearEmbeddings(nn.Module):
@@ -131,68 +189,148 @@ class PLREmbeddings(nn.Sequential):
             ),
             nn.ReLU(),
         )
+import numpy as np
+class PBLDEmbeddings(nn.Module):
+    def __init__(self, n_features: int,
+                 n_frequencies: int,
+                 frequency_scale: float,
+                 d_embedding: int,
+                 lite: bool,
+                 plr_act_name: str = 'relu',
+                 plr_use_densenet: bool = True):
+        super().__init__()
+        print(f'Constructing PBLD embeddings')
+        hidden_2 = d_embedding-1 if plr_use_densenet else d_embedding
+        self.weight_1 = nn.Parameter(frequency_scale * torch.randn(n_features, 1, n_frequencies))
+        self.weight_2 = nn.Parameter((-1 + 2 * torch.rand(n_features, n_frequencies, hidden_2))
+                / np.sqrt(n_frequencies))
+        self.bias_1 = nn.Parameter(np.pi * (-1 + 2 * torch.rand(n_features, 1, n_frequencies)))
+        self.bias_2 = nn.Parameter((-1 + 2 * torch.rand(n_features, 1, hidden_2)) / np.sqrt(n_frequencies))
+        self.plr_act_name = plr_act_name
+        self.plr_use_densenet = plr_use_densenet
 
+    def forward(self, x):
+        # transpose to treat the continuous feature dimension like a batched dimension
+        # then add a new channel dimension
+        # shape will be (vectorized..., n_cont, batch, 1)
+        x_orig = x
+        x = x.transpose(-1, -2).unsqueeze(-1)
+        x = 2 * torch.pi * x.matmul(self.weight_1)  # matmul is automatically batched
+        x = x + self.bias_1
+        # x = torch.sin(x)
+        x = torch.cos(x)
+        x = x.matmul(self.weight_2)  # matmul is automatically batched
+        x = x + self.bias_2
+        if self.plr_act_name == 'relu':
+            x = torch.relu(x)
+        elif self.plr_act_name == 'linear':
+            pass
+        else:
+            raise ValueError(f'Unknown plr_act_name "{self.plr_act_name}"')
+        # bring back n_cont dimension after n_batch
+        # then flatten the last two dimensions
+        x = x.transpose(-2, -3)
+        x = x.reshape(*x.shape[:-2], x.shape[-2] * x.shape[-1])
+        if self.plr_use_densenet:
+            x = torch.cat([x, x_orig], dim=-1)
+        return x
+
+
+
+
+# class MLP(nn.Module):
+#     class Block(nn.Module):
+#         def __init__(
+#             self,
+#             *,
+#             d_in: int,
+#             d_out: int,
+#             bias: bool,
+#             activation: str,
+#             dropout: float,
+#         ) -> None:
+#             super().__init__()
+#             self.linear = nn.Linear(d_in, d_out, bias)
+#             self.activation = make_module(activation)
+#             self.dropout = nn.Dropout(dropout)
+
+#         def forward(self, x: Tensor) -> Tensor:
+#             return self.dropout(self.activation(self.linear(x)))
+
+#     Head = nn.Linear
+
+#     def __init__(
+#         self,
+#         *,
+#         d_in: int,
+#         d_out: Optional[int],
+#         n_blocks: int,
+#         d_layer: int,
+#         activation: str,
+#         dropout: float,
+#     ) -> None:
+#         assert n_blocks > 0
+#         super().__init__()
+
+#         self.blocks = nn.Sequential(
+#             *[
+#                 MLP.Block(
+#                     d_in=d_layer if block_i else d_in,
+#                     d_out=d_layer,
+#                     bias=True,
+#                     activation=activation,
+#                     dropout=dropout,
+#                 )
+#                 for block_i in range(n_blocks)
+#             ]
+#         )
+#         self.head = None if d_out is None else MLP.Head(d_layer, d_out)
+
+#     @property
+#     def d_out(self) -> int:
+#         return (
+#             self.blocks[-1].linear.out_features  # type: ignore[code]
+#             if self.head is None
+#             else self.head.out_features
+#         )
+
+#     def forward(self, x: Tensor) -> Tensor:
+#         x = self.blocks(x)
+#         if self.head is not None:
+#             x = self.head(x)
+#         return x
 
 class MLP(nn.Module):
-    class Block(nn.Module):
-        def __init__(
-            self,
-            *,
-            d_in: int,
-            d_out: int,
-            bias: bool,
-            activation: str,
-            dropout: float,
-        ) -> None:
-            super().__init__()
-            self.linear = nn.Linear(d_in, d_out, bias)
-            self.activation = make_module(activation)
-            self.dropout = nn.Dropout(dropout)
-
-        def forward(self, x: Tensor) -> Tensor:
-            return self.dropout(self.activation(self.linear(x)))
-
-    Head = nn.Linear
-
     def __init__(
         self,
         *,
-        d_in: int,
-        d_out: Optional[int],
+        d_in: None | int = None,
+        d_out: None | int = None,
         n_blocks: int,
-        d_layer: int,
-        activation: str,
+        d_block: int,
         dropout: float,
+        activation: str = 'SELU',
     ) -> None:
-        assert n_blocks > 0
         super().__init__()
 
-        self.blocks = nn.Sequential(
-            *[
-                MLP.Block(
-                    d_in=d_layer if block_i else d_in,
-                    d_out=d_layer,
-                    bias=True,
-                    activation=activation,
-                    dropout=dropout,
+        d_first = d_block if d_in is None else d_in
+        self.blocks = nn.ModuleList(
+            [
+                nn.Sequential(
+                    nn.Linear(d_first if i == 0 else d_block, d_block),
+                    getattr(nn, activation)(),
+                    nn.Dropout(dropout),
                 )
-                for block_i in range(n_blocks)
+                for i in range(n_blocks)
             ]
         )
-        self.head = None if d_out is None else MLP.Head(d_layer, d_out)
-
-    @property
-    def d_out(self) -> int:
-        return (
-            self.blocks[-1].linear.out_features  # type: ignore[code]
-            if self.head is None
-            else self.head.out_features
-        )
+        self.output = None if d_out is None else nn.Linear(d_block, d_out)
 
     def forward(self, x: Tensor) -> Tensor:
-        x = self.blocks(x)
-        if self.head is not None:
-            x = self.head(x)
+        for block in self.blocks:
+            x = block(x)
+        if self.output is not None:
+            x = self.output(x)
         return x
 
 
@@ -203,6 +341,7 @@ _CUSTOM_MODULES = {
         LREmbeddings,
         PLREmbeddings,
         MLP,
+        PBLDEmbeddings,
     ]
 }
 
@@ -229,3 +368,9 @@ def make_module(spec, *args, **kwargs) -> nn.Module:
         return spec(*args, **kwargs)
     else:
         raise ValueError()
+    
+def make_module1(type: str, *args, **kwargs) -> nn.Module:
+    Module = getattr(nn, type, None)
+    if Module is None:
+        Module = _CUSTOM_MODULES[type]
+    return Module(*args, **kwargs)

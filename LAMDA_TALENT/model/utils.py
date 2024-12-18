@@ -342,13 +342,13 @@ def get_deep_args():
                                  'snn', 'ptarl', 'danets', 'dcn2', 'tabtransformer',
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
                                  'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr',
-                                 'excelformer', 'grande','amformer','tabptm','trompt'
+                                 'excelformer', 'grande','amformer','tabptm','trompt','tabm',
                                  ])
     
     # optimization parameters
     parser.add_argument('--max_epoch', type=int, default=default_args['max_epoch'])
     parser.add_argument('--batch_size', type=int, default=default_args['batch_size'])  
-    parser.add_argument('--normalization', type=str, default=default_args['normalization'], choices=['none', 'standard', 'minmax', 'quantile', 'maxabs', 'power', 'robust'])
+    parser.add_argument('--normalization', type=str, default=default_args['normalization'], choices=['none', 'standard', 'minmax', 'quantile', 'maxabs', 'power', 'robust','MncaPFN'])
     parser.add_argument('--num_nan_policy', type=str, default=default_args['num_nan_policy'], choices=['mean', 'median'])
     parser.add_argument('--cat_nan_policy', type=str, default=default_args['cat_nan_policy'], choices=['new', 'most_frequent'])
     parser.add_argument('--cat_policy', type=str, default=default_args['cat_policy'], choices=['indices', 'ordinal', 'ohe', 'binary', 'hash', 'loo', 'target', 'catboost','tabr_ohe'])
@@ -598,7 +598,8 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
         if args.model_type in ['modernNCA']:
             config['model']["num_embeddings"].setdefault('type', 'PLREmbeddings')
             config['model']["num_embeddings"].setdefault('lite', True)
-            
+        
+        
         if args.model_type in ['danets']:
             config['general']['k'] = 5
             config['general']['virtual_batch_size'] = 256
@@ -652,7 +653,9 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
         # method.fit(train_val_data, info, train=True, config=config)  
         # run with this config
         try:
-            method.fit(train_val_data, info, train=True, config=config)    
+            set_seeds(args.seed)
+            method = get_method(args.model_type)(args, info['task_type'] == 'regression')   
+            method.fit(train_val_data, info, train=True, config=config,save_model=False)    
             return method.trlog['best_res']
         except Exception as e:
             print(e)
@@ -791,6 +794,9 @@ def get_method(model):
     elif model == 'trompt':
         from model.methods.trompt import TromptMethod
         return TromptMethod
+    elif model == 'tabm':
+        from model.methods.tabm import TabMMethod
+        return TabMMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod
