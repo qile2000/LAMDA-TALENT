@@ -3,7 +3,7 @@ from model.methods.base import Method
 class MLP_PLRMethod(Method):
     def __init__(self, args, is_regression):
         super().__init__(args, is_regression)
-        assert(args.cat_policy == 'indices')
+        assert(args.cat_policy == 'tabr_ohe')
 
     def construct_model(self, model_config = None):
         from model.models.mlp_plr import MLP
