@@ -595,9 +595,14 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
             config['general']["diversity_weight"]=0.25
             config['general']["r_weight"]=0.25
 
-        if args.model_type in ['modernNCA']:
+        if args.model_type in ['modernNCA','tabm']:
             config['model']["num_embeddings"].setdefault('type', 'PLREmbeddings')
             config['model']["num_embeddings"].setdefault('lite', True)
+        
+        if args.model_type in ['tabm']:
+            config['model']['backbone'].setdefault('type' , 'MLP')
+            config['model'].setdefault("arch_type", "tabm")
+            config['model'].setdefault("k", 32)
         
         
         if args.model_type in ['danets']:

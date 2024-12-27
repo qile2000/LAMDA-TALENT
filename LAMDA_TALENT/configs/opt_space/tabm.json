@@ -1,27 +1,53 @@
 {
     "tabm": {
         "model": {
-            "arch_type": "tabm",
-            "k": 32,
             "num_embeddings": {
-                    "type": "PLREmbeddings",
-                    "n_frequencies": 77,
-                    "frequency_scale": 0.04431360576139521,
-                    "d_embedding": 34,
-                    "lite": true
-                },
-                "backbone": {
-                    "type": "MLP",
-                    "n_blocks": 2,
-                    "d_block": [
-                        384,383
-                    ],
-                    "dropout": 0.1
-                }
+                "n_frequencies": [
+                    "int",
+                    16,
+                    96
+                ],
+                "frequency_scale": [
+                    "loguniform",
+                    0.005,
+                    10.0
+                ],
+                "d_embedding": [
+                    "int",
+                    16,
+                    64
+                ]
+            },
+            "backbone": {
+                "n_blocks": [
+                    "int",
+                    1,
+                    5
+                ],
+                "d_block": [
+                    "int",
+                    64,
+                    1024     
+                ],
+                "dropout": [
+                    "uniform",
+                    0.0,
+                    0.5
+                ]
+            }
         },
         "training": {
-            "lr": 0.001,
-            "weight_decay": 0.0002
+            "lr": [
+                "loguniform",
+                0.0001,
+                0.005
+            ],
+            "weight_decay":[
+                "?loguniform",
+                0.0,
+                0.0001,
+                0.1
+            ]
         },
         "general": {}
     }
