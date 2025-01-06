@@ -658,9 +658,7 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
         # method.fit(train_val_data, info, train=True, config=config)  
         # run with this config
         try:
-            set_seeds(args.seed)
-            method = get_method(args.model_type)(args, info['task_type'] == 'regression')   
-            method.fit(train_val_data, info, train=True, config=config,save_model=False)    
+            method.fit(train_val_data, info, train=True, config=config)    
             return method.trlog['best_res']
         except Exception as e:
             print(e)
