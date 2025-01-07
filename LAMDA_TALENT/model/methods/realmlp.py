@@ -146,7 +146,7 @@ class RealMLPMethod(Method):
         test_label = self.y_test
     
         test_logit = torch.from_numpy(test_logit)
-        test_label = torch.from_numpy(test_label).long()
+        test_label = torch.from_numpy(test_label)
         
         vl = self.criterion(test_logit, test_label).item()
 
