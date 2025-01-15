@@ -64,7 +64,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 📰 What's New
 
-- [2024-12]🌟We have curated and released [new benchmark datasets](https://drive.google.com/drive/folders/1j1zt3zQIo8dO6vkO-K-WE6pSrl71bf0z?usp=drive_link), along with updated [results](https://github.com/qile2000/LAMDA-TALENT/tree/main/results/results.html) of the dataset across a broader range of methods.
+- [2025-01]🌟We have curated and released [new benchmark datasets](https://drive.google.com/drive/folders/1j1zt3zQIo8dO6vkO-K-WE6pSrl71bf0z?usp=drive_link), along with updated [results](https://github.com/qile2000/LAMDA-TALENT/tree/main/results/results.html) of the dataset across a broader range of methods.
 - [2024-12]🌟 Add [TabM](https://arxiv.org/abs/2410.24210) .
 - [2024-09]🌟 Add [Trompt](https://arxiv.org/abs/2305.18446) (ICML 2023).
 - [2024-09]🌟 Add [AMFormer](https://arxiv.org/abs/2402.02334) (AAAI 2024).
