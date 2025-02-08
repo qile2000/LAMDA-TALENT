@@ -68,7 +68,7 @@ class NumEmb(torch.nn.Module):
     #                                      (x_expanded - left_bins) / (right_bins - left_bins)))
     #                                          double_one = torch.tensor(1.0, dtype=torch.float)  # Convert 1.0 to double
 
-    return embeddings.to(torch.float64)
+    return embeddings.to(x.dtype)
   
   def _to(self, device):
     self.bins = self.bins.to(device)

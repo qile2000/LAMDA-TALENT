@@ -443,7 +443,7 @@ def data_label_process(y_data, is_regression, info = None, encoder = None):
         y = {k:encoder.transform(v) for k, v in y.items()}
         return y, {'policy': 'none'}, encoder
 
-def data_loader_process(is_regression, X, Y, y_info, device, batch_size, is_train):
+def data_loader_process(is_regression, X, Y, y_info, device, batch_size, is_train,is_float = False):
     """
     Process the data loader.
 
@@ -463,10 +463,16 @@ def data_loader_process(is_regression, X, Y, y_info, device, batch_size, is_trai
     Y = {k: v.to(device) for k, v in Y.items()}
 
     if X[0] is not None:
-        X = ({k: v.double() for k, v in X[0].items()}, X[1])
+        if is_float:
+            X = ({k: v.float() for k, v in X[0].items()}, X[1])
+        else:
+            X = ({k: v.double() for k, v in X[0].items()}, X[1])
 
     if is_regression:
-        Y = {k: v.double() for k, v in Y.items()}
+        if is_float:
+            Y = {k: v.float() for k, v in Y.items()}
+        else:
+            Y = {k: v.double() for k, v in Y.items()}
     else:
         Y = {k: v.long() for k, v in Y.items()}
     

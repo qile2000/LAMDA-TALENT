@@ -31,7 +31,10 @@ class PTARLMethod(Method):
             model_type=self.model_type1,
             **model_config
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()
         self.model_config = model_config
 
     def fit(self, data, info, train = True, config = None):

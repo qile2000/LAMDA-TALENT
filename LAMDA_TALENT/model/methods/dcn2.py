@@ -15,4 +15,7 @@ class DCN2Method(Method):
                 d_out=self.d_out,
                 **model_config
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()

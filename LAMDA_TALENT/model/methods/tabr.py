@@ -51,7 +51,10 @@ class TabRMethod(Method):
             n_classes = self.d_out,
             **model_config
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()
     
     
     def data_format(self, is_train = True, N = None, C = None, y = None):
@@ -69,13 +72,13 @@ class TabRMethod(Method):
             else:
                 self.d_out = len(np.unique(self.y['train']))
             self.C_features = self.C['train'].shape[1] if self.C is not None else 0
-            self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True)
+            self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True,is_float=self.args.use_float)
         else:
             N_test, C_test, _, _, _ = data_nan_process(N, C, self.args.num_nan_policy, self.args.cat_nan_policy, self.num_new_value, self.imputer, self.cat_new_value)
             N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
             N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
             y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
-            _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False)
+            _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False,is_float=self.args.use_float)
             if N_test is not None and C_test is not None:
                 self.N_test,self.C_test = N_test['test'],C_test['test']
             elif N_test is None and C_test is not None:
@@ -144,11 +147,16 @@ class TabRMethod(Method):
                     X_num, X_cat = None, X
                 else:
                     X_num, X_cat = X, None  
-                
                 candidate_x_num = self.N['train'] if self.N is not None else None
                 candidate_x_cat = self.C['train'] if self.C is not None else None
                 candidate_y = self.y['train']
-                
+                if self.args.use_float:
+                    X_num = X_num.float()
+                    X_cat = X_cat.float()
+                    candidate_x_num = candidate_x_num.float()
+                    candidate_x_cat = candidate_x_cat.float()
+                    if self.is_regression:
+                        candidate_y = candidate_y.float()
                 pred = self.model(
                     x_num = X_num,
                     x_cat = X_cat,
@@ -194,7 +202,14 @@ class TabRMethod(Method):
             candidate_x_num = self.N['train'][candidate_indices] if self.N is not None else None
             candidate_x_cat = self.C['train'][candidate_indices] if self.C is not None else None
             candidate_y = self.y['train'][candidate_indices]
-
+            if self.args.use_float:
+                X_num = X_num.float()
+                X_cat = X_cat.float()
+                candidate_x_num = candidate_x_num.float()
+                candidate_x_cat = candidate_x_cat.float()
+                if self.is_regression:
+                    candidate_y = candidate_y.float()
+                    y = y.float()
             pred = self.model(
                 x_num = X_num,
                 x_cat = X_cat,
@@ -243,7 +258,13 @@ class TabRMethod(Method):
                 candidate_x_num = self.N['train'] if self.N is not None else None
                 candidate_x_cat = self.C['train'] if self.C is not None else None
                 candidate_y = self.y['train']
-                
+                if self.args.use_float:
+                    X_num = X_num.float()
+                    X_cat = X_cat.float()
+                    candidate_x_num = candidate_x_num.float()
+                    candidate_x_cat = candidate_x_cat.float()
+                    if self.is_regression:
+                        candidate_y = candidate_y.float()
                 pred = self.model(
                     x_num = X_num,
                     x_cat = X_cat,

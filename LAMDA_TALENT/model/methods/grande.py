@@ -38,7 +38,10 @@ class GRANDEMethod(Method):
                 **model_config
                 ).to(self.args.device) 
         # print(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()
 
     def data_format(self, is_train = True, N = None, C = None, y = None):
         if is_train:
@@ -106,11 +109,11 @@ class GRANDEMethod(Method):
         self.model.to(self.args.device)
         self.model.double()
 
-        train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float64), torch.tensor(y_train, dtype=torch.float64))
+        train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32 if self.args.use_float else torch.float64), torch.tensor(y_train, dtype=torch.float32 if self.args.use_float else torch.float64))
         self.train_loader = DataLoader(train_dataset, batch_size=self.args.batch_size, shuffle=True, drop_last=True)
 
         if X_val is not None and y_val is not None:
-            val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float64), torch.tensor(y_val, dtype=torch.float64))
+            val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float32 if self.args.use_float else torch.float64), torch.tensor(y_val, dtype=torch.float32 if self.args.use_float else torch.float64))
             self.val_loader = DataLoader(val_dataset, batch_size=self.args.batch_size, shuffle=False)
         else:
             self.val_loader = None

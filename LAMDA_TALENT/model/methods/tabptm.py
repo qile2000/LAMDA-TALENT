@@ -104,7 +104,10 @@ class TabPTMMethod(Method):
             self.model.load_state_dict(torch.load('model/models/models_tabptm/metaregC-numK16-Reweight-LR0.001-maneucbra-log.pth')['params'])  
         else:
             self.model.load_state_dict(torch.load('model/models/models_tabptm/metaclsA-numK32-Reweight-LR0.001-maneucbra-log.pth')['params'])
-        self.model.double() 
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()
 
     def fit(self, data, info, train = True, config = None):
         N,C,y = data

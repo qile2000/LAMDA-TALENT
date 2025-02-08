@@ -362,10 +362,13 @@ def get_deep_args():
     parser.add_argument('--workers', type=int, default=default_args['workers'])
     parser.add_argument('--gpu', default=default_args['gpu'])
     parser.add_argument('--tune', action='store_true', default=default_args['tune'])  
+    
     parser.add_argument('--retune', action='store_true', default=default_args['retune'])  
     parser.add_argument('--evaluate_option', type=str, default=default_args['evaluate_option'])   
     parser.add_argument('--dataset_path', type=str, default=default_args['dataset_path'])  
     parser.add_argument('--model_path', type=str, default=default_args['model_path'])
+    parser.add_argument('--use_float', action='store_true', default=False,
+                    help='Whether to use float type for model and data (default: True)')
     args = parser.parse_args()
     
     set_gpu(args.gpu)

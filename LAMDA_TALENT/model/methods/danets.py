@@ -19,4 +19,7 @@ class DANetsMethod(Method):
         from model.lib.danets.AcceleratedModule import AcceleratedCreator
         accelerated_module = AcceleratedCreator(self.d_in, base_out_dim=model_config["base_outdim"], k=self.args.config['general']['k'])
         self.model = accelerated_module(self.model)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()

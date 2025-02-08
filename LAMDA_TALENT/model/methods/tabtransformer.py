@@ -18,4 +18,7 @@ class TabTransformerMethod(Method):
             mlp_hidden_mults=(4, 2),
             **model_config
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()

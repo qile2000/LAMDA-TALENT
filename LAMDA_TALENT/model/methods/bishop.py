@@ -17,4 +17,7 @@ class BiSHopMethod(Method):
             n_class=sum(self.categories) if self.categories is not None else 0,
             **model_config
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()

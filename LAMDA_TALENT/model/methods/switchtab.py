@@ -34,7 +34,10 @@ class SwitchTabMethod(Method):
             num_classes=self.d_out,
             **model_config  # num_heads=2, alpha=1.0
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()
 
 
     # Feature corruption + feature num must be even
@@ -58,7 +61,7 @@ class SwitchTabMethod(Method):
             self.d_in = 0 if self.N is None else self.N['train'].shape[1]
             self.categories = get_categories(self.C)
 
-            self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True)
+            self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True,is_float=self.args.use_float)
             self.recon_criterion = F.mse_loss
         else:
             N_test, C_test, _, _, _ = data_nan_process(N, C, self.args.num_nan_policy, self.args.cat_nan_policy, self.num_new_value, self.imputer, self.cat_new_value)
@@ -71,7 +74,7 @@ class SwitchTabMethod(Method):
             if N_test['test'].shape[1] % 2 != 0:
                 N_test['test'] = np.hstack((N_test['test'], np.zeros((N_test['test'].shape[0], 1))))
             
-            _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False)
+            _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False,is_float=self.args.use_float)
 
             if N_test is not None and C_test is not None:
                 self.N_test, self.C_test = N_test['test'], C_test['test']

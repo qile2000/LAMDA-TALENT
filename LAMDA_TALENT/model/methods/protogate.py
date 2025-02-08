@@ -34,7 +34,10 @@ class ProtoGateMethod(Method):
             input_dim = self.d_in,
             **model_config
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()
     
     def fit(self, data, info, train = True, config = None):
         # if the method already fit the dataset, skip these steps (such as the hyper-tune process)

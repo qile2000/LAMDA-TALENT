@@ -110,15 +110,14 @@ class Method(object, metaclass=abc.ABCMeta):
                 self.d_out = len(np.unique(self.y['train']))
             self.d_in = 0 if self.N is None else self.N['train'].shape[1]
             self.categories = get_categories(self.C)
-            self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True)
-
+            self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True,is_float=self.args.use_float)
         else:
             N_test, C_test, _, _, _ = data_nan_process(N, C, self.args.num_nan_policy, self.args.cat_nan_policy, self.num_new_value, self.imputer, self.cat_new_value)
             y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
             N_test,_ = num_enc_process(N_test,num_policy=self.args.num_policy,n_bins = self.args.config['training']['n_bins'],y_train=None,encoder = self.num_encoder)
             N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
             N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
-            _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False)                      
+            _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False,is_float=self.args.use_float)                      
             if N_test is not None and C_test is not None:
                 self.N_test,self.C_test = N_test['test'],C_test['test']
             elif N_test is None and C_test is not None:

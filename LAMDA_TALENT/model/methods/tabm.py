@@ -59,7 +59,10 @@ class TabMMethod(Method):
             n_classes=self.d_out,
             **model_config
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()
 
     def predict(self, data, info, model_name):
         """

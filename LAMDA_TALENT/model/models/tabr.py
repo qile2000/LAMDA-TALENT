@@ -137,7 +137,7 @@ class TabR(nn.Module):
             x.append(x_cat)
         x = torch.cat(x, dim=1)
 
-        x = x.double()
+        
         x = self.linear(x)
         for block in self.blocks0:
             x = x + block(x)

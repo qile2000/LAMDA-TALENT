@@ -52,7 +52,10 @@ class ModernNCAMethod(Method):
             d_out = self.d_out,
             **model_config
         ).to(self.args.device)
-        self.model.double()
+        if self.args.use_float:
+            self.model.float()
+        else:
+            self.model.double()
     
     
     def data_format(self, is_train = True, N = None, C = None, y = None):
@@ -69,7 +72,7 @@ class ModernNCAMethod(Method):
             else:
                 self.d_out = len(np.unique(self.y['train']))
             self.C_features = self.C['train'].shape[1] if self.C is not None else 0
-            self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True)
+            self.N, self.C, self.y, self.train_loader, self.val_loader, self.criterion = data_loader_process(self.is_regression, (self.N, self.C), self.y, self.y_info, self.args.device, self.args.batch_size, is_train = True,is_float=self.args.use_float)
             if  not self.D.is_regression:
                 self.criterion=torch.nn.functional.nll_loss
         else:
@@ -77,7 +80,7 @@ class ModernNCAMethod(Method):
             y_test, _, _ = data_label_process(y, self.is_regression, self.y_info, self.label_encoder)
             N_test, C_test, _, _, _ = data_enc_process(N_test, C_test, self.args.cat_policy, None, self.ord_encoder, self.mode_values, self.cat_encoder)
             N_test, _ = data_norm_process(N_test, self.args.normalization, self.args.seed, self.normalizer)
-            _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False)
+            _, _, _, self.test_loader, _ =  data_loader_process(self.is_regression, (N_test, C_test), y_test, self.y_info, self.args.device, self.args.batch_size, is_train = False,is_float=self.args.use_float)
             if N_test is not None and C_test is not None:
                 self.N_test,self.C_test = N_test['test'],C_test['test']
             elif N_test is None and C_test is not None:
@@ -149,12 +152,20 @@ class ModernNCAMethod(Method):
                 candidate_x_num = self.N['train'] if self.N is not None else None
                 candidate_x_cat = self.C['train'] if self.C is not None else None
                 candidate_y = self.y['train']
+                if self.args.use_float:
+                    X_num = X_num.float()
+                    X_cat = X_cat.float()
+                    candidate_x_num = candidate_x_num.float()
+                    candidate_x_cat = candidate_x_cat.float()
+                    if self.is_regression:
+                        candidate_y = candidate_y.float()
                 if X_cat is None and X_num is not None:
                     x,candidate_x = X_num, candidate_x_num
                 elif X_cat is not None and X_num is None:
                     x,candidate_x = X_cat,candidate_x_cat
                 else:
                     x,candidate_x = torch.cat([X_num, X_cat], dim=1),torch.cat([candidate_x_num, candidate_x_cat], dim=1)
+                
                 pred = self.model(
                     x = x,
                     y = None,
@@ -197,12 +208,21 @@ class ModernNCAMethod(Method):
             candidate_x_num = self.N['train'][candidate_indices] if self.N is not None else None
             candidate_x_cat = self.C['train'][candidate_indices] if self.C is not None else None
             candidate_y = self.y['train'][candidate_indices]
+            if self.args.use_float:
+                    X_num = X_num.float()
+                    X_cat = X_cat.float()
+                    candidate_x_num = candidate_x_num.float()
+                    candidate_x_cat = candidate_x_cat.float()
+                    if self.is_regression:
+                        candidate_y = candidate_y.float()
+                        y = y.float()
             if X_cat is None and X_num is not None:
                 x,candidate_x = X_num, candidate_x_num
             elif X_cat is not None and X_num is None:
                 x,candidate_x = X_cat,candidate_x_cat
             else:
                 x,candidate_x = torch.cat([X_num, X_cat], dim=1),torch.cat([candidate_x_num, candidate_x_cat], dim=1)
+            
             pred = self.model(
                 x=x,
                 y=y,
@@ -248,12 +268,20 @@ class ModernNCAMethod(Method):
                 candidate_x_num = self.N['train'] if self.N is not None else None
                 candidate_x_cat = self.C['train'] if self.C is not None else None
                 candidate_y = self.y['train']
+                if self.args.use_float:
+                    X_num = X_num.float()
+                    X_cat = X_cat.float()
+                    candidate_x_num = candidate_x_num.float()
+                    candidate_x_cat = candidate_x_cat.float()
+                    if self.is_regression:
+                        candidate_y = candidate_y.float()
                 if X_cat is None and X_num is not None:
                     x,candidate_x = X_num, candidate_x_num
                 elif X_cat is not None and X_num is None:
                     x,candidate_x = X_cat,candidate_x_cat
                 else:
                     x,candidate_x = torch.cat([X_num, X_cat], dim=1),torch.cat([candidate_x_num, candidate_x_cat], dim=1)
+                
                 pred = self.model(
                     x = x,
                     y = None,

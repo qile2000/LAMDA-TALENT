@@ -82,8 +82,8 @@ class ModernNCA(nn.Module):
             candidate_x_num=self.num_embeddings(candidate_x_num).flatten(1)
             x=torch.cat([x_num,x_cat],dim=-1)
             candidate_x=torch.cat([candidate_x_num,candidate_x_cat],dim=-1)
-        x=x.double()
-        candidate_x=candidate_x.double()
+        # x=x.double()
+        # candidate_x=candidate_x.double()
         if self.n_blocks > 0:
             candidate_x =self.post_encoder(self.encoder(candidate_x))
             x = self.post_encoder(self.encoder(x))          
@@ -98,7 +98,7 @@ class ModernNCA(nn.Module):
             assert y is None
         
         if self.d_out > 1:
-            candidate_y = F.one_hot(candidate_y, self.d_out).double()
+            candidate_y = F.one_hot(candidate_y, self.d_out).to(x.dtype)
         elif len(candidate_y.shape) == 1:
             candidate_y=candidate_y.unsqueeze(-1)
 
