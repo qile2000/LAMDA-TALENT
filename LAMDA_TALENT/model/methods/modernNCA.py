@@ -153,10 +153,10 @@ class ModernNCAMethod(Method):
                 candidate_x_cat = self.C['train'] if self.C is not None else None
                 candidate_y = self.y['train']
                 if self.args.use_float:
-                    X_num = X_num.float()
-                    X_cat = X_cat.float()
-                    candidate_x_num = candidate_x_num.float()
-                    candidate_x_cat = candidate_x_cat.float()
+                    X_num = X_num.float() if X_num is not None else None
+                    X_cat = X_cat.float() if X_cat is not None else None
+                    candidate_x_num = candidate_x_num.float() if candidate_x_num is not None else None
+                    candidate_x_cat = candidate_x_cat.float() if candidate_x_cat is not None else None
                     if self.is_regression:
                         candidate_y = candidate_y.float()
                 if X_cat is None and X_num is not None:
@@ -209,10 +209,10 @@ class ModernNCAMethod(Method):
             candidate_x_cat = self.C['train'][candidate_indices] if self.C is not None else None
             candidate_y = self.y['train'][candidate_indices]
             if self.args.use_float:
-                    X_num = X_num.float()
-                    X_cat = X_cat.float()
-                    candidate_x_num = candidate_x_num.float()
-                    candidate_x_cat = candidate_x_cat.float()
+                    X_num = X_num.float() if X_num is not None else None
+                    X_cat = X_cat.float()   if X_cat is not None else None
+                    candidate_x_num = candidate_x_num.float() if candidate_x_num is not None else None
+                    candidate_x_cat = candidate_x_cat.float() if candidate_x_cat is not None else None
                     if self.is_regression:
                         candidate_y = candidate_y.float()
                         y = y.float()
@@ -269,10 +269,10 @@ class ModernNCAMethod(Method):
                 candidate_x_cat = self.C['train'] if self.C is not None else None
                 candidate_y = self.y['train']
                 if self.args.use_float:
-                    X_num = X_num.float()
-                    X_cat = X_cat.float()
-                    candidate_x_num = candidate_x_num.float()
-                    candidate_x_cat = candidate_x_cat.float()
+                    X_num = X_num.float() if X_num is not None else None
+                    X_cat = X_cat.float() if X_cat is not None else None
+                    candidate_x_num = candidate_x_num.float() if candidate_x_num is not None else None
+                    candidate_x_cat = candidate_x_cat.float() if candidate_x_cat is not None else None
                     if self.is_regression:
                         candidate_y = candidate_y.float()
                 if X_cat is None and X_num is not None:
