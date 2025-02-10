@@ -115,7 +115,7 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 29. **[AMFormer](https://arxiv.org/abs/2402.02334)**: A token-based method which improves the transformer architecture for tabular data by incorporating parallel addition and multiplication attention mechanisms, utilizing prompt tokens to constrain feature interactions.
 30. **[Trompt](https://arxiv.org/abs/2305.18446)**: A prompt-based deep neural network for tabular data that separates learning into intrinsic column features and sample-specific feature importance.
 31. **[TabM](https://arxiv.org/abs/2410.24210)** :  A model based on MLP and variations of BatchEnsemble.
-32. **[TabPFN v2](https://doi.org/10.1038/s41586-024-08328-6) **: A general model which involves the use of pre-trained deep neural networks that can be directly applied to any tabular task.
+32. **[TabPFN v2](https://doi.org/10.1038/s41586-024-08328-6)**: A general model which involves the use of pre-trained deep neural networks that can be directly applied to any tabular task.
 
 
 
