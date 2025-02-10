@@ -343,6 +343,7 @@ def get_deep_args():
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
                                  'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr',
                                  'excelformer', 'grande','amformer','tabptm','trompt','tabm',
+                                 'PFN-v2',
                                  ])
     
     # optimization parameters
@@ -803,6 +804,9 @@ def get_method(model):
     elif model == 'tabm':
         from model.methods.tabm import TabMMethod
         return TabMMethod
+    elif model == 'PFN-v2':
+        from model.methods.PFN_v2 import TabPFNMethod
+        return TabPFNMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod

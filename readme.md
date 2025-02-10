@@ -64,6 +64,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 📰 What's New
 
+- [2025-01]🌟 Add [TabPFN v2](https://doi.org/10.1038/s41586-024-08328-6) (Nature).
 - [2025-01]🌟 Check out our new baseline [ModernNCA](https://openreview.net/pdf?id=JytL2MrlLT) (**ICLR 2025**), inspired by traditional **Neighbor Component Analysis**, which outperforms both tree-based and other deep tabular models, while also reducing training time and model size!🚀🚀🚀
 - [2025-01]🌟 Check out our [latest version of the benchmark paper](https://arxiv.org/abs/2407.00956) for updated and expanded results and analysis!
 - [2025-01]🌟We have curated and released [new benchmark datasets](https://drive.google.com/drive/folders/1j1zt3zQIo8dO6vkO-K-WE6pSrl71bf0z?usp=drive_link), along with updated [results](https://6sy666.github.io/TALENT-Results/) of the dataset across a broader range of methods. This update focuses on enhancing dataset quality, including removing duplicates, and correcting tasks where bin-class was mistakenly treated as regression. We have also separated the larger datasets and formed the basic benchmark (300 datasets, including 120 bin-class, 80 multi-class, and 100 regression), and the large benchmark (22 datasets).
@@ -113,8 +114,8 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 28. **[GRANDE](https://arxiv.org/abs/2309.17130)**: A tree-mimic method for learning hard, axis-aligned decision tree ensembles using end-to-end gradient descent.
 29. **[AMFormer](https://arxiv.org/abs/2402.02334)**: A token-based method which improves the transformer architecture for tabular data by incorporating parallel addition and multiplication attention mechanisms, utilizing prompt tokens to constrain feature interactions.
 30. **[Trompt](https://arxiv.org/abs/2305.18446)**: A prompt-based deep neural network for tabular data that separates learning into intrinsic column features and sample-specific feature importance.
-30. **[TabM](https://arxiv.org/abs/2410.24210)** :  A model based on MLP and variations of BatchEnsemble.
-
+31. **[TabM](https://arxiv.org/abs/2410.24210)** :  A model based on MLP and variations of BatchEnsemble.
+32. **[TabPFN v2](https://doi.org/10.1038/s41586-024-08328-6) **: A general model which involves the use of pre-trained deep neural networks that can be directly applied to any tabular task.
 
 
 
