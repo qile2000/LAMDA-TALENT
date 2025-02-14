@@ -39,13 +39,13 @@ class TabPFNMethod(Method):
                 self.N_test,self.C_test = N_test['test'],None
             self.y_test = y_test['test']
 
-    def construct_model(self, model_config = None):
+    def construct_model(self, model_config = None,cat_indices=[]):
         if self.is_regression:
             from model.models.PFN_v2 import TabPFNRegressor
-            self.model = TabPFNRegressor(device = self.args.device,random_state = self.args.seed,n_estimators=4,ignore_pretraining_limits=True)
+            self.model = TabPFNRegressor(device = self.args.device,random_state = self.args.seed,n_estimators=4,ignore_pretraining_limits=True,categorical_features_indices=cat_indices)
         else:
             from model.models.PFN_v2 import TabPFNClassifier
-            self.model = TabPFNClassifier(device = self.args.device,random_state = self.args.seed,n_estimators=4,ignore_pretraining_limits=True)  
+            self.model = TabPFNClassifier(device = self.args.device,random_state = self.args.seed,n_estimators=4,ignore_pretraining_limits=True,categorical_features_indices=cat_indices)  
 
     def fit(self, data, info, train = True, config = None):
         N,C,y = data
@@ -54,19 +54,23 @@ class TabPFNMethod(Method):
         self.N, self.C, self.y = self.D.N, self.D.C, self.D.y
         self.is_binclass, self.is_multiclass, self.is_regression = self.D.is_binclass, self.D.is_multiclass, self.D.is_regression
         self.data_format(is_train = True)
-        self.construct_model()
+        
 
         sampled_Y = self.y['train']
+        cat_indices = []
         if self.N is not None and self.C is not None:
             sampled_X = np.concatenate((self.N['train'],self.C['train']),axis=1)
+            cat_indices = [i for i in range(self.N['train'].shape[1],self.N['train'].shape[1]+self.C['train'].shape[1])]
         elif self.N is None and self.C is not None:
             sampled_X = self.C['train']
+            cat_indices = [i for i in range(self.C['train'].shape[1])]
         else:
             sampled_X = self.N['train']
         sample_size = self.args.config['general']['sample_size']
         self.sampled_X = sampled_X
         self.sampled_Y = sampled_Y
         tic = time.time()
+        self.construct_model(cat_indices=cat_indices)
         self.model.fit(sampled_X,sampled_Y,sample_size)
         time_cost = time.time() - tic
         return time_cost
