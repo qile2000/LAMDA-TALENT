@@ -3,24 +3,19 @@ import torch.nn as nn
 import torch.nn.functional as F
 from model.lib.tabr.utils import make_module
 from typing import Optional, Union
-# the block is initially designed as residual block, however, we find without residual connection, the performance is still good
-# so we remove the residual connection
-class Residual_block(nn.Module):
-    def __init__(self,d_in,d,dropout):
+
+class MLP_Block(nn.Module):
+    def __init__(self, d_in: int, d: int, dropout: float):
         super().__init__()
-        self.linear0=nn.Linear(d_in,d)
-        self.Linear1=nn.Linear(d,d_in)
-        self.bn=nn.BatchNorm1d(d_in)
-        self.dropout=nn.Dropout(dropout)
-        self.activation=nn.ReLU()
-    def forward(self, x):
-        z=self.bn(x)
-        z=self.linear0(z)
-        z=self.activation(z)
-        z=self.dropout(z)
-        z=self.Linear1(z)
-        # z=x+z
-        return z
+        self.block = nn.Sequential(
+            nn.BatchNorm1d(d_in),
+            nn.Linear(d_in, d),
+            nn.ReLU(inplace=True),
+            nn.Dropout(dropout),
+            nn.Linear(d, d_in)
+        )
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.block(x)
 
 class ModernNCA(nn.Module):
     def __init__(
@@ -49,11 +44,10 @@ class ModernNCA(nn.Module):
         self.T=temperature
         self.sample_rate=sample_rate
         if n_blocks >0:
-            self.post_encoder=nn.Sequential()
-            for i in range(n_blocks):
-                name=f"ResidualBlock{i}"
-                self.post_encoder.add_module(name,self.make_layer())
-            self.post_encoder.add_module('bn',nn.BatchNorm1d(dim))
+            self.post_encoder = nn.Sequential(*[
+                MLP_Block(dim, d_block, dropout)
+                for _ in range(n_blocks)
+            ], nn.BatchNorm1d(dim))
         self.encoder = nn.Linear(self.d_in, dim)
         self.num_embeddings = (
             None
@@ -62,10 +56,9 @@ class ModernNCA(nn.Module):
         )
 
     def make_layer(self):
-        block=Residual_block(self.dim,self.d_block,self.dropout)
+        block=MLP_Block(self.dim,self.d_block,self.dropout)
         return block
             
-
     def forward(self, x, y,
                 candidate_x, candidate_y, is_train,
                 ):
@@ -84,18 +77,15 @@ class ModernNCA(nn.Module):
             candidate_x=torch.cat([candidate_x_num,candidate_x_cat],dim=-1)
         # x=x.double()
         # candidate_x=candidate_x.double()
+        x = self.encoder(x)
+        candidate_x = self.encoder(candidate_x)
         if self.n_blocks > 0:
-            candidate_x =self.post_encoder(self.encoder(candidate_x))
-            x = self.post_encoder(self.encoder(x))          
-        else:         
-            candidate_x = self.encoder(candidate_x)
-            x = self.encoder(x)
-        if is_train:
+            x = self.post_encoder(x)
+            candidate_x = self.post_encoder(candidate_x)
+        if is_train: 
             assert y is not None
             candidate_x = torch.cat([x, candidate_x])
             candidate_y = torch.cat([y, candidate_y])
-        else:
-            assert y is None
         
         if self.d_out > 1:
             candidate_y = F.one_hot(candidate_y, self.d_out).to(x.dtype)
@@ -103,17 +93,18 @@ class ModernNCA(nn.Module):
             candidate_y=candidate_y.unsqueeze(-1)
 
         # calculate distance
-        # default we use euclidean distance, however, cosine distance is also a good choice for classification, after tuning
-        # of temperature, cosine distance even outperforms euclidean distance for classification
+        # default we use euclidean distance, however, cosine distance is also a good choice for classification.
+        # Using cosine distance, you need to tune the temperature. You can add "temperature":["loguniform",1e-5,1] in the configs/opt_space/modernNCA.json file.
         distances = torch.cdist(x, candidate_x, p=2)
-        # x=F.normalize(x,p=2,dim=-1)   # this is code for cosine distance
+        # following is the code for cosine distance
+        # x=F.normalize(x,p=2,dim=-1)   
         # candidate_x=F.normalize(candidate_x,p=2,dim=-1)
         # distances=torch.mm(x,candidate_x.T)
         # distances=-distances
         distances=distances/self.T
         # remove the label of training index
         if is_train:
-            distances = distances.clone().fill_diagonal_(torch.inf)     
+            distances = distances.fill_diagonal_(torch.inf)     
         distances = F.softmax(-distances, dim=-1)
         logits = torch.mm(distances, candidate_y)
         eps=1e-7
