@@ -64,6 +64,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 📰 What's New
 
+- [2025-02]🌟 Add [T2Gformer](https://arxiv.org/abs/2211.16887) (AAAI 2023).
 - [2025-02]🌟 Add [TabPFN v2](https://doi.org/10.1038/s41586-024-08328-6) (Nature).
 - [2025-01]🌟 Check out our new baseline [ModernNCA](https://openreview.net/pdf?id=JytL2MrlLT) (**ICLR 2025**), inspired by traditional **Neighbor Component Analysis**, which outperforms both tree-based and other deep tabular models, while also reducing training time and model size!🚀🚀🚀
 - [2025-01]🌟 Check out our [latest version of the benchmark paper](https://arxiv.org/abs/2407.00956) for updated and expanded results and analysis!
@@ -82,7 +83,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 
 ## 🌟 Methods
 
-TALENT integrates an extensive array of 20+ deep learning architectures for tabular data, including but not limited to:
+TALENT integrates an extensive array of 30+ deep learning architectures for tabular data, including but not limited to:
 
 1. **MLP**: A multi-layer neural network, which is implemented according to [RTDL](https://arxiv.org/abs/2106.11959).
 2. **ResNet**: A DNN that uses skip connections across many layers, which is implemented according to [RTDL](https://arxiv.org/abs/2106.11959).
@@ -116,6 +117,8 @@ TALENT integrates an extensive array of 20+ deep learning architectures for tabu
 30. **[Trompt](https://arxiv.org/abs/2305.18446)**: A prompt-based deep neural network for tabular data that separates learning into intrinsic column features and sample-specific feature importance.
 31. **[TabM](https://arxiv.org/abs/2410.24210)** :  A model based on MLP and variations of BatchEnsemble.
 32. **[TabPFN v2](https://doi.org/10.1038/s41586-024-08328-6)**: A general model which involves the use of pre-trained deep neural networks that can be directly applied to any tabular task.
+33. **[T2Gformer](https://arxiv.org/abs/2211.16887)**: A Transformer network for tabular learning that processes data guided by relation graphs and uses a Cross-level Readout for global semantics in prediction.
+
 
 
 
