@@ -1,0 +1,28 @@
+{
+    "t2gformer": {
+        "model": {
+            "token_bias": true,
+            "n_layers": 3,
+            "d_token": 192,
+            "n_heads": 8,
+            "d_ffn_factor": 1.3333333333333333,
+            "attention_dropout": 0.2,
+            "ffn_dropout": 0.1,
+            "residual_dropout": 0.0,
+            "activation": "reglu",
+            "prenormalization": false,
+            "initialization": "kaiming",
+            "kv_compression": null,
+            "kv_compression_sharing": null,
+            "sym_weight":true,
+            "sym_topology":false,
+            "nsi":true
+        },
+        "training": {
+            "lr": 0.0001,
+            "weight_decay": 1e-05,
+            "frozen_switch":true
+        },
+        "general": {}
+    }
+}

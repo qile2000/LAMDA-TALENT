@@ -343,7 +343,7 @@ def get_deep_args():
                                  'dnnr', 'switchtab', 'grownet', 'tabr', 'modernNCA',
                                  'hyperfast', 'bishop', 'realmlp', 'protogate', 'mlp_plr',
                                  'excelformer', 'grande','amformer','tabptm','trompt','tabm',
-                                 'PFN-v2',
+                                 'PFN-v2', 't2gformer'
                                  ])
     
     # optimization parameters
@@ -556,7 +556,7 @@ def tune_hyper_parameters(args,opt_space,train_val_data,info):
             config['model']['activation'] = 'relu'
             config['model']['normalization'] = 'batchnorm'    
 
-        if args.model_type in ['ftt']:
+        if args.model_type in ['ftt','t2gformer']:
             config['model'].setdefault('prenormalization', False)
             config['model'].setdefault('initialization', 'xavier')
             config['model'].setdefault('activation', 'reglu')
@@ -807,6 +807,9 @@ def get_method(model):
     elif model == 'PFN-v2':
         from model.methods.PFN_v2 import TabPFNMethod
         return TabPFNMethod
+    elif model == 't2gformer':
+        from model.methods.t2gformer import T2GFormerMethod
+        return T2GFormerMethod
     elif model == 'xgboost':
         from model.classical_methods.xgboost import XGBoostMethod
         return XGBoostMethod
