@@ -1,0 +1,5 @@
+recursive-include * *
+global-exclude *.pyc *.pyo __pycache__
+prune example_datasets
+prune results
+prune docs
