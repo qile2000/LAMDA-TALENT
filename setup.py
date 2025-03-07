@@ -10,7 +10,7 @@ setup(
     author_email='lsy00043@gmail.com',
     packages=find_packages(),
     keywords='pytorch tabular deep learning machine learning',
-    url='https://github.com/qile2000/LAMDA-TALENT',
+    # url='https://github.com/qile2000/LAMDA-TALENT/tree/talent-pip',
     install_requires=[
         "annoy==1.17.3",
         "tqdm==4.66.4",
