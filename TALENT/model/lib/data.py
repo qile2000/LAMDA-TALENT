@@ -70,8 +70,8 @@ class Dataset:
         assert(X is not None)
         return len(X[part])
 
-THIS_PATH = os.path.dirname(__file__)
-DATA_PATH = os.path.abspath(os.path.join(THIS_PATH, '..', '..', '..'))
+# THIS_PATH = os.path.dirname(__file__)
+DATA_PATH = ''
 
 def dataname_to_numpy(dataset_name, dataset_path):
 
