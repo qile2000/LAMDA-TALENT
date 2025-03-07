@@ -1,5 +1,9 @@
 recursive-include * *
+<<<<<<< HEAD
 global-exclude *.pyc *.pyo __pycache__
 prune example_datasets
 prune results
 prune docs
+=======
+global-exclude *.pyc *.pyo __pycache__
+>>>>>>> 7ebe67a168ddb0b4555e28b744b7f54556a4081a
