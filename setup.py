@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='TALENT',
-    version='0.0.1',
+    name='TALENT_PyTorch',
+    version='0.0.2',
     description='TALENT: A Tabular Analytics and Learning Toolbox',
     long_description=open("readme.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
@@ -10,7 +10,7 @@ setup(
     author_email='lsy00043@gmail.com',
     packages=find_packages(),
     keywords='pytorch tabular deep learning machine learning',
-    # url='https://github.com/qile2000/LAMDA-TALENT/tree/talent-pip',
+    url='https://github.com/qile2000/LAMDA-TALENT/tree/talent-pip',
     install_requires=[
         # "annoy==1.17.3",
         "tqdm==4.66.4",
@@ -30,5 +30,5 @@ setup(
         # catboost==1.2.3
     ],
     include_package_data=True,
-    python_requires='==3.10',
+    # python_requires='==3.10',
 )
