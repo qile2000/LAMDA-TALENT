@@ -4,7 +4,7 @@ LAMDA-TALENT Base Method Module
 
 This module defines the base method class for implementing different machine learning models within the TALENT framework. It handles the entire training and evaluation pipeline, including data processing, model training, validation, and prediction.
 
-.. automodule:: LAMDA_TALENT.model.methods.base
+.. automodule:: TALENT.model.methods.base
    :members:
    :undoc-members:
    :show-inheritance:
@@ -13,7 +13,7 @@ This module defines the base method class for implementing different machine lea
 Classes
 ==========================
 
-.. autoclass:: LAMDA_TALENT.model.methods.base.Method
+.. autoclass:: TALENT.model.methods.base.Method
    :members:
    :undoc-members:
    :show-inheritance:
@@ -35,7 +35,7 @@ The **Method** class serves as the base class for all models implemented in TALE
 Functions
 ==========================
 
-.. autofunction:: LAMDA_TALENT.model.methods.base.check_softmax
+.. autofunction:: TALENT.model.methods.base.check_softmax
    Checks and converts logits into softmax probabilities if needed.
 
 
