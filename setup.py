@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='TALENT_PyTorch',
+    name='TALENT',
     version='0.0.2',
     description='TALENT: A Tabular Analytics and Learning Toolbox',
     long_description=open("readme.md", encoding="utf-8").read(),
