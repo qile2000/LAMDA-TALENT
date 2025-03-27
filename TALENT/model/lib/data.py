@@ -153,6 +153,8 @@ def data_nan_process(N_data, C_data, num_nan_policy, cat_nan_policy, num_new_val
                     num_new_value = np.nanmedian(N_data['train'], axis=0)
                 else:
                     raise_unknown('numerical NaN policy', num_nan_policy)
+                if np.isnan(num_new_value).any(): # exists feature with all NaN
+                    num_new_value = np.nan_to_num(num_new_value)
             for k, v in N.items():
                 num_nan_indices = np.where(num_nan_masks[k])
                 v[num_nan_indices] = np.take(num_new_value, num_nan_indices[1])
