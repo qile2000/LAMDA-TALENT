@@ -128,7 +128,7 @@ TALENT integrates an extensive array of 30+ deep learning architectures for tabu
 Install with the newest version through GitHub:
 
 ```bash
-$ pip install git+https://github.com/qile2000/LAMDA-TALENT.git@main --upgrade
+$ pip install git+https://github.com/LAMDA-Tabular/TALENT.git@main --upgrade
 ```
 
 Try a demo `train_model_deep.py` :
@@ -174,8 +174,8 @@ python train_model_deep.py --model_type MODEL_NAME
 Clone this GitHub repository:
 
 ```bash
-git clone https://github.com/qile2000/LAMDA-TALENT
-cd LAMDA-TALENT/LAMDA_TALENT
+git clone https://github.com/LAMDA-Tabular/TALENT
+cd TALENt/tes
 ```
 
 ### 🔑 Run experiment
